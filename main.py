@@ -2,7 +2,7 @@ import json
 import ssl
 import urllib.request as request
 ssl._create_default_https_context = ssl._create_unverified_context
-src = "https://raw.githubusercontent.com/ChiaYuSu/III/master/20200702/324/case.json"
+src = "https://raw.githubusercontent.com/ChiaYuSu/III/master/20200702/Real9/case.json"
 
 def data():
     with request.urlopen(src) as response:
