@@ -20,7 +20,7 @@ class Crawler:
                 self.test = list(random.randint(1, self.count) for i in range(30))
                 self.result = ""
                 for i in self.test:
-                    self.result += self.result_list[i] + "\n" 
+                    self.result += self.result_list[i] + "\n"
                 self.test = str(self.test)
 
 t = Crawler()
