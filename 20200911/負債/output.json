@@ -1,0 +1,72 @@
+[
+  {
+    "type": "article",
+    "layer": 1,
+    "title": "",
+    "article_id": "1655422891276838",
+    "body": "這才是就事論事的說明：",
+    "time": 1593076811,
+    "author": "廖敬昕",
+    "author_id": "100004274289295",
+    "page_name": "",
+    "page_id": "100004274289295",
+    "data_id": "100004274289295_1655422891276838",
+    "url": "https://www.facebook.com/1655422891276838",
+    "post_id": "100004274289295_1655422891276838",
+    "image_links": [
+      "https://external-tpe1-1.xx.fbcdn.net/safe_image.php?d=AQAEIvx7iAp91dzB&w=500&h=261&url=https%3A%2F%2Fobs.line-scdn.net%2F0h6sDOjvj0aVx5NkHPNYQWC0NgajNKWnpfHQA4XzpYN2gAUSsPRQQiMlo2MDsDVi4CEFAlO1U_cm0GBC8NTAUi%2Fw580&cfs=1&ext=jpg&_nc_cb=1&_nc_hash=AQDATRvu44xo960P"
+    ],
+    "comments_count": 0,
+    "like_count": 0,
+    "angry_count": 0,
+    "sad_count": 0,
+    "haha_count": 0,
+    "love_count": 0,
+    "wow_count": 0,
+    "care_count": 0,
+    "reactions_count": 29,
+    "shares_count": 5,
+    "shares_to": [
+      "10207466268170688"
+    ],
+    "last_update_time": 1593076917,
+    "related_link": "https://today.line.me/tw/v2/article/6PGEN1",
+    "parent_id": "",
+    "content": "",
+    "topic_id": ""
+  },
+  {
+    "type": "article",
+    "layer": 1,
+    "title": "",
+    "article_id": "10207466268170688",
+    "body": "這篇把政府負債講的很詳盡\n地方政府舉債的資料可分為：一年以上未償債務、短期債務（一年以下）、自償性債務。\n「自償性債務」不算在公共債務法的規範之內。\n短期債務會有季節性因素而變動。\n地方政府負債應與前一年同期相比，或與其他地方政府相比，較能具有比較意義。\n花媽3000億是被黑了，藍營跟柯文哲現在還在黑。韓國瑜這則也是被黑了，韓國瑜長期負債只增加50億而已。",
+    "time": 1593304537,
+    "author": "黃同展",
+    "author_id": "tongjaan",
+    "page_name": "",
+    "page_id": "tongjaan",
+    "data_id": "tongjaan_10207466268170688",
+    "url": "https://www.facebook.com/10207466268170688",
+    "post_id": "tongjaan_10207466268170688",
+    "image_links": [
+      "https://external-tpe1-1.xx.fbcdn.net/safe_image.php?w=500&h=261&url=https%3A%2F%2Fobs.line-scdn.net%2F0h6sDOjvj0aVx5NkHPNYQWC0NgajNKWnpfHQA4XzpYN2gAUSsPRQQiMlo2MDsDVi4CEFAlO1U_cm0GBC8NTAUi%2Fw580&cfs=1&ext=jpg&_nc_cb=1&_nc_hash=AQCjjjvpLudtPqcp"
+    ],
+    "comments_count": 0,
+    "like_count": 0,
+    "angry_count": 0,
+    "sad_count": 0,
+    "haha_count": 0,
+    "love_count": 0,
+    "wow_count": 0,
+    "care_count": 0,
+    "reactions_count": 11,
+    "shares_count": 1,
+    "shares_to": [],
+    "last_update_time": "1593304537",
+    "parent_id": "1655422891276838",
+    "related_link": "https://www.facebook.com/1655422891276838",
+    "content": "",
+    "topic_id": ""
+  }
+]
