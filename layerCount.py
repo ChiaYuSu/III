@@ -3,7 +3,7 @@ import ssl
 import random
 import urllib.request as request
 ssl._create_default_https_context = ssl._create_unverified_context
-src = "https://raw.githubusercontent.com/ChiaYuSu/FB_Crawler/master/output/20200909/1047/output.json?token=AGJS6AFS4ITSNARBMGE46A27LXJSQ"
+src = "https://raw.githubusercontent.com/ChiaYuSu/FB_Crawler/master/output/20200909/1047/output.json?token=AGJS6AFTDDPOFPVNLVNNU4K7LXMFS"
 
 with request.urlopen(src) as response:
     data = json.load(response)
