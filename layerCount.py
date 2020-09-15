@@ -3,7 +3,7 @@ import ssl
 import random
 import urllib.request as request
 ssl._create_default_https_context = ssl._create_unverified_context
-src = "https://raw.githubusercontent.com/ChiaYuSu/FB_Crawler/master/output/20200909/1047/output.json?token=AGJS6AFTDDPOFPVNLVNNU4K7LXMFS"
+src = "https://raw.githubusercontent.com/ChiaYuSu/III/master/20200702/articles_662/case.json"
 
 with request.urlopen(src) as response:
     data = json.load(response)
@@ -13,11 +13,11 @@ count_first = 0
 count_second = 0
 count_third = 0
 count_forth = 0
-timestamp = 1571673600
+timestamp = 1600099200
 
 for line in data:
     line["time"] = int(line["time"])
-    if line["type"] == "article":
+    if line["type"] == "article" and line["time"] < timestamp:
         count_article += 1
 
 # layer 1 (post) ------------------------------------------------------------------------------------------------------->
@@ -72,22 +72,22 @@ del(author_forth[-1])
 
 # layer 4 (share 3) ---------------------------------------------------------------------------------------------------->
 
+count_forth_up = count_article - count_first - count_second - count_third - count_forth
+
 # percent -------------------------------------------------------------------------------------------------------------->
 percent_first = count_first / count_article
 percent_second = count_second / count_article
 percent_third = count_third / count_article
 percent_forth = count_forth / count_article
+percent_forth_up = count_forth_up / count_article
 # percent -------------------------------------------------------------------------------------------------------------->
 
 # print
-print("Layer 1:", count_first)
-print("percent_1 :{0:.2%}".format(percent_first))
-print("Layer 2:", count_second)
-print("percent_2 :{0:.2%}".format(percent_second))
-print("Layer 3:", count_third)
-print("percent_3 :{0:.2%}".format(percent_third))
-print("Layer 4:", count_forth)
-print("percent_4 :{0:.2%}".format(percent_forth))
+print("Layer 1 :", count_first, "({0:.2%})".format(percent_first))
+print("Layer 2 :", count_second, "({0:.2%})".format(percent_second))
+print("Layer 3 :", count_third, "({0:.2%})".format(percent_third))
+print("Layer 4 :", count_forth, "({0:.2%})".format(percent_forth))
+print("Later 4↑:", count_forth_up, "({0:.2%})".format(percent_forth_up))
 print("count_article:", count_article)
 # print("---------------------------------------------------------------------------------")
 # print("Layer 1 article_id:", author_first)
