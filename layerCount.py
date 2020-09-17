@@ -3,7 +3,7 @@ import ssl
 import random
 import urllib.request as request
 ssl._create_default_https_context = ssl._create_unverified_context
-src = "https://raw.githubusercontent.com/ChiaYuSu/III/master/20200702/articles_662/case.json"
+src = "https://raw.githubusercontent.com/ChiaYuSu/FB_Crawler/master/output/20200909/4040/output.json?token=AGJS6ACH5FCQ426N2D45OAK7MMOUQ"
 
 with request.urlopen(src) as response:
     data = json.load(response)
@@ -13,7 +13,7 @@ count_first = 0
 count_second = 0
 count_third = 0
 count_forth = 0
-timestamp = 1600099200
+timestamp = 1592841600
 
 for line in data:
     line["time"] = int(line["time"])
@@ -89,11 +89,11 @@ print("Layer 3 :", count_third, "({0:.2%})".format(percent_third))
 print("Layer 4 :", count_forth, "({0:.2%})".format(percent_forth))
 print("Later 4↑:", count_forth_up, "({0:.2%})".format(percent_forth_up))
 print("count_article:", count_article)
-# print("---------------------------------------------------------------------------------")
-# print("Layer 1 article_id:", author_first)
-# print("---------------------------------------------------------------------------------")
-# print("Layer 2 article_id:", author_second)
-# print("---------------------------------------------------------------------------------")
-# print("Layer 3 article_id:", author_third)
-# print("---------------------------------------------------------------------------------")
-# print("Layer 4 article_id:", author_forth)
+print("---------------------------------------------------------------------------------")
+print("Layer 1 article_id:", author_first)
+print("---------------------------------------------------------------------------------")
+print("Layer 2 article_id:", author_second)
+print("---------------------------------------------------------------------------------")
+print("Layer 3 article_id:", author_third)
+print("---------------------------------------------------------------------------------")
+print("Layer 4 article_id:", author_forth)
