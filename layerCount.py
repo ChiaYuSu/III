@@ -2,8 +2,10 @@ import json
 import ssl
 import random
 import urllib.request as request
+import re
+
 ssl._create_default_https_context = ssl._create_unverified_context
-src = "https://raw.githubusercontent.com/ChiaYuSu/FB_Crawler/master/output/20200909/4040/output.json?token=AGJS6ACH5FCQ426N2D45OAK7MMOUQ"
+src = "https://raw.githubusercontent.com/ChiaYuSu/III/master/20200702/454/case.json"
 
 with request.urlopen(src) as response:
     data = json.load(response)
@@ -13,7 +15,7 @@ count_first = 0
 count_second = 0
 count_third = 0
 count_forth = 0
-timestamp = 1592841600
+timestamp = 1588910400
 
 for line in data:
     line["time"] = int(line["time"])
@@ -89,11 +91,31 @@ print("Layer 3 :", count_third, "({0:.2%})".format(percent_third))
 print("Layer 4 :", count_forth, "({0:.2%})".format(percent_forth))
 print("Later 4↑:", count_forth_up, "({0:.2%})".format(percent_forth_up))
 print("count_article:", count_article)
-print("---------------------------------------------------------------------------------")
-print("Layer 1 article_id:", author_first)
-print("---------------------------------------------------------------------------------")
-print("Layer 2 article_id:", author_second)
-print("---------------------------------------------------------------------------------")
-print("Layer 3 article_id:", author_third)
-print("---------------------------------------------------------------------------------")
-print("Layer 4 article_id:", author_forth)
+
+class Account:
+    def __init__(self):
+        self.first = "Layer 1:" + "\n"
+        self.second = "Layer 2:" + "\n"
+        self.third = "Layer 3:" + "\n"
+        self.forth = "Layer 4:" + "\n"
+        for i in author_first:
+            self.first += "https://www.facebook.com/" + i + "\n"
+        for i in author_second:
+            self.second += "https://www.facebook.com/" + i + "\n"
+        for i in author_third:
+            self.third += "https://www.facebook.com/" + i + "\n" 
+        for i in author_forth:
+            self.forth += "https://www.facebook.com/" + i + "\n"
+        self.result = self.first + "\n" + self.second + "\n" + self.third + "\n" + self.forth
+        
+        print("Layer 1 article_id:", author_first)
+        print("---------------------------------------------------------------------------------")
+        print("Layer 2 article_id:", author_second)
+        print("---------------------------------------------------------------------------------")
+        print("Layer 3 article_id:", author_third)
+        print("---------------------------------------------------------------------------------")
+        print("Layer 4 article_id:", author_forth)
+
+t = Account()
+with open("fb_account.txt", mode='w') as file:
+    file.write(t.result)
