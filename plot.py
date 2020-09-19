@@ -9,7 +9,7 @@ import pprint
 import datetime as dt
 import matplotlib.dates as mdates
 
-num = "4425"
+num = "4204"
 case = "Case " + num
 
 # For SSL certificate
@@ -25,7 +25,7 @@ with request.urlopen(src) as response:
 #     json.dump(data, f, ensure_ascii=False, indent=4)
     
 # TFC timestamp
-tfc_timestamp = int(str(1599192000)) #
+tfc_timestamp = int(str(1595390400)) #
 
 # Get the smallest timestamp
 lists = []
