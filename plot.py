@@ -9,12 +9,12 @@ import pprint
 import datetime as dt
 import matplotlib.dates as mdates
 
-num = "Real30"
+num = "4425"
 case = "Case " + num
 
 # For SSL certificate
 ssl._create_default_https_context = ssl._create_unverified_context
-src = "https://raw.githubusercontent.com/ChiaYuSu/III/master/20200702/" + num + "/case.json"
+src = "https://raw.githubusercontent.com/ChiaYuSu/III/master/20200911/" + num + "/output.json"
 
 # Read json
 with request.urlopen(src) as response:
@@ -25,7 +25,7 @@ with request.urlopen(src) as response:
 #     json.dump(data, f, ensure_ascii=False, indent=4)
     
 # TFC timestamp
-tfc_timestamp = int(str(1600401600)) #
+tfc_timestamp = int(str(1599192000)) #
 
 # Get the smallest timestamp
 lists = []
@@ -71,6 +71,9 @@ for i in data:
     elif i["type"] == "article" and i["parent_id"] in author_nine and int(i["time"]) < tfc_timestamp:
         layer.append(10)
         author_ten += i["article_id"] + "\n"
+        
+print(time)
+print(layer)
 
 # Parse json ---------------------------------------------------------------->
 pair = []
@@ -99,6 +102,8 @@ for i in pair:
                 pairs += [[i[0], i[1], '4', i[2], j[1], '3']]
             # elif i[2] == j[0] and j[0] in author_forth:
             #     pairs += [[i[0], i[1], '5', i[2], j[1], '4']]
+            # elif i[2] == j[0] and j[0] in author_fifth:
+            #     pairs += [[i[0], i[1], '6', i[2], j[1], '5']]
 # print(pairs)
 
 # Point
@@ -119,7 +124,7 @@ y1, y2, y3, y4 = 1, 2, 3, 4
 plt.xlabel("$Unix Timestamp$")
 plt.ylabel("$Layer$")
 # plt.xlim(smallest, biggest)
-plt.ylim(0, 5)
+# plt.ylim(0, 5)
 my_y_ticks = np.arange(0, 5, 1)
 plt.yticks(my_y_ticks)
 for i in range(5):

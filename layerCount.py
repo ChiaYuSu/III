@@ -5,7 +5,7 @@ import urllib.request as request
 import re
 
 ssl._create_default_https_context = ssl._create_unverified_context
-src = "https://raw.githubusercontent.com/ChiaYuSu/III/master/20200702/454/case.json"
+src = "https://raw.githubusercontent.com/ChiaYuSu/III/master/20200702/Real30/case.json"
 
 with request.urlopen(src) as response:
     data = json.load(response)
@@ -15,7 +15,7 @@ count_first = 0
 count_second = 0
 count_third = 0
 count_forth = 0
-timestamp = 1588910400
+timestamp = 1600401600
 
 for line in data:
     line["time"] = int(line["time"])
