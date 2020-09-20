@@ -105,7 +105,7 @@ print(layer)
 # Parse json ---------------------------------------------------------------->
 pair = []
 for i in data:
-    if i["type"] == "article" and int(i["time"]) < tfc_timestamp:
+    if i["type"] == "article" and int(i["time"]) < tfc_timestamp and i["article_id"] != i["parent_id"]:
         pair += [[i["article_id"], str(i["time"]), i["parent_id"]]] #
 # print(pair)
 
