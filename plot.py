@@ -156,15 +156,15 @@ y1, y2, y3, y4 = 1, 2, 3, 4
 plt.xlabel("$Unix Timestamp$")
 plt.ylabel("$Layer$")
 # plt.xlim(smallest, biggest)
-# plt.ylim(0, 5)
+plt.ylim(0, 5)
 my_y_ticks = np.arange(0, 5, 1)
 plt.yticks(my_y_ticks)
 for i in range(5):
     plt.axhline(y=i, color='#B3B3B3', linestyle='-')
-for i in range(len(point1)):
-    x_values = [point1[i][0], point2[i][0]]
-    y_values = [point1[i][1], point2[i][1]]
-    plt.plot(x_values, y_values, 'r')
-plt.plot(time, layer, 'b.')
+# for i in range(len(point1)):
+    # x_values = [point1[i][0], point2[i][0]]
+    # y_values = [point1[i][1], point2[i][1]]
+    # plt.plot(x_values, y_values, 'r')
+# plt.plot(time, layer, 'b.')
 plt.title(case, fontsize = 15, fontweight = "bold")
 plt.show()
