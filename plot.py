@@ -6,10 +6,9 @@ import re
 import matplotlib.pyplot as plt
 import numpy as np
 import pprint
-import datetime as dt
-import matplotlib.dates as mdates
+import sys
 
-num = "Real37"
+num = "Real23"
 case = "Case " + num
 
 # For SSL certificate
@@ -20,10 +19,12 @@ src = "https://raw.githubusercontent.com/ChiaYuSu/III/master/20200702/" + num + 
 with request.urlopen(src) as response:
     data = json.load(response)
     
+data = sorted(data, key=lambda k: k['time'])
+
 # Write json to file
-# with open('case.json', mode='w', encoding='utf-8') as f:
-#     json.dump(data, f, ensure_ascii=False, indent=4)
-    
+with open('case.json', mode='w', encoding='utf-8') as f:
+    json.dump(data, f, ensure_ascii=False, indent=4)
+
 # TFC timestamp
 tfc_timestamp = int(str(1600488000)) #
 
@@ -98,6 +99,8 @@ for i in data:
     elif i["type"] == "article" and i["parent_id"] in author_eighteen and int(i["time"]) < tfc_timestamp and i["article_id"] != i["parent_id"]:
         layer.append(19)
         author_nineteen += i["article_id"] + "\n"
+    else:
+        pass
         
 print(time)
 print(layer)
@@ -153,7 +156,7 @@ y1, y2, y3, y4 = 1, 2, 3, 4
 plt.xlabel("$Unix Timestamp$")
 plt.ylabel("$Layer$")
 # plt.xlim(smallest, biggest)
-plt.ylim(0, 5)
+# plt.ylim(0, 5)
 my_y_ticks = np.arange(0, 5, 1)
 plt.yticks(my_y_ticks)
 for i in range(5):
