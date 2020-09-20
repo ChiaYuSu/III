@@ -161,10 +161,10 @@ my_y_ticks = np.arange(0, 5, 1)
 plt.yticks(my_y_ticks)
 for i in range(5):
     plt.axhline(y=i, color='#B3B3B3', linestyle='-')
-for i in range(len(point1)):
-    x_values = [point1[i][0], point2[i][0]]
-    y_values = [point1[i][1], point2[i][1]]
-    plt.plot(x_values, y_values, 'r')
+# for i in range(len(point1)):
+#     x_values = [point1[i][0], point2[i][0]]
+#     y_values = [point1[i][1], point2[i][1]]
+#     plt.plot(x_values, y_values, 'r')
 plt.plot(time, layer, 'b.')
 plt.title(case, fontsize = 15, fontweight = "bold")
 plt.show()
