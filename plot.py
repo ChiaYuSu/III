@@ -8,7 +8,7 @@ import numpy as np
 import pprint
 import sys
 
-num = "Real23"
+num = "Real14"
 case = "Case " + num
 
 # For SSL certificate
@@ -136,6 +136,28 @@ for i in pair:
                 pairs += [[i[0], i[1], '6', i[2], j[1], '5']]
             elif i[2] == j[0] and j[0] in author_sixth:
                 pairs += [[i[0], i[1], '7', i[2], j[1], '6']]
+            elif i[2] == j[0] and j[0] in author_seventh:
+                pairs += [[i[0], i[1], '8', i[2], j[1], '7']]
+            elif i[2] == j[0] and j[0] in author_eight:
+                pairs += [[i[0], i[1], '9', i[2], j[1], '8']]
+            elif i[2] == j[0] and j[0] in author_nine:
+                pairs += [[i[0], i[1], '10', i[2], j[1], '9']]
+            elif i[2] == j[0] and j[0] in author_ten:
+                pairs += [[i[0], i[1], '11', i[2], j[1], '10']]
+            elif i[2] == j[0] and j[0] in author_eleven:
+                pairs += [[i[0], i[1], '12', i[2], j[1], '11']]
+            elif i[2] == j[0] and j[0] in author_twelve:
+                pairs += [[i[0], i[1], '13', i[2], j[1], '12']]
+            elif i[2] == j[0] and j[0] in author_thirteen:
+                pairs += [[i[0], i[1], '14', i[2], j[1], '13']]
+            elif i[2] == j[0] and j[0] in author_fourteen:
+                pairs += [[i[0], i[1], '15', i[2], j[1], '14']]
+            elif i[2] == j[0] and j[0] in author_fifteen:
+                pairs += [[i[0], i[1], '16', i[2], j[1], '15']]
+            elif i[2] == j[0] and j[0] in author_sixteen:
+                pairs += [[i[0], i[1], '17', i[2], j[1], '16']]
+            elif i[2] == j[0] and j[0] in author_seventeen:
+                pairs += [[i[0], i[1], '18', i[2], j[1], '17']]
 # print(pairs)
 
 # Point
@@ -156,15 +178,15 @@ y1, y2, y3, y4 = 1, 2, 3, 4
 plt.xlabel("$Unix Timestamp$")
 plt.ylabel("$Layer$")
 # plt.xlim(smallest, biggest)
-plt.ylim(0, 5)
-my_y_ticks = np.arange(0, 5, 1)
+# plt.ylim(0, 5)
+my_y_ticks = np.arange(0, 18, 1)
 plt.yticks(my_y_ticks)
-for i in range(5):
+for i in range(18):
     plt.axhline(y=i, color='#B3B3B3', linestyle='-')
-# for i in range(len(point1)):
-    # x_values = [point1[i][0], point2[i][0]]
-    # y_values = [point1[i][1], point2[i][1]]
-    # plt.plot(x_values, y_values, 'r')
-# plt.plot(time, layer, 'b.')
+for i in range(len(point1)):
+    x_values = [point1[i][0], point2[i][0]]
+    y_values = [point1[i][1], point2[i][1]]
+    plt.plot(x_values, y_values, 'r')
+plt.plot(time, layer, 'b.')
 plt.title(case, fontsize = 15, fontweight = "bold")
 plt.show()
