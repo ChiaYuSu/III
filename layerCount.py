@@ -5,9 +5,9 @@ import urllib.request as request
 import re
 import caseList
 
-for i in range(len(caseList.Real_case_20200702)):
+for i in range(len(caseList.Real_case_20200928)):
     ssl._create_default_https_context = ssl._create_unverified_context
-    src = "https://raw.githubusercontent.com/ChiaYuSu/III/master/20200702/" + caseList.Real_case_20200702[i] + "/case.json"
+    src = "https://raw.githubusercontent.com/ChiaYuSu/III/master/20200928/" + caseList.Real_case_20200928[i] + "/case.json"
 
     with request.urlopen(src) as response:
         data = json.load(response)
@@ -91,7 +91,7 @@ for i in range(len(caseList.Real_case_20200702)):
 
     # print
     print("---------------------------------------------------------------------")
-    print("Case:", caseList.Real_case_20200702[i])
+    print("Case:", caseList.Real_case_20200928[i])
     print("Layer 1 :", count_first, "({0:.2%})".format(percent_first))
     print("Layer 2 :", count_second, "({0:.2%})".format(percent_second))
     print("Layer 3 :", count_third, "({0:.2%})".format(percent_third))
