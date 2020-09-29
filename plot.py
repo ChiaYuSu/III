@@ -5,15 +5,13 @@ import urllib.request as request
 import re
 import matplotlib.pyplot as plt
 import numpy as np
-import pprint
-import sys
 
-num = "Real14"
+num = "4425"
 case = "Case " + num
 
 # For SSL certificate
 ssl._create_default_https_context = ssl._create_unverified_context
-src = "https://raw.githubusercontent.com/ChiaYuSu/III/master/20200702/" + num + "/case.json"
+src = "https://raw.githubusercontent.com/ChiaYuSu/III/master/20200911/" + num + "/output.json"
 
 # Read json
 with request.urlopen(src) as response:
@@ -26,7 +24,7 @@ with open('case.json', mode='w', encoding='utf-8') as f:
     json.dump(data, f, ensure_ascii=False, indent=4)
 
 # TFC timestamp
-tfc_timestamp = int(str(1600488000)) #
+tfc_timestamp = int(str(1599192000)) #
 
 # Get the smallest timestamp
 lists = []
@@ -37,7 +35,7 @@ smallest = int(str(min(lists))) #
 biggest = int(str(max(lists))) #
 
 # Node
-time, layer = [], []
+time, layer, related = [], [], []
 author_first, author_second, author_third, author_forth, author_fifth, author_sixth, author_seventh, author_eight, author_nine, author_ten, author_eleven, author_twelve, author_thirteen, author_fourteen, author_fifteen, author_sixteen, author_seventeen, author_eighteen, authot_nineteen = "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""
 for i in data:
     if i["type"] == "article" and int(i["time"]) < tfc_timestamp and i["article_id"] != i["parent_id"]:
@@ -101,9 +99,36 @@ for i in data:
         author_nineteen += i["article_id"] + "\n"
     else:
         pass
+    if i["type"] == "article" and i["related_link"] == "" and int(i["time"]) < tfc_timestamp and i["article_id"] != i["parent_id"]:
+        related.append("")
+    elif i["type"] == "article" and i["related_link"].find("https://www.facebook.com/") != -1 and int(i["time"]) < tfc_timestamp and i["article_id"] != i["parent_id"]: # find facebook
+        related.append("")
+    elif i["type"] == "article" and i["related_link"].find("https://www.facebook.com/") == -1 and int(i["time"]) < tfc_timestamp and i["article_id"] != i["parent_id"] and i["parent_id"] != "":
+        related.append("")
+    elif i["type"] == "article" and i["related_link"].find("https://www.facebook.com/") == -1 and int(i["time"]) < tfc_timestamp and i["article_id"] != i["parent_id"] and i["parent_id"] == "":
+        related.append(i["related_link"])
         
-print(time)
+# print(time)
 print(layer)
+# print(related)
+# print(len(layer))
+# print(len(related))
+
+# Related link time and layer
+countList = []
+for i in related:
+    if i != '':
+        countList.append(related.index(i))
+        
+# Related link to Layer 1 node
+relatedTime, relatedLayer = [], []
+layerOneLayer = []
+for i in countList:
+    relatedTime.append(int(time[i]))
+    relatedLayer.append(0)
+    layerOneLayer.append(1)
+# print(relatedTime)
+# print(relatedLayer)
 
 # Parse json ---------------------------------------------------------------->
 pair = []
@@ -168,25 +193,94 @@ for i in pairs:
 # print(point1)
 # print(point2)
 
+point3, point4 = [], []
+for i in zip(relatedTime, relatedLayer, layerOneLayer):
+    point3 += [[i[0], i[1]]]
+    point4 += [[i[0], i[2]]]
+# print(point3)
+# print(point4)
+
 # Time to int --------------------------------------------------------------->
 time = [int(x) for x in time]
 
-# Plot ---------------------------------------------------------------------->
-plt.figure(figsize=(9,6))
-# x = np.linspace(smallest, tfc_timestamp, tfc_timestamp - smallest + 1)
-y1, y2, y3, y4 = 1, 2, 3, 4
-plt.xlabel("$Unix Timestamp$")
-plt.ylabel("$Layer$")
-# plt.xlim(smallest, biggest)
-# plt.ylim(0, 5)
-my_y_ticks = np.arange(0, 18, 1)
-plt.yticks(my_y_ticks)
-for i in range(18):
-    plt.axhline(y=i, color='#B3B3B3', linestyle='-')
-for i in range(len(point1)):
-    x_values = [point1[i][0], point2[i][0]]
-    y_values = [point1[i][1], point2[i][1]]
-    plt.plot(x_values, y_values, 'r')
-plt.plot(time, layer, 'b.')
+# Plot x:unix timestamp y:layer --------------------------------------------->
+# plt.figure(figsize=(9,6))
+# # x = np.linspace(smallest, tfc_timestamp, tfc_timestamp - smallest + 1)
+# y1, y2, y3, y4 = 1, 2, 3, 4
+# plt.xlabel("$Unix Timestamp$")
+# plt.ylabel("$Layer$")
+# # plt.xlim(smallest, biggest)
+# # plt.ylim(0, 5)
+# my_y_ticks = np.arange(0, 5, 1)
+# plt.yticks(my_y_ticks)
+# for i in range(5):
+#     plt.axhline(y=i, color='#B3B3B3', linestyle='-')
+# for i in range(len(point1)):
+#     x_values = [point1[i][0], point2[i][0]]
+#     y_values = [point1[i][1], point2[i][1]]
+#     plt.plot(x_values, y_values, 'r')
+# for i in range(len(point3)):
+#     x_values = [point3[i][0], point4[i][0]]
+#     y_values = [point3[i][1], point4[i][1]]
+#     plt.plot(x_values, y_values, 'g')
+# plt.plot(time, layer, 'b.')
+# plt.plot(relatedTime, relatedLayer, 'b.')
+# plt.title(case, fontsize = 15, fontweight = "bold")
+# plt.show()
+
+# Plot x:depth y:CCDF ------------------------------------------------------>
+layerOneCCDF, layerTwoCCDF, layerThreeCCDF, layerFourCCDF, layerFiveCCDF, layerSixCCDF, layerSevenCCDF, layerEightCCDF, layerNineCCDF, layerTenCCDF, layerElevenCCDF = 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+plt.figure(figsize=(16,4))
+for i in layer:
+    if i >= 1:
+        layerOneCCDF += 1
+    if i >= 2:
+        layerTwoCCDF += 1
+    if i >= 3:
+        layerThreeCCDF += 1
+    if i >= 4:
+        layerFourCCDF += 1
+    if i >= 5:
+        layerFiveCCDF += 1
+    if i >= 6:
+        layerSixCCDF += 1
+    # if i >= 7:
+    #     layerSevenCCDF += 1
+    # if i >= 8:
+    #     layerEightCCDF += 1 
+    # if i >= 9:
+    #     layerNineCCDF += 1
+    # if i >= 10:
+    #     layerTenCCDF += 1
+        
+CCDF1 = layerOneCCDF / len(layer)
+CCDF2 = layerTwoCCDF / len(layer)
+CCDF3 = layerThreeCCDF / len(layer) 
+CCDF4 = layerFourCCDF / len(layer)
+CCDF5 = layerFiveCCDF / len(layer)
+CCDF6 = layerSixCCDF / len(layer)
+# CCDF7 = layerSevenCCDF / len(layer)
+# CCDF8 = layerEightCCDF / len(layer)
+# CCDF9 = layerNineCCDF / len(layer)
+# CCDF10 = layerTenCCDF / len(layer)
+
+# print(CCDF1, CCDF2, CCDF3, CCDF4, CCDF5, CCDF6, CCDF7, CCDF8, CCDF9, CCDF10)
+
+x_values = [x for x in range(1, 7)]
+y_values = [CCDF1, CCDF2, CCDF3, CCDF4, CCDF5, CCDF6]
+
+point5, point6 = [], []
+for i in range(len(x_values)-1):
+    point5 = [x_values[i], x_values[i+1]]
+    point6 = [y_values[i], y_values[i+1]]
+    plt.plot(point5, point6, 'b')
+
+for i in range(len(x_values)):
+    plt.plot(x_values[i], y_values[i], 'r.')
+    
+plt.xlim(1,)
+plt.ylim(0, 1)
+plt.xlabel("$Cascade$" + " " + "$Depth$")
+plt.ylabel("$CCDF$")
 plt.title(case, fontsize = 15, fontweight = "bold")
 plt.show()
