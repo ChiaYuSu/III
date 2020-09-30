@@ -6,12 +6,12 @@ import re
 import matplotlib.pyplot as plt
 import numpy as np
 
-num = "4425"
+num = "304"
 case = "Case " + num
 
 # For SSL certificate
 ssl._create_default_https_context = ssl._create_unverified_context
-src = "https://raw.githubusercontent.com/ChiaYuSu/III/master/20200911/" + num + "/output.json"
+src = "https://raw.githubusercontent.com/ChiaYuSu/III/master/20200928/" + num + "/output.json"
 
 # Read json
 with request.urlopen(src) as response:
@@ -24,7 +24,7 @@ with open('case.json', mode='w', encoding='utf-8') as f:
     json.dump(data, f, ensure_ascii=False, indent=4)
 
 # TFC timestamp
-tfc_timestamp = int(str(1599192000)) #
+tfc_timestamp = int(str(1601352000)) #
 
 # Get the smallest timestamp
 lists = []
@@ -204,29 +204,29 @@ for i in zip(relatedTime, relatedLayer, layerOneLayer):
 time = [int(x) for x in time]
 
 # Plot x:unix timestamp y:layer --------------------------------------------->
-# plt.figure(figsize=(9,6))
-# # x = np.linspace(smallest, tfc_timestamp, tfc_timestamp - smallest + 1)
-# y1, y2, y3, y4 = 1, 2, 3, 4
-# plt.xlabel("$Unix Timestamp$")
-# plt.ylabel("$Layer$")
-# # plt.xlim(smallest, biggest)
-# # plt.ylim(0, 5)
-# my_y_ticks = np.arange(0, 5, 1)
-# plt.yticks(my_y_ticks)
-# for i in range(5):
-#     plt.axhline(y=i, color='#B3B3B3', linestyle='-')
-# for i in range(len(point1)):
-#     x_values = [point1[i][0], point2[i][0]]
-#     y_values = [point1[i][1], point2[i][1]]
-#     plt.plot(x_values, y_values, 'r')
-# for i in range(len(point3)):
-#     x_values = [point3[i][0], point4[i][0]]
-#     y_values = [point3[i][1], point4[i][1]]
-#     plt.plot(x_values, y_values, 'g')
-# plt.plot(time, layer, 'b.')
-# plt.plot(relatedTime, relatedLayer, 'b.')
-# plt.title(case, fontsize = 15, fontweight = "bold")
-# plt.show()
+plt.figure(figsize=(9,6))
+# x = np.linspace(smallest, tfc_timestamp, tfc_timestamp - smallest + 1)
+y1, y2, y3, y4 = 1, 2, 3, 4
+plt.xlabel("$Unix Timestamp$")
+plt.ylabel("$Layer$")
+# plt.xlim(smallest, biggest)
+# plt.ylim(0, 5)
+my_y_ticks = np.arange(0, 5, 1)
+plt.yticks(my_y_ticks)
+for i in range(5):
+    plt.axhline(y=i, color='#B3B3B3', linestyle='-')
+for i in range(len(point1)):
+    x_values = [point1[i][0], point2[i][0]]
+    y_values = [point1[i][1], point2[i][1]]
+    plt.plot(x_values, y_values, 'r')
+for i in range(len(point3)):
+    x_values = [point3[i][0], point4[i][0]]
+    y_values = [point3[i][1], point4[i][1]]
+    plt.plot(x_values, y_values, 'g')
+plt.plot(time, layer, 'b.')
+plt.plot(relatedTime, relatedLayer, 'b.')
+plt.title(case, fontsize = 15, fontweight = "bold")
+plt.show()
 
 # Plot x:depth y:CCDF ------------------------------------------------------>
 layerOneCCDF, layerTwoCCDF, layerThreeCCDF, layerFourCCDF, layerFiveCCDF, layerSixCCDF, layerSevenCCDF, layerEightCCDF, layerNineCCDF, layerTenCCDF, layerElevenCCDF = 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
@@ -283,4 +283,4 @@ plt.ylim(0, 1)
 plt.xlabel("$Cascade$" + " " + "$Depth$")
 plt.ylabel("$CCDF$")
 plt.title(case, fontsize = 15, fontweight = "bold")
-plt.show()
+# plt.show()
