@@ -6,7 +6,7 @@ import re
 import matplotlib.pyplot as plt
 import numpy as np
 
-num = "Real39"
+num = "276"
 case = "Case " + num
 
 # For SSL certificate
@@ -24,7 +24,7 @@ with open('case.json', mode='w', encoding='utf-8') as f:
     json.dump(data, f, ensure_ascii=False, indent=4)
 
 # TFC timestamp
-timestamp = 1601438400
+timestamp = 1594958400
 tfc_timestamp = int(str(1601438400)) #
 
 # Get the smallest timestamp
@@ -35,12 +35,26 @@ for i in data:
 smallest = int(str(min(lists))) #
 biggest = int(str(max(lists))) #
 
+# Time list
+time = []
+stamp = int(((biggest - smallest) / 2592000) + 1) # 2592000
+for i in range(stamp):
+    time.append(smallest + i * 2592000)
+
 # Count
+amount = []
 count = 0
-for i in data:
-    if i["type"] == "article" and int(i["time"]) > 1510000000 and int(i["time"]) < 1520000000:
-        count += 1
-print(count)
+for i in range(stamp-1):
+    for j in data:
+        if j["type"] == "article" and int(j["time"]) >= time[i] and int(j["time"]) <= time[i+1]:
+            count += 1
+    amount.append(count)
+    count = 0
+amount.append(0)
+print(amount)
+
+plt.plot(time, amount, color='b')
+plt.show()
 
 # Node
 time, layer, related = [], [], []
@@ -117,7 +131,7 @@ for i in data:
         related.append(i["related_link"])
         
 # print(time)
-print(layer)
+# print(layer)
 # print(related)
 # print(len(layer))
 # print(len(related))
@@ -217,7 +231,7 @@ plt.figure(figsize=(9,6))
 y1, y2, y3, y4 = 1, 2, 3, 4
 plt.xlabel("$Unix Timestamp$")
 plt.ylabel("$Layer$")
-# plt.xlim(smallest, smallest + 62208000) # 3 month = 7776000, 6 month = 15552000, 9 month = 23328000, 12 month = 31104000, 15 month = 38880000, 18 month = 46656000, 21 month = 54432000, 24 month = 62208000
+# plt.xlim(smallest, smallest + 300000) # 3 month = 7776000, 6 month = 15552000, 9 month = 23328000, 12 month = 31104000, 15 month = 38880000, 18 month = 46656000, 21 month = 54432000, 24 month = 62208000
 # plt.ylim(0, 5)
 my_y_ticks = np.arange(0, 5, 1)
 plt.yticks(my_y_ticks)

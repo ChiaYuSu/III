@@ -14,7 +14,7 @@ Real_case_20200702 = ["Real1", "Real2", "Real3", "Real4", "Real5", "Real6" , "Re
                       "Real21", "Real22", "Real23", "Real24", "Real25", "Real26", "Real27", "Real28", "Real29", "Real30",
                       "Real31", "Real32", "Real33", "Real34", "Real35", "Real36", "Real37", "Real38"]
 
-Real_case_20200928 = ["Real39"]
+Real_case_20200928 = ["Real39", "Real40"]
 
 ts = calendar.timegm(time.gmtime())
 Real_case_timestamp = [ts] * len(Real_case_20200928)
