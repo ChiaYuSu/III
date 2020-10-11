@@ -5,13 +5,14 @@ import urllib.request as request
 import re
 import matplotlib.pyplot as plt
 import numpy as np
+import statistics
 
-num = "276"
+num = "548"
 case = "Case " + num
 
 # For SSL certificate
 ssl._create_default_https_context = ssl._create_unverified_context
-src = "https://raw.githubusercontent.com/ChiaYuSu/III/master/20200928/" + num + "/output.json"
+src = "https://raw.githubusercontent.com/ChiaYuSu/III/master/20200702/" + num + "/case.json"
 
 # Read json
 with request.urlopen(src) as response:
@@ -51,9 +52,25 @@ for i in range(stamp-1):
     amount.append(count)
     count = 0
 amount.append(0)
-print(amount)
 
-plt.plot(time, amount, color='b')
+# Count to percentage
+amountPercentage = []
+amountPercentageString = []
+for i in amount:
+    amountPercentageString.append("{:.2%}".format(i / sum(amount)))
+    amountPercentage.append(i / sum(amount))
+print(amountPercentageString)
+
+ttl = sum(amountPercentage) - max(amountPercentage) - min(amountPercentage)
+amountAvg = ttl / (len(amountPercentage) - 2)
+amountMedian = statistics.median(amountPercentage)
+print("Average:", amountAvg)
+print("Median:", amountMedian)
+
+plt.plot(time, amountPercentage, color='b', marker='.')
+plt.title(case, fontsize = 15, fontweight = "bold")
+plt.axhline(y = amountAvg, color='r')
+plt.ylim(0, 1)
 plt.show()
 
 # Node
@@ -249,7 +266,7 @@ for i in range(len(point3)):
 plt.plot(time, layer, 'b.')
 plt.plot(relatedTime, relatedLayer, 'b.')
 plt.title(case, fontsize = 15, fontweight = "bold")
-plt.show()
+# plt.show()
 
 # Plot x:depth y:CCDF ------------------------------------------------------>
 layerOneCCDF, layerTwoCCDF, layerThreeCCDF, layerFourCCDF, layerFiveCCDF, layerSixCCDF, layerSevenCCDF, layerEightCCDF, layerNineCCDF, layerTenCCDF, layerElevenCCDF = 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
