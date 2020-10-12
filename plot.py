@@ -6,13 +6,14 @@ import re
 import matplotlib.pyplot as plt
 import numpy as np
 import statistics
+import pandas as pd
 
-num = "548"
+num = "276"
 case = "Case " + num
 
 # For SSL certificate
 ssl._create_default_https_context = ssl._create_unverified_context
-src = "https://raw.githubusercontent.com/ChiaYuSu/III/master/20200702/" + num + "/case.json"
+src = "https://raw.githubusercontent.com/ChiaYuSu/III/master/20200928/" + num + "/output.json"
 
 # Read json
 with request.urlopen(src) as response:
@@ -69,7 +70,7 @@ print("Median:", amountMedian)
 
 plt.plot(time, amountPercentage, color='b', marker='.')
 plt.title(case, fontsize = 15, fontweight = "bold")
-plt.axhline(y = amountAvg, color='r')
+plt.axhline(y = max(amountPercentage) * 0.3, color='r', linestyle=':')
 plt.ylim(0, 1)
 plt.show()
 
