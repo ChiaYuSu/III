@@ -7,158 +7,145 @@ import matplotlib.pyplot as plt
 import numpy as np
 import statistics
 import pandas as pd
+import matplotlib.ticker as ticker
+from datetime import datetime
 
-num = "276"
+# Input case
+num = "Real42"
 case = "Case " + num
 
 # For SSL certificate
 ssl._create_default_https_context = ssl._create_unverified_context
 src = "https://raw.githubusercontent.com/ChiaYuSu/III/master/20200928/" + num + "/output.json"
 
+# TFC timestamp
+timestamp = 1601308800  # Draw tfc check time line
+endTime = int(str(1602475200))  # Adjust case end timestamp
+
 # Read json
 with request.urlopen(src) as response:
     data = json.load(response)
-    
+
+# Json sorted by time
 data = sorted(data, key=lambda k: k['time'])
 
-# Write json to file
-with open('case.json', mode='w', encoding='utf-8') as f:
-    json.dump(data, f, ensure_ascii=False, indent=4)
-
-# TFC timestamp
-timestamp = 1594958400
-tfc_timestamp = int(str(1601438400)) #
-
-# Get the smallest timestamp
+# Find out the start and end time of the case
 lists = []
 for i in data:
-    if i["type"] == "article" and int(i["time"]) < tfc_timestamp:
+    if i["type"] == "article" and int(i["time"]) < endTime:
         lists.append(str(i["time"]))
-smallest = int(str(min(lists))) #
-biggest = int(str(max(lists))) #
+start = int(str(min(lists))) #
+end = int(str(max(lists))) #
 
-# Time list
-time = []
-stamp = int(((biggest - smallest) / 2592000) + 1) # 2592000
-for i in range(stamp):
-    time.append(smallest + i * 2592000)
+# # Write json to file (For debugging)
+# with open('case.json', mode='w', encoding='utf-8') as f:
+#     json.dump(data, f, ensure_ascii=False, indent=4)
 
-# Count
+# Unix Timestamp list for plot (1 month)
+unixTimestampPlot = []
+stampCount = int(((end - start) / 2592000) + 1)  # 86400 * 30 = 2892000
+for i in range(stampCount):
+    unixTimestampPlot.append(start + i * 2592000)
+
+# Unix Timestamp list for x-axis label (6 month)
+unixTimestampXaxis = []
+for i in range(len(unixTimestampPlot)):
+    if i % 6 == 0:
+        unixTimestampXaxis.append(unixTimestampPlot[i])
+   
+# Format Unix Timestamp to DateTime (1 month)
+dateTimeMonth = []
+for i in unixTimestampPlot:
+    dateTimeMonth.append(datetime.utcfromtimestamp(i).strftime('%Y-%m-%d'))
+
+# Format Unix Timestamp to DateTime (6 month)
+dateTimeHalfYear = []
+for i in unixTimestampXaxis:
+    dateTimeHalfYear.append(datetime.utcfromtimestamp(i).strftime('%Y-%m-%d'))
+
+# Calculate the number of nodes for each approximation
 amount = []
 count = 0
-for i in range(stamp-1):
+for i in range(stampCount - 1):
     for j in data:
-        if j["type"] == "article" and int(j["time"]) >= time[i] and int(j["time"]) <= time[i+1]:
+        if j["type"] == "article" and int(j["time"]) >= unixTimestampPlot[i] and int(j["time"]) <= unixTimestampPlot[i+1]:
             count += 1
     amount.append(count)
     count = 0
 amount.append(0)
 
-# Count to percentage
-amountPercentage = []
-amountPercentageString = []
-for i in amount:
-    amountPercentageString.append("{:.2%}".format(i / sum(amount)))
-    amountPercentage.append(i / sum(amount))
-print(amountPercentageString)
+# Average number of nodes per month
+amountAvg = sum(amount) / len(unixTimestampPlot)
 
-ttl = sum(amountPercentage) - max(amountPercentage) - min(amountPercentage)
-amountAvg = ttl / (len(amountPercentage) - 2)
-amountMedian = statistics.median(amountPercentage)
-print("Average:", amountAvg)
-print("Median:", amountMedian)
+# Find the largest value in amount list and its index
+nodeMax = amount.index(max(amount))
+largestTime = unixTimestampPlot[nodeMax]
 
-plt.plot(time, amountPercentage, color='b', marker='.')
+# Plot -- Volume line graph
+plt.figure(figsize=(9, 5))
 plt.title(case, fontsize = 15, fontweight = "bold")
-plt.axhline(y = max(amountPercentage) * 0.3, color='r', linestyle=':')
-plt.ylim(0, 1)
+plt.xlabel("$Time$")
+plt.ylabel("$Number\ of\ nodes$")
+plt.axhline(y = max(amount) * 0.25, color='r', linestyle=':', alpha=0.8)
+plt.axhline(y = amountAvg, color='g', linestyle=':', alpha=0.8)
+plt.plot(unixTimestampPlot, amount, color='b', marker='.')
+plt.plot(largestTime, max(amount), color='#FF5E13', marker='D')
+plt.ylim(0, )
+if len(dateTimeHalfYear) % 6 != 0:
+    x_ticks = np.arange(min(unixTimestampXaxis), max(unixTimestampXaxis) + 15552000, 15552000)
+elif len(dateTimeHalfYear) % 6 == 0:
+    x_ticks = np.arange(min(unixTimestampXaxis), max(unixTimestampXaxis), 15552000)
+plt.xticks(x_ticks, dateTimeHalfYear, rotation=30)
+plt.tight_layout()
 plt.show()
 
-# Node
-time, layer, related = [], [], []
-author_first, author_second, author_third, author_forth, author_fifth, author_sixth, author_seventh, author_eight, author_nine, author_ten, author_eleven, author_twelve, author_thirteen, author_fourteen, author_fifteen, author_sixteen, author_seventeen, author_eighteen, authot_nineteen = "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""
+# Node (pending upgrade)
+time, layer, relatedLink = [], [], []
+authorZero, authorFirst, authorSecond, authorThird, authorForth, authorForthUp = "", "", "", "", "", ""
+authorList = [authorZero, authorFirst, authorSecond, authorThird, authorForth, authorForthUp]
+numList = [1, 2, 3, 4, 99]
+print(authorList)
 for i in data:
-    if i["type"] == "article" and int(i["time"]) < tfc_timestamp and i["article_id"] != i["parent_id"]:
-        time.append(str(i["time"])) #
-    if i["type"] == "article" and i["parent_id"] == "" and int(i["time"]) < tfc_timestamp and i["article_id"] != i["parent_id"]:
+    conditionOne = i["type"] == "article"
+    conditionTwo = int(i["time"]) < endTime
+    conditionThree = i["article_id"] != i["parent_id"]
+    if conditionOne and conditionTwo and conditionThree:
+        time.append(str(i["time"]))    
+    if conditionOne and conditionTwo and conditionThree and i["parent_id"] == "":
         layer.append(1)
-        author_first += i["article_id"] + "\n"
-    elif i["type"] == "article" and i["parent_id"] in author_first and int(i["time"]) < tfc_timestamp and i["article_id"] != i["parent_id"]:
+        authorFirst += i["article_id"] + "\n"
+    elif conditionOne and conditionTwo and conditionThree and i["parent_id"] in authorFirst:
         layer.append(2)
-        author_second += i["article_id"] + "\n"
-    elif i["type"] == "article" and i["parent_id"] in author_second and int(i["time"]) < tfc_timestamp and i["article_id"] != i["parent_id"]:
+        authorSecond += i["article_id"] + "\n"
+    elif conditionOne and conditionTwo and conditionThree and i["parent_id"] in authorSecond:
         layer.append(3)
-        author_third += i["article_id"] + "\n"
-    elif i["type"] == "article" and i["parent_id"] in author_third and int(i["time"]) < tfc_timestamp and i["article_id"] != i["parent_id"]:
+        authorThird += i["article_id"] + "\n"
+    elif conditionOne and conditionTwo and conditionThree and i["parent_id"] in authorThird:
         layer.append(4)
-        author_forth += i["article_id"] + "\n"
-    elif i["type"] == "article" and i["parent_id"] in author_forth and int(i["time"]) < tfc_timestamp and i["article_id"] != i["parent_id"]:
+        authorForth += i["article_id"] + "\n"
+    elif conditionOne and conditionTwo and conditionThree and i["parent_id"] in authorForth:
         layer.append(5)
-        author_fifth += i["article_id"] + "\n"
-    elif i["type"] == "article" and i["parent_id"] in author_fifth and int(i["time"]) < tfc_timestamp and i["article_id"] != i["parent_id"]:
+        authorForthUp += i["article_id"] + "\n"
+    elif conditionOne and conditionTwo and conditionThree and i["parent_id"] in authorForthUp:
         layer.append(6)
         author_sixth += i["article_id"] + "\n"
-    elif i["type"] == "article" and i["parent_id"] in author_sixth and int(i["time"]) < tfc_timestamp and i["article_id"] != i["parent_id"]:
-        layer.append(7)
-        author_seventh += i["article_id"] + "\n"
-    elif i["type"] == "article" and i["parent_id"] in author_seventh and int(i["time"]) < tfc_timestamp and i["article_id"] != i["parent_id"]:
-        layer.append(8)
-        author_eight += i["article_id"] + "\n"
-    elif i["type"] == "article" and i["parent_id"] in author_eight and int(i["time"]) < tfc_timestamp and i["article_id"] != i["parent_id"]:
-        layer.append(9)
-        author_nine += i["article_id"] + "\n"
-    elif i["type"] == "article" and i["parent_id"] in author_nine and int(i["time"]) < tfc_timestamp and i["article_id"] != i["parent_id"]:
-        layer.append(10)
-        author_ten += i["article_id"] + "\n"
-    elif i["type"] == "article" and i["parent_id"] in author_ten and int(i["time"]) < tfc_timestamp and i["article_id"] != i["parent_id"]:
-        layer.append(11)
-        author_eleven += i["article_id"] + "\n"
-    elif i["type"] == "article" and i["parent_id"] in author_eleven and int(i["time"]) < tfc_timestamp and i["article_id"] != i["parent_id"]:
-        layer.append(12)
-        author_twelve += i["article_id"] + "\n"
-    elif i["type"] == "article" and i["parent_id"] in author_twelve and int(i["time"]) < tfc_timestamp and i["article_id"] != i["parent_id"]:
-        layer.append(13)
-        author_thirteen += i["article_id"] + "\n"
-    elif i["type"] == "article" and i["parent_id"] in author_thirteen and int(i["time"]) < tfc_timestamp and i["article_id"] != i["parent_id"]:
-        layer.append(14)
-        author_fourteen += i["article_id"] + "\n"
-    elif i["type"] == "article" and i["parent_id"] in author_fourteen and int(i["time"]) < tfc_timestamp and i["article_id"] != i["parent_id"]:
-        layer.append(15)
-        author_fifteen += i["article_id"] + "\n"
-    elif i["type"] == "article" and i["parent_id"] in author_fifteen and int(i["time"]) < tfc_timestamp and i["article_id"] != i["parent_id"]:
-        layer.append(16)
-        author_sixteen += i["article_id"] + "\n"
-    elif i["type"] == "article" and i["parent_id"] in author_sixteen and int(i["time"]) < tfc_timestamp and i["article_id"] != i["parent_id"]:
-        layer.append(17)
-        author_seventeen += i["article_id"] + "\n"
-    elif i["type"] == "article" and i["parent_id"] in author_seventeen and int(i["time"]) < tfc_timestamp and i["article_id"] != i["parent_id"]:
-        layer.append(18)
-        author_eighteen += i["article_id"] + "\n"
-    elif i["type"] == "article" and i["parent_id"] in author_eighteen and int(i["time"]) < tfc_timestamp and i["article_id"] != i["parent_id"]:
-        layer.append(19)
-        author_nineteen += i["article_id"] + "\n"
     else:
         pass
-    if i["type"] == "article" and i["related_link"] == "" and int(i["time"]) < tfc_timestamp and i["article_id"] != i["parent_id"]:
-        related.append("")
-    elif i["type"] == "article" and i["related_link"].find("https://www.facebook.com/") != -1 and int(i["time"]) < tfc_timestamp and i["article_id"] != i["parent_id"]: # find facebook
-        related.append("")
-    elif i["type"] == "article" and i["related_link"].find("https://www.facebook.com/") == -1 and int(i["time"]) < tfc_timestamp and i["article_id"] != i["parent_id"] and i["parent_id"] != "":
-        related.append("")
-    elif i["type"] == "article" and i["related_link"].find("https://www.facebook.com/") == -1 and int(i["time"]) < tfc_timestamp and i["article_id"] != i["parent_id"] and i["parent_id"] == "":
-        related.append(i["related_link"])
-        
-# print(time)
-# print(layer)
-# print(related)
-# print(len(layer))
-# print(len(related))
+    
+    if conditionOne and conditionTwo and conditionThree and i["related_link"] == "":
+        relatedLink.append("")
+    elif conditionOne and conditionTwo and conditionThree and i["related_link"].find("https://www.facebook.com/") != -1:
+        relatedLink.append("")
+    elif conditionOne and conditionTwo and conditionThree and i["parent_id"] != "" and i["related_link"].find("https://www.facebook.com/") == -1:
+        relatedLink.append("")
+    elif conditionOne and conditionTwo and conditionThree and i["parent_id"] == "" and i["related_link"].find("https://www.facebook.com/") == -1:
+        relatedLink.append(i["related_link"])
 
 # Related link time and layer
 countList = []
-for i in related:
+for i in relatedLink:
     if i != '':
-        countList.append(related.index(i))
+        countList.append(relatedLink.index(i))
         
 # Related link to Layer 1 node
 relatedTime, relatedLayer = [], []
@@ -167,161 +154,77 @@ for i in countList:
     relatedTime.append(int(time[i]))
     relatedLayer.append(0)
     layerOneLayer.append(1)
-# print(relatedTime)
-# print(relatedLayer)
 
-# Parse json ---------------------------------------------------------------->
+# Parse json 
 pair = []
 for i in data:
-    if i["type"] == "article" and int(i["time"]) < tfc_timestamp and i["article_id"] != i["parent_id"]:
+    if i["type"] == "article" and int(i["time"]) < endTime and i["article_id"] != i["parent_id"]:
         pair += [[i["article_id"], str(i["time"]), i["parent_id"]]] #
-# print(pair)
 
-# Add layer ----------------------------------------------------------------->
+# Add layer 
 for x in range(len(layer)):
     pair[x] = pair[x] + [str(layer[x])]
-# print(pair)
 
-# Article_id & parent_id relationship --------------------------------------->
+# Article_id & parent_id relationship (pending upgrade)
 pairs = []
 for i in pair:
     if i[2] != "":
         for j in pair: # Layer 
             if i[2] == j[0] and j[0] == '':
                 pairs += [[i[0], i[1], '1', i[2], j[1], '']] # 1. article_id, time, layer  2. parent_id, time, layer
-            elif i[2] == j[0] and j[0] in author_first:
+            elif i[2] == j[0] and j[0] in authorFirst:
                 pairs += [[i[0], i[1], '2', i[2], j[1], '1']]
-            elif i[2] == j[0] and j[0] in author_second:
+            elif i[2] == j[0] and j[0] in authorSecond:
                 pairs += [[i[0], i[1], '3', i[2], j[1], '2']]
-            elif i[2] == j[0] and j[0] in author_third:
+            elif i[2] == j[0] and j[0] in authorThird:
                 pairs += [[i[0], i[1], '4', i[2], j[1], '3']]
-            elif i[2] == j[0] and j[0] in author_forth:
+            elif i[2] == j[0] and j[0] in authorForth:
                 pairs += [[i[0], i[1], '5', i[2], j[1], '4']]
-            elif i[2] == j[0] and j[0] in author_fifth:
+            elif i[2] == j[0] and j[0] in authorForthUp:
                 pairs += [[i[0], i[1], '6', i[2], j[1], '5']]
-            elif i[2] == j[0] and j[0] in author_sixth:
-                pairs += [[i[0], i[1], '7', i[2], j[1], '6']]
-            elif i[2] == j[0] and j[0] in author_seventh:
-                pairs += [[i[0], i[1], '8', i[2], j[1], '7']]
-            elif i[2] == j[0] and j[0] in author_eight:
-                pairs += [[i[0], i[1], '9', i[2], j[1], '8']]
-            elif i[2] == j[0] and j[0] in author_nine:
-                pairs += [[i[0], i[1], '10', i[2], j[1], '9']]
-            elif i[2] == j[0] and j[0] in author_ten:
-                pairs += [[i[0], i[1], '11', i[2], j[1], '10']]
-            elif i[2] == j[0] and j[0] in author_eleven:
-                pairs += [[i[0], i[1], '12', i[2], j[1], '11']]
-            elif i[2] == j[0] and j[0] in author_twelve:
-                pairs += [[i[0], i[1], '13', i[2], j[1], '12']]
-            elif i[2] == j[0] and j[0] in author_thirteen:
-                pairs += [[i[0], i[1], '14', i[2], j[1], '13']]
-            elif i[2] == j[0] and j[0] in author_fourteen:
-                pairs += [[i[0], i[1], '15', i[2], j[1], '14']]
-            elif i[2] == j[0] and j[0] in author_fifteen:
-                pairs += [[i[0], i[1], '16', i[2], j[1], '15']]
-            elif i[2] == j[0] and j[0] in author_sixteen:
-                pairs += [[i[0], i[1], '17', i[2], j[1], '16']]
-            elif i[2] == j[0] and j[0] in author_seventeen:
-                pairs += [[i[0], i[1], '18', i[2], j[1], '17']]
-# print(pairs)
+            else:
+                pass
 
-# Point
+# Point (pending upgrade)
 point1, point2 = [], []
 for i in pairs:
     point1 += [[int(i[1]), int(i[2])]]
     point2 += [[int(i[4]), int(i[5])]]
-# print(point1)
-# print(point2)
 
 point3, point4 = [], []
 for i in zip(relatedTime, relatedLayer, layerOneLayer):
     point3 += [[i[0], i[1]]]
     point4 += [[i[0], i[2]]]
-# print(point3)
-# print(point4)
 
-# Time to int --------------------------------------------------------------->
+# Time to int 
 time = [int(x) for x in time]
 
-# Plot x:unix timestamp y:layer --------------------------------------------->
-plt.figure(figsize=(9,6))
-# x = np.linspace(smallest, tfc_timestamp, tfc_timestamp - smallest + 1)
+# Plot -- propagation graph
+plt.figure(figsize=(9, 5))
 y1, y2, y3, y4 = 1, 2, 3, 4
-plt.xlabel("$Unix Timestamp$")
+plt.xlabel("$Time$")
 plt.ylabel("$Layer$")
-# plt.xlim(smallest, smallest + 300000) # 3 month = 7776000, 6 month = 15552000, 9 month = 23328000, 12 month = 31104000, 15 month = 38880000, 18 month = 46656000, 21 month = 54432000, 24 month = 62208000
-# plt.ylim(0, 5)
+plt.ylim(0, 4)
 my_y_ticks = np.arange(0, 5, 1)
 plt.yticks(my_y_ticks)
 for i in range(5):
     plt.axhline(y=i, color='#B3B3B3', linestyle='-')
-plt.axvline(x=timestamp, color="#000000", linestyle='-')
+# plt.axvline(x=timestamp, color="green", linestyle=':') # Draw tfc check time line 
 for i in range(len(point1)):
     x_values = [point1[i][0], point2[i][0]]
     y_values = [point1[i][1], point2[i][1]]
-    plt.plot(x_values, y_values, 'r')
+    plt.plot(x_values, y_values, color='red')
 for i in range(len(point3)):
     x_values = [point3[i][0], point4[i][0]]
     y_values = [point3[i][1], point4[i][1]]
-    plt.plot(x_values, y_values, 'g')
+    plt.plot(x_values, y_values, color='green')
 plt.plot(time, layer, 'b.')
 plt.plot(relatedTime, relatedLayer, 'b.')
-plt.title(case, fontsize = 15, fontweight = "bold")
-# plt.show()
-
-# Plot x:depth y:CCDF ------------------------------------------------------>
-layerOneCCDF, layerTwoCCDF, layerThreeCCDF, layerFourCCDF, layerFiveCCDF, layerSixCCDF, layerSevenCCDF, layerEightCCDF, layerNineCCDF, layerTenCCDF, layerElevenCCDF = 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
-plt.figure(figsize=(16,4))
-for i in layer:
-    if i >= 1:
-        layerOneCCDF += 1
-    if i >= 2:
-        layerTwoCCDF += 1
-    if i >= 3:
-        layerThreeCCDF += 1
-    if i >= 4:
-        layerFourCCDF += 1
-    if i >= 5:
-        layerFiveCCDF += 1
-    if i >= 6:
-        layerSixCCDF += 1
-    # if i >= 7:
-    #     layerSevenCCDF += 1
-    # if i >= 8:
-    #     layerEightCCDF += 1 
-    # if i >= 9:
-    #     layerNineCCDF += 1
-    # if i >= 10:
-    #     layerTenCCDF += 1
-        
-CCDF1 = layerOneCCDF / len(layer)
-CCDF2 = layerTwoCCDF / len(layer)
-CCDF3 = layerThreeCCDF / len(layer) 
-CCDF4 = layerFourCCDF / len(layer)
-CCDF5 = layerFiveCCDF / len(layer)
-CCDF6 = layerSixCCDF / len(layer)
-# CCDF7 = layerSevenCCDF / len(layer)
-# CCDF8 = layerEightCCDF / len(layer)
-# CCDF9 = layerNineCCDF / len(layer)
-# CCDF10 = layerTenCCDF / len(layer)
-
-# print(CCDF1, CCDF2, CCDF3, CCDF4, CCDF5, CCDF6, CCDF7, CCDF8, CCDF9, CCDF10)
-
-x_values = [x for x in range(1, 7)]
-y_values = [CCDF1, CCDF2, CCDF3, CCDF4, CCDF5, CCDF6]
-
-point5, point6 = [], []
-for i in range(len(x_values)-1):
-    point5 = [x_values[i], x_values[i+1]]
-    point6 = [y_values[i], y_values[i+1]]
-    plt.plot(point5, point6, 'b')
-
-for i in range(len(x_values)):
-    plt.plot(x_values[i], y_values[i], 'r.')
-    
-plt.xlim(1,)
-plt.ylim(0, 1)
-plt.xlabel("$Cascade$" + " " + "$Depth$")
-plt.ylabel("$CCDF$")
-plt.title(case, fontsize = 15, fontweight = "bold")
-# plt.show()
+plt.title(case, fontsize=15, fontweight='bold')
+if len(dateTimeHalfYear) % 6 != 0:
+    x_ticks = np.arange(min(unixTimestampXaxis), max(unixTimestampXaxis) + 15552000, 15552000)
+elif len(dateTimeHalfYear) % 6 == 0:
+    x_ticks = np.arange(min(unixTimestampXaxis), max(unixTimestampXaxis), 15552000)
+plt.xticks(x_ticks, dateTimeHalfYear, rotation=30)
+plt.tight_layout()
+plt.show()
