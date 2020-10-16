@@ -10,7 +10,7 @@ import plotly.graph_objects as go
 from datetime import datetime
 
 # Input case
-num = "Real14"
+num = "Real18"
 case = "Case " + num
 
 # For SSL certificate
@@ -51,12 +51,12 @@ for i in range(len(unixTimestampPlot)):
 # Format Unix Timestamp to DateTime (1 month)
 dateTimeMonth = []
 for i in unixTimestampPlot:
-    dateTimeMonth.append(datetime.utcfromtimestamp(i).strftime('%Y-%m-%d'))
+    dateTimeMonth.append(datetime.utcfromtimestamp(i).strftime('%Y-%m-%d %H:%M:%S'))
 
 # Format Unix Timestamp to DateTime (6 month)
 dateTimeHalfYear = []
 for i in unixTimestampXaxis:
-    dateTimeHalfYear.append(datetime.utcfromtimestamp(i).strftime('%Y-%m-%d'))
+    dateTimeHalfYear.append(datetime.utcfromtimestamp(i).strftime('%Y-%m-%d %H:%M:%S'))
 
 # Calculate the number of nodes for each approximation
 amount = []
@@ -198,8 +198,8 @@ for i in pair:
 # Layer 1 to 4
 point1, point2 = [], []
 for i in pairs:
-    point1 += [[datetime.utcfromtimestamp(int(i[1])).strftime('%Y-%m-%d'), int(i[2])]]  # time + layer (parent_id)
-    point2 += [[datetime.utcfromtimestamp(int(i[4])).strftime('%Y-%m-%d'), int(i[5])]]  # time + layer (article_id)
+    point1 += [[datetime.utcfromtimestamp(int(i[1])).strftime('%Y-%m-%d %H:%M:%S'), int(i[2])]]  # time + layer (parent_id)
+    point2 += [[datetime.utcfromtimestamp(int(i[4])).strftime('%Y-%m-%d %H:%M:%S'), int(i[5])]]  # time + layer (article_id)
 
 # Point1 mix Point2
 node = []
@@ -209,8 +209,8 @@ for i in range(len(point1)):
 # Layer 0 (related_link)
 point3, point4 = [], []
 for i in zip(relatedTime, relatedLayer, layerOneLayer):
-    point3 += [[datetime.utcfromtimestamp(int(i[0])).strftime('%Y-%m-%d'), int(i[1])]]  # time + layer (related_link)
-    point4 += [[datetime.utcfromtimestamp(int(i[0])).strftime('%Y-%m-%d'), int(i[2])]]  # time + layer (layer 1 article_id)
+    point3 += [[datetime.utcfromtimestamp(int(i[0])).strftime('%Y-%m-%d %H:%M:%S'), int(i[1])]]  # time + layer (related_link)
+    point4 += [[datetime.utcfromtimestamp(int(i[0])).strftime('%Y-%m-%d %H:%M:%S'), int(i[2])]]  # time + layer (layer 1 article_id)
 
 # Point3 mix Point4
 origin = []
@@ -222,8 +222,9 @@ def takeFifth(elem):
     return elem[4]
 articleID, articleTime, parentTime = [], [], []
 feature2, tmp, tmp2, tmp3, tmp4, tmp5 = 0, 0, 0, 0, 0, 0
-pairs.sort(key=takeFifth)
-for i in pairs:
+feature2Pairs = pairs
+feature2Pairs.sort(key=takeFifth)
+for i in feature2Pairs:
     if int(i[3]) not in articleID:
         if parentTime != []:
             tmp = max(parentTime) - min(articleTime)
