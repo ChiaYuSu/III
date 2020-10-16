@@ -3,16 +3,14 @@ import json
 import ssl
 import urllib.request as request
 import re
-import matplotlib.pyplot as plt
 import numpy as np
 import statistics
 import pandas as pd
-import matplotlib.ticker as ticker
 import plotly.graph_objects as go
 from datetime import datetime
 
 # Input case
-num = "324"
+num = "Real14"
 case = "Case " + num
 
 # For SSL certificate
@@ -35,16 +33,12 @@ lists = []
 for i in data:
     if i["type"] == "article" and int(i["time"]) < endTime:
         lists.append(str(i["time"]))
-start = int(str(min(lists))) #
-end = int(str(max(lists))) #
-
-# # Write json to file (For debugging)
-# with open('case.json', mode='w', encoding='utf-8') as f:
-#     json.dump(data, f, ensure_ascii=False, indent=4)
+start = int(str(min(lists))) 
+end = int(str(max(lists))) 
 
 # Unix Timestamp list for plot (1 month)
 unixTimestampPlot = []
-stampCount = int(((end - start) / 2592000) + 1)  # 86400 * 30 = 2892000
+stampCount = int(((end - start) / 2592000) + 1)  # 86400 * 30 = 2592000
 for i in range(stampCount):
     unixTimestampPlot.append(start + i * 2592000)
 
@@ -82,50 +76,42 @@ amountAvg = sum(amount) / len(unixTimestampPlot)
 nodeMax = amount.index(max(amount))
 largestTime = unixTimestampPlot[nodeMax]
 
-# # Plot -- Volume line graph
-# plt.figure(figsize=(9, 5))
-# plt.title(case, fontsize = 15, fontweight = "bold")
-# plt.xlabel("$Time$")
-# plt.ylabel("$Number\ of\ nodes$")
-# plt.axhline(y = max(amount) * 0.25, color='r', linestyle=':', alpha=0.8)
-# plt.axhline(y = amountAvg, color='g', linestyle=':', alpha=0.8)
-# plt.plot(unixTimestampPlot, amount, color='b', marker='.')
-# plt.plot(largestTime, max(amount), color='#FF5E13', marker='D')
-# plt.ylim(0, )
-# if len(dateTimeHalfYear) % 6 != 0:
-#     x_ticks = np.arange(min(unixTimestampXaxis), max(unixTimestampXaxis) + 15552000, 15552000)
-# elif len(dateTimeHalfYear) % 6 == 0:
-#     x_ticks = np.arange(min(unixTimestampXaxis), max(unixTimestampXaxis), 15552000)
-# plt.xticks(x_ticks, dateTimeHalfYear, rotation=30)
-# plt.tight_layout()
-# # plt.show()
+# Feature 1 -- Volume
+quarterLine = 0
+for i in amount:
+    if i > max(amount) * 0.25 and len(dateTimeHalfYear) > 1:
+        quarterLine += 1
+print("Feature 1:", quarterLine)    
 
-# Plotly
-fig = go.Figure()
-fig.add_trace(go.Scatter(
-    x=dateTimeMonth,
-    y=amount,
-    mode='lines+markers',
-    name="Volume of line graph"
-))
-fig.add_trace(go.Scatter(
-    x=dateTimeMonth,
-    y=[max(amount)*0.25]*len(dateTimeMonth),
-    mode='lines',
-    name="25% line"
-))
-fig.add_trace(go.Scatter(
-    x=dateTimeMonth,
-    y=[amountAvg]*len(dateTimeMonth),
-    mode='lines',
-    name="Average line"
-))
-fig.update_layout(
-    title=case,
-    xaxis_title="$Time$",
-    yaxis_title="$Number\ of\ nodes$"
-)
-# fig.show()
+# Plotly -- Volume line graph
+if len(dateTimeHalfYear) > 1:
+    fig = go.Figure()
+    fig.add_trace(go.Scatter(
+        x=dateTimeMonth,
+        y=amount,
+        mode='lines+markers',
+        name="Volume of line graph"
+    ))
+    fig.add_trace(go.Scatter(
+        x=dateTimeMonth,
+        y=[max(amount)*0.25]*len(dateTimeMonth),
+        mode='lines',
+        name="25% line"
+    ))
+    fig.add_trace(go.Scatter(
+        x=dateTimeMonth,
+        y=[amountAvg]*len(dateTimeMonth),
+        mode='lines',
+        name="Average line"
+    ))
+    fig.update_layout(
+        title=case,
+        xaxis_title="$Time$",
+        yaxis_title="$Number\ of\ nodes$"
+    )
+    fig.show()
+elif len(dateTimeHalfYear) <= 1:
+    pass
 
 # Node (pending upgrade)
 time, layer, relatedLink = [], [], []
@@ -183,7 +169,7 @@ for i in countList:
 pair = []
 for i in data:
     if i["type"] == "article" and int(i["time"]) < endTime and i["article_id"] != i["parent_id"]:
-        pair += [[i["article_id"], str(i["time"]), i["parent_id"]]] #
+        pair += [[i["article_id"], str(i["time"]), i["parent_id"]]]
 
 # Add layer 
 for x in range(len(layer)):
@@ -209,74 +195,85 @@ for i in pair:
             else:
                 pass
 
-# Point (pending upgrade)
+# Layer 1 to 4
 point1, point2 = [], []
 for i in pairs:
-    point1 += [[datetime.utcfromtimestamp(int(i[1])).strftime('%Y-%m-%d'), int(i[2])]] # time + layer (parent)
-    point2 += [[datetime.utcfromtimestamp(int(i[4])).strftime('%Y-%m-%d'), int(i[5])]] # time + layer (origin)
+    point1 += [[datetime.utcfromtimestamp(int(i[1])).strftime('%Y-%m-%d'), int(i[2])]]  # time + layer (parent_id)
+    point2 += [[datetime.utcfromtimestamp(int(i[4])).strftime('%Y-%m-%d'), int(i[5])]]  # time + layer (article_id)
 
-point3, point4 = [], []
-for i in zip(relatedTime, relatedLayer, layerOneLayer):
-    point3 += [[i[0], i[1]]]
-    point4 += [[i[0], i[2]]]
-
-# Time to int 
-time = [int(x) for x in time]
-
-# Format Unix Timestamp to DateTime (1 month)
-timeToDateTime = []
-for i in time:
-    timeToDateTime.append(datetime.utcfromtimestamp(i).strftime('%Y-%m-%d'))
-    
 # Point1 mix Point2
 node = []
 for i in range(len(point1)):
     node.append([point1[i], point2[i]])
-print(node)
 
-# Plot -- propagation graph
-plt.figure(figsize=(9, 5))
-y1, y2, y3, y4 = 1, 2, 3, 4
-plt.xlabel("$Time$")
-plt.ylabel("$Layer$")
-plt.ylim(0, 4)
-my_y_ticks = np.arange(0, 5, 1)
-plt.yticks(my_y_ticks)
-for i in range(5):
-    plt.axhline(y=i, color='#B3B3B3', linestyle='-')
-# plt.axvline(x=timestamp, color="green", linestyle=':') # Draw tfc check time line 
-for i in range(len(point1)):
-    x_values = [point1[i][0], point2[i][0]]
-    y_values = [point1[i][1], point2[i][1]]
-    plt.plot(x_values, y_values, color='red')
+# Layer 0 (related_link)
+point3, point4 = [], []
+for i in zip(relatedTime, relatedLayer, layerOneLayer):
+    point3 += [[datetime.utcfromtimestamp(int(i[0])).strftime('%Y-%m-%d'), int(i[1])]]  # time + layer (related_link)
+    point4 += [[datetime.utcfromtimestamp(int(i[0])).strftime('%Y-%m-%d'), int(i[2])]]  # time + layer (layer 1 article_id)
+
+# Point3 mix Point4
+origin = []
 for i in range(len(point3)):
-    x_values = [point3[i][0], point4[i][0]]
-    y_values = [point3[i][1], point4[i][1]]
-    plt.plot(x_values, y_values, color='green')
-plt.plot(time, layer, 'b.')
-plt.plot(relatedTime, relatedLayer, 'b.')
-plt.title(case, fontsize=15, fontweight='bold')
-if len(dateTimeHalfYear) % 6 != 0:
-    x_ticks = np.arange(min(unixTimestampXaxis), max(unixTimestampXaxis) + 15552000, 15552000)
-elif len(dateTimeHalfYear) % 6 == 0:
-    x_ticks = np.arange(min(unixTimestampXaxis), max(unixTimestampXaxis), 15552000)
-plt.xticks(x_ticks, dateTimeHalfYear, rotation=30)
-plt.tight_layout()
-plt.show()
+    origin.append([point3[i], point4[i]])
+    
+# Feature 2 -- Time
+def takeFifth(elem):
+    return elem[4]
+articleID, articleTime, parentTime = [], [], []
+feature2, tmp, tmp2, tmp3, tmp4, tmp5 = 0, 0, 0, 0, 0, 0
+pairs.sort(key=takeFifth)
+for i in pairs:
+    if int(i[3]) not in articleID:
+        if parentTime != []:
+            tmp = max(parentTime) - min(articleTime)
+            tmp2 = min(parentTime) - min(articleTime)
+        if (tmp2 < 259200) is False and tmp > 259200:
+            feature2 += 1
+        articleID, articleTime, parentTime = [], [], []
+        articleID.append(int(i[3]))
+        articleTime.append(int(i[4]))
+        parentTime.append(int(i[1]))
+        if i == -1:
+            tmp3 = max(parentTime) - min(articleTime)
+            if tmp3 > 259200:
+                feature2 += 1
+    elif int(i[3]) in articleID:
+        parentTime.append(int(i[1]))
+        if i == -1:
+            tmp4 = max(parentTime) - min(articleTime)
+            tmp5 = min(parentTime) - min(articleTime)
+            if (tmp5 < 259200) is False and tmp4 > 259200:
+                feature2 += 1
+print("Feature 2:", feature2)
 
-# Plotly
+
+# Plotly -- Propagation graph
 fig = go.Figure()
-# Edge
 for i in node:
     fig.add_trace(go.Scatter(
         x=(i[0][0], i[1][0]),
         y=(i[0][1], i[1][1]),
-        mode='markers+lines'
+        mode='markers+lines',
+        marker=dict(color='rgba(98, 110, 250, 1)')
+    ))
+
+for i in origin:
+    fig.add_trace(go.Scatter(
+        x=(i[0][0], i[1][0]),
+        y=(i[0][1], i[1][1]),
+        mode='markers+lines',
+        marker=dict(color='rgba(98, 110, 250, 1)')
     ))
 
 fig.update_layout(
     title=case,
     xaxis_title="$Time$",
-    yaxis_title="$Layer$"
+    yaxis_title="$Layer$",
+    showlegend=False,
+    yaxis=dict(
+        tickmode='linear',
+        tick0=1,
+    )
 )
 fig.show()

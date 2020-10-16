@@ -11,12 +11,12 @@ import matplotlib.ticker as ticker
 from datetime import datetime
 
 # Input case
-num = "Real42"
+num = "324"
 case = "Case " + num
 
 # For SSL certificate
 ssl._create_default_https_context = ssl._create_unverified_context
-src = "https://raw.githubusercontent.com/ChiaYuSu/III/master/20200928/" + num + "/output.json"
+src = "https://raw.githubusercontent.com/ChiaYuSu/III/master/20200702/" + num + "/case.json"
 
 # TFC timestamp
 timestamp = 1601308800  # Draw tfc check time line
