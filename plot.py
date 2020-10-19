@@ -1,28 +1,41 @@
 # Import modules
 import json
 import ssl
-import urllib.request as request
+import urllib.request as req
 import re
 import numpy as np
 import statistics
 import pandas as pd
 import plotly.graph_objects as go
+import plotly.express as px
+import random
+import sys
+import requests
+import media
+import os
+from bs4 import BeautifulSoup
+from urllib.parse import unquote
 from datetime import datetime
 
 # Input case
-num = "Real18"
+num = "559"
 case = "Case " + num
 
 # For SSL certificate
 ssl._create_default_https_context = ssl._create_unverified_context
-src = "https://raw.githubusercontent.com/ChiaYuSu/III/master/20200702/" + num + "/case.json"
+src = "https://raw.githubusercontent.com/ChiaYuSu/III/master/20200702/" + \
+    num + "/case.json"
+
+request = req.Request(src, headers={
+    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.75 Safari/537.36"
+})
 
 # TFC timestamp
 timestamp = 1601308800  # Draw tfc check time line
 endTime = int(str(1602475200))  # Adjust case end timestamp
 
 # Read json
-with request.urlopen(src) as response:
+with req.urlopen(request) as response:
     data = json.load(response)
 
 # Json sorted by time
@@ -33,12 +46,12 @@ lists = []
 for i in data:
     if i["type"] == "article" and int(i["time"]) < endTime:
         lists.append(str(i["time"]))
-start = int(str(min(lists))) 
-end = int(str(max(lists))) 
+start = int(str(min(lists)))
+end = int(str(max(lists)))
 
 # Unix Timestamp list for plot (1 month)
 unixTimestampPlot = []
-stampCount = int(((end - start) / 2592000) + 1)  # 86400 * 30 = 2592000
+stampCount = int(((end - start) / 2592000) + 2)  # 86400 * 30 = 2592000
 for i in range(stampCount):
     unixTimestampPlot.append(start + i * 2592000)
 
@@ -47,16 +60,18 @@ unixTimestampXaxis = []
 for i in range(len(unixTimestampPlot)):
     if i % 6 == 0:
         unixTimestampXaxis.append(unixTimestampPlot[i])
-   
+
 # Format Unix Timestamp to DateTime (1 month)
 dateTimeMonth = []
 for i in unixTimestampPlot:
-    dateTimeMonth.append(datetime.utcfromtimestamp(i).strftime('%Y-%m-%d %H:%M:%S'))
+    dateTimeMonth.append(datetime.utcfromtimestamp(
+        i).strftime('%Y-%m-%d %H:%M:%S'))
 
 # Format Unix Timestamp to DateTime (6 month)
 dateTimeHalfYear = []
 for i in unixTimestampXaxis:
-    dateTimeHalfYear.append(datetime.utcfromtimestamp(i).strftime('%Y-%m-%d %H:%M:%S'))
+    dateTimeHalfYear.append(datetime.utcfromtimestamp(
+        i).strftime('%Y-%m-%d %H:%M:%S'))
 
 # Calculate the number of nodes for each approximation
 amount = []
@@ -79,12 +94,13 @@ largestTime = unixTimestampPlot[nodeMax]
 # Feature 1 -- Volume
 quarterLine = 0
 for i in amount:
-    if i > max(amount) * 0.25 and len(dateTimeHalfYear) > 1:
+    if i > max(amount) * 0.25 and len(dateTimeMonth) > 1:
         quarterLine += 1
-print("Feature 1:", quarterLine)    
+quarterLine -= 1
+print("Feature 1:", quarterLine)
 
 # Plotly -- Volume line graph
-if len(dateTimeHalfYear) > 1:
+if len(dateTimeMonth) > 1:
     fig = go.Figure()
     fig.add_trace(go.Scatter(
         x=dateTimeMonth,
@@ -105,25 +121,42 @@ if len(dateTimeHalfYear) > 1:
         name="Average line"
     ))
     fig.update_layout(
-        title=case,
-        xaxis_title="$Time$",
-        yaxis_title="$Number\ of\ nodes$"
+        xaxis_title="Time",
+        yaxis_title="Number of nodes",
+        margin=go.layout.Margin(
+            l=0,  # left margin
+            r=0,  # right margin
+            b=0,  # bottom margin
+            t=0  # top margin
+        ),
+        legend=dict(
+        orientation="h",
+        yanchor="bottom",
+        y=1.02,
+        xanchor="right",
+        x=1
+)
     )
-    fig.show()
-elif len(dateTimeHalfYear) <= 1:
+    # Write to HTML
+    if not os.path.exists(str(case)):
+        os.mkdir(str(case))
+    fig.write_html(str(case) + "/feature1.html")
+elif len(dateTimeMonth) <= 1:
     pass
+
 
 # Node (pending upgrade)
 time, layer, relatedLink = [], [], []
 authorZero, authorFirst, authorSecond, authorThird, authorForth, authorForthUp = "", "", "", "", "", ""
-authorList = [authorZero, authorFirst, authorSecond, authorThird, authorForth, authorForthUp]
+authorList = [authorZero, authorFirst, authorSecond,
+              authorThird, authorForth, authorForthUp]
 numList = [1, 2, 3, 4, 99]
 for i in data:
     conditionOne = i["type"] == "article"
     conditionTwo = int(i["time"]) < endTime
     conditionThree = i["article_id"] != i["parent_id"]
     if conditionOne and conditionTwo and conditionThree:
-        time.append(str(i["time"]))    
+        time.append(str(i["time"]))
     if conditionOne and conditionTwo and conditionThree and i["parent_id"] == "":
         layer.append(1)
         authorFirst += i["article_id"] + "\n"
@@ -141,7 +174,7 @@ for i in data:
         authorForthUp += i["article_id"] + "\n"
     else:
         pass
-    
+
     if conditionOne and conditionTwo and conditionThree and i["related_link"] == "":
         relatedLink.append("")
     elif conditionOne and conditionTwo and conditionThree and i["related_link"].find("https://www.facebook.com/") != -1:
@@ -156,7 +189,7 @@ countList = []
 for i in relatedLink:
     if i != '':
         countList.append(relatedLink.index(i))
-        
+
 # Related link to Layer 1 node
 relatedTime, relatedLayer = [], []
 layerOneLayer = []
@@ -165,13 +198,13 @@ for i in countList:
     relatedLayer.append(0)
     layerOneLayer.append(1)
 
-# Parse json 
+# Parse json
 pair = []
 for i in data:
     if i["type"] == "article" and int(i["time"]) < endTime and i["article_id"] != i["parent_id"]:
         pair += [[i["article_id"], str(i["time"]), i["parent_id"]]]
 
-# Add layer 
+# Add layer
 for x in range(len(layer)):
     pair[x] = pair[x] + [str(layer[x])]
 
@@ -179,9 +212,10 @@ for x in range(len(layer)):
 pairs = []
 for i in pair:
     if i[2] != "":
-        for j in pair: # Layer 
+        for j in pair:  # Layer
             if i[2] == j[0] and j[0] == '':
-                pairs += [[i[0], i[1], '1', i[2], j[1], '']] # 1. article_id, time, layer  2. parent_id, time, layer
+                # 1. article_id, time, layer  2. parent_id, time, layer
+                pairs += [[i[0], i[1], '1', i[2], j[1], '']]
             elif i[2] == j[0] and j[0] in authorFirst:
                 pairs += [[i[0], i[1], '2', i[2], j[1], '1']]
             elif i[2] == j[0] and j[0] in authorSecond:
@@ -198,8 +232,12 @@ for i in pair:
 # Layer 1 to 4
 point1, point2 = [], []
 for i in pairs:
-    point1 += [[datetime.utcfromtimestamp(int(i[1])).strftime('%Y-%m-%d %H:%M:%S'), int(i[2])]]  # time + layer (parent_id)
-    point2 += [[datetime.utcfromtimestamp(int(i[4])).strftime('%Y-%m-%d %H:%M:%S'), int(i[5])]]  # time + layer (article_id)
+    # time + layer (parent_id)
+    point1 += [[datetime.utcfromtimestamp(int(i[1])
+                                          ).strftime('%Y-%m-%d %H:%M:%S'), int(i[2])]]
+    # time + layer (article_id)
+    point2 += [[datetime.utcfromtimestamp(int(i[4])
+                                          ).strftime('%Y-%m-%d %H:%M:%S'), int(i[5])]]
 
 # Point1 mix Point2
 node = []
@@ -209,17 +247,22 @@ for i in range(len(point1)):
 # Layer 0 (related_link)
 point3, point4 = [], []
 for i in zip(relatedTime, relatedLayer, layerOneLayer):
-    point3 += [[datetime.utcfromtimestamp(int(i[0])).strftime('%Y-%m-%d %H:%M:%S'), int(i[1])]]  # time + layer (related_link)
-    point4 += [[datetime.utcfromtimestamp(int(i[0])).strftime('%Y-%m-%d %H:%M:%S'), int(i[2])]]  # time + layer (layer 1 article_id)
+    # time + layer (related_link)
+    point3 += [[datetime.utcfromtimestamp(int(i[0])
+                                          ).strftime('%Y-%m-%d %H:%M:%S'), int(i[1])]]
+    # time + layer (layer 1 article_id)
+    point4 += [[datetime.utcfromtimestamp(int(i[0])
+                                          ).strftime('%Y-%m-%d %H:%M:%S'), int(i[2])]]
 
 # Point3 mix Point4
 origin = []
 for i in range(len(point3)):
     origin.append([point3[i], point4[i]])
-    
+
 # Feature 2 -- Time
 def takeFifth(elem):
     return elem[4]
+
 articleID, articleTime, parentTime = [], [], []
 feature2, tmp, tmp2, tmp3, tmp4, tmp5 = 0, 0, 0, 0, 0, 0
 feature2Pairs = pairs
@@ -248,7 +291,6 @@ for i in feature2Pairs:
                 feature2 += 1
 print("Feature 2:", feature2)
 
-
 # Plotly -- Propagation graph
 fig = go.Figure()
 for i in node:
@@ -268,13 +310,129 @@ for i in origin:
     ))
 
 fig.update_layout(
-    title=case,
-    xaxis_title="$Time$",
-    yaxis_title="$Layer$",
+    xaxis_title="Time",
+    yaxis_title="Layer",
     showlegend=False,
     yaxis=dict(
         tickmode='linear',
         tick0=1,
+    ),
+    margin=go.layout.Margin(
+        l=0,  # left margin
+        r=0,  # right margin
+        b=0,  # bottom margin
+        t=0  # top margin
     )
 )
-fig.show()
+
+# Write to HTML
+if not os.path.exists(str(case)):
+    os.mkdir(str(case))
+fig.write_html(str(case) + "/feature2.html")
+
+# Feature 3 -- Mainstream
+import time
+
+def googleScrape(searchList):
+    urlQuery = []
+    url = 'https://www.google.com.tw/search?q='
+    user_agent = [
+        'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.75 Safari/537.36']
+    headers = {'User-Agent': user_agent[0]}
+    for p in range(0, 30, 10):
+        for i in searchList:
+            time.sleep(1)
+            res = requests.get(url=url+i+"&start="+str(p), headers=headers)
+            soup = BeautifulSoup(res.text, "html.parser")
+            searchText = soup.find_all("div", class_="g")
+            for j in searchText:
+                urlQuery.append(j.find("a").get('href'))
+    return urlQuery
+
+
+def googleScrape2(searchList):
+    titleQuery = []
+    url = 'https://www.google.com.tw/search?q='
+    user_agent = [
+        'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.75 Safari/537.36']
+    headers = {'User-Agent': user_agent[0]}
+    for p in range(0, 30, 10):
+        for i in searchList:
+            time.sleep(1)
+            res = requests.get(url=url+i+"&start="+str(p), headers=headers)
+            soup = BeautifulSoup(res.text, "html.parser")
+            searchText = soup.find_all("div", class_="g")
+            for j in searchText:
+                titleQuery.append(j.find("a").text)
+    return titleQuery
+
+
+# Mainstream count
+data = sorted(data, key=lambda k: k['time'])
+query = data[0]["body"].replace("\n", "")
+print(query)
+
+feature3 = 0
+tmp, tmp2, tmp3, tmp4, tmp5 = 0, 0, 0, 0, 0  # official page url, title, related_link, fb old author_id, fb new author_id
+for i in googleScrape([query]):
+    for j in media.mainstream:
+        if i.find(j) != -1:
+            tmp += 1
+for i in googleScrape2([query]):
+    for j in ['tfc', 'TFC', '查核', '假的', '假新聞', '謠言', '事實', '詐騙', '麥擱騙', "MyGoPen", "Cofacts"]:
+        if i.find(j) != -1:
+            tmp2 += 1
+for i in data:
+    for j in media.mainstream:
+        if i["related_link"].find(j) != -1:
+            tmp3 += 1
+    for k in media.mainstreamOldUID:
+        if i["author_id"].find(k) != -1:
+            tmp4 += 1
+    for l in media.mainstreamNewUID:
+        if i["author_id"].find(l) != -1:
+            tmp5 += 1
+feature3 = tmp - tmp2 + tmp3 + tmp4 + tmp5
+print("Feature 3:", feature3)
+
+# Feature 4 -- Semantics
+fakeWords = ['請轉發', '請分享', '請告訴', '請注意', '請告知', '請轉告', '請廣發', 
+             '請傳給', '請大家轉告', '請分發', '告訴別人', '告訴家人', '告訴朋友', 
+             '把愛傳出去', '馬上發出去', '馬上發給', '已經上新聞', '相互轉發', 
+             '功德無量', '分享出去', '廣發分享', '緊急通知', '千萬不要', '千萬別', 
+             '緊急擴散', '重要訊息', '重要信息', '快轉發', '快分享', '快告訴',
+             '快告知', '快傳給', '快轉告']
+
+fakeWordsCount = [0] * len(fakeWords)
+
+for i in data:
+    for j in fakeWords:
+        if i["type"] == "article" and j in i["body"]:
+            fakeWordsCount[fakeWords.index(j)] += 1
+feature4 = sum(fakeWordsCount)
+print("Feature 4:", feature4)
+
+# Real vs. Fake
+score = 0
+if quarterLine > 0:
+    score += 0
+elif quarterLine <= 0:
+    score += 1
+if feature2 > 0:
+    score += 0
+elif feature2 <= 0:
+    score += 1
+if feature3 >= 4:
+    score += 1
+elif feature3 >= 0 and feature3 < 4:
+    score += 0.5
+elif feature3 < 0:
+    score += 0
+if feature4 >= 10:
+    score += 0
+elif feature4 >= 3 and feature4 < 10:
+    score += 0.5
+elif feature4 >= 0 and feature4 < 3:
+    score += 1
+
+print(score)

@@ -11,7 +11,7 @@ import matplotlib.ticker as ticker
 from datetime import datetime
 
 # Input case
-num = "Real18"
+num = "Real22"
 case = "Case " + num
 
 # For SSL certificate
