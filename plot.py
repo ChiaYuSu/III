@@ -18,13 +18,13 @@ from urllib.parse import unquote
 from datetime import datetime
 
 # Input case
-num = "559"
+num = "4040"
 case = "Case " + num
 
 # For SSL certificate
 ssl._create_default_https_context = ssl._create_unverified_context
-src = "https://raw.githubusercontent.com/ChiaYuSu/III/master/20200702/" + \
-    num + "/case.json"
+src = "https://raw.githubusercontent.com/ChiaYuSu/III/master/20200928/" + \
+    num + "/output.json"
 
 request = req.Request(src, headers={
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.75 Safari/537.36"
@@ -64,13 +64,13 @@ for i in range(len(unixTimestampPlot)):
 # Format Unix Timestamp to DateTime (1 month)
 dateTimeMonth = []
 for i in unixTimestampPlot:
-    dateTimeMonth.append(datetime.utcfromtimestamp(
+    dateTimeMonth.append(datetime.fromtimestamp(
         i).strftime('%Y-%m-%d %H:%M:%S'))
 
 # Format Unix Timestamp to DateTime (6 month)
 dateTimeHalfYear = []
 for i in unixTimestampXaxis:
-    dateTimeHalfYear.append(datetime.utcfromtimestamp(
+    dateTimeHalfYear.append(datetime.fromtimestamp(
         i).strftime('%Y-%m-%d %H:%M:%S'))
 
 # Calculate the number of nodes for each approximation
@@ -233,10 +233,10 @@ for i in pair:
 point1, point2 = [], []
 for i in pairs:
     # time + layer (parent_id)
-    point1 += [[datetime.utcfromtimestamp(int(i[1])
+    point1 += [[datetime.fromtimestamp(int(i[1])
                                           ).strftime('%Y-%m-%d %H:%M:%S'), int(i[2])]]
     # time + layer (article_id)
-    point2 += [[datetime.utcfromtimestamp(int(i[4])
+    point2 += [[datetime.fromtimestamp(int(i[4])
                                           ).strftime('%Y-%m-%d %H:%M:%S'), int(i[5])]]
 
 # Point1 mix Point2
@@ -248,10 +248,10 @@ for i in range(len(point1)):
 point3, point4 = [], []
 for i in zip(relatedTime, relatedLayer, layerOneLayer):
     # time + layer (related_link)
-    point3 += [[datetime.utcfromtimestamp(int(i[0])
+    point3 += [[datetime.fromtimestamp(int(i[0])
                                           ).strftime('%Y-%m-%d %H:%M:%S'), int(i[1])]]
     # time + layer (layer 1 article_id)
-    point4 += [[datetime.utcfromtimestamp(int(i[0])
+    point4 += [[datetime.fromtimestamp(int(i[0])
                                           ).strftime('%Y-%m-%d %H:%M:%S'), int(i[2])]]
 
 # Point3 mix Point4
@@ -260,35 +260,38 @@ for i in range(len(point3)):
     origin.append([point3[i], point4[i]])
 
 # Feature 2 -- Time
-def takeFifth(elem):
-    return elem[4]
-
-articleID, articleTime, parentTime = [], [], []
+def takethird(elem):
+    return elem[3]
+articleID, parentID, articleTime, parentTime = [], [], [], []
+articleTime2, articleLayer2, parentTime2, parentLayer2 = [], [], [], []
 feature2, tmp, tmp2, tmp3, tmp4, tmp5 = 0, 0, 0, 0, 0, 0
 feature2Pairs = pairs
-feature2Pairs.sort(key=takeFifth)
+feature2Pairs.sort(key=takethird)
 for i in feature2Pairs:
-    if int(i[3]) not in articleID:
-        if parentTime != []:
-            tmp = max(parentTime) - min(articleTime)
-            tmp2 = min(parentTime) - min(articleTime)
-        if (tmp2 < 259200) is False and tmp > 259200:
+    if int(i[3]) not in parentID:
+        articleID, parentID, articleTime, parentTime = [], [], [], []
+        articleID.append(int(i[0]))
+        articleTime.append(int(i[1]))
+        parentID.append(int(i[3]))
+        parentTime.append(int(i[4]))
+        if max(articleTime) - parentTime[0] > 259200 and (min(articleTime) - parentTime[0] < 259200) is False:
             feature2 += 1
-        articleID, articleTime, parentTime = [], [], []
-        articleID.append(int(i[3]))
-        articleTime.append(int(i[4]))
-        parentTime.append(int(i[1]))
-        if i == -1:
-            tmp3 = max(parentTime) - min(articleTime)
-            if tmp3 > 259200:
-                feature2 += 1
-    elif int(i[3]) in articleID:
-        parentTime.append(int(i[1]))
-        if i == -1:
-            tmp4 = max(parentTime) - min(articleTime)
-            tmp5 = min(parentTime) - min(articleTime)
-            if (tmp5 < 259200) is False and tmp4 > 259200:
-                feature2 += 1
+            articleTime2.append(datetime.fromtimestamp(int(i[1])).strftime('%Y-%m-%d %H:%M:%S'))
+            articleLayer2.append(int(i[2]))
+            parentTime2.append(datetime.fromtimestamp(int(i[4])).strftime('%Y-%m-%d %H:%M:%S'))
+            parentLayer2.append(int(i[5]))
+    elif int(i[3]) in parentID:
+        articleID.append(int(i[0]))
+        articleTime.append(int(i[1]))
+        parentID.append(int(i[3]))
+        parentTime.append(int(i[4]))
+        if max(articleTime) - parentTime[0] > 259200 and (min(articleTime) - parentTime[0] < 259200) is False:
+            feature2 += 1
+            articleTime2.append(datetime.fromtimestamp(int(i[1])).strftime('%Y-%m-%d %H:%M:%S'))
+            articleLayer2.append(int(i[2]))
+            parentTime2.append(datetime.fromtimestamp(int(i[4])).strftime('%Y-%m-%d %H:%M:%S'))
+            parentLayer2.append(int(i[5]))
+            
 print("Feature 2:", feature2)
 
 # Plotly -- Propagation graph
@@ -298,18 +301,69 @@ for i in node:
         x=(i[0][0], i[1][0]),
         y=(i[0][1], i[1][1]),
         mode='markers+lines',
-        marker=dict(color='rgba(98, 110, 250, 1)')
+        marker=dict(color='rgba(98, 110, 250, 1)'),
+        name='Propagation'
     ))
 
-for i in origin:
+# for i in origin:
+#     fig.add_trace(go.Scatter(
+#         x=(i[0][0], i[1][0]),
+#         y=(i[0][1], i[1][1]),
+#         mode='markers+lines',
+#         marker=dict(color='rgba(98, 110, 250, 1)'),
+#     ))
+    
+for i in range(len(articleTime2)):
     fig.add_trace(go.Scatter(
-        x=(i[0][0], i[1][0]),
-        y=(i[0][1], i[1][1]),
+        x=(articleTime2[i], parentTime2[i]),
+        y=(articleLayer2[i], parentLayer2[i]),
         mode='markers+lines',
-        marker=dict(color='rgba(98, 110, 250, 1)')
+        marker=dict(color='rgba(255, 0, 0, 1)'),
+        name='Time'
     ))
+
+# fig.update_layout(
+#     xaxis_title="Time",
+#     yaxis_title="Layer",
+#     showlegend=False,
+#     yaxis=dict(
+#         tickmode='linear',
+#         tick0=1,
+#     ),
+#     margin=go.layout.Margin(
+#         l=0,  # left margin
+#         r=0,  # right margin
+#         b=0,  # bottom margin
+#         t=0  # top margin
+#     )
+# )
 
 fig.update_layout(
+    updatemenus=[
+        go.layout.Updatemenu(
+            type = "buttons",
+            direction = "left",
+            active=0,
+            buttons=list([
+                dict(
+                    args=[{"visible": [True, False]},],
+                    label="Propagation",
+                    method="update",
+                ),
+                dict(
+                    args=[{"visible": [False, True]},],
+                    label="Time",
+                    method="update"
+                )
+            ]),
+            pad={"r": 10, "t": 10},
+            showactive=True,
+            x=0,
+            xanchor="left",
+            y=1.2,
+            yanchor="top"
+        ),
+    ],
     xaxis_title="Time",
     yaxis_title="Layer",
     showlegend=False,
@@ -373,13 +427,16 @@ query = data[0]["body"].replace("\n", "")
 print(query)
 
 feature3 = 0
-tmp, tmp2, tmp3, tmp4, tmp5 = 0, 0, 0, 0, 0  # official page url, title, related_link, fb old author_id, fb new author_id
+tmp, tmp2, tmp3, tmp4, tmp5, tmp6 = 0, 0, 0, 0, 0, 0  # official page url, title, related_link, fb old author_id, fb new author_id, fake list
 for i in googleScrape([query]):
     for j in media.mainstream:
         if i.find(j) != -1:
             tmp += 1
+    for k in media.fake:
+        if i.find(k) != -1:
+            tmp6 += 1
 for i in googleScrape2([query]):
-    for j in ['tfc', 'TFC', '查核', '假的', '假新聞', '謠言', '事實', '詐騙', '麥擱騙', "MyGoPen", "Cofacts"]:
+    for j in ['tfc', 'TFC', '查核', '假的', '假新聞', '謠言', '事實', '詐騙', '麥擱騙', 'MyGoPen', 'Cofacts', '【錯誤】', '駁斥', '網傳']:
         if i.find(j) != -1:
             tmp2 += 1
 for i in data:
@@ -392,7 +449,7 @@ for i in data:
     for l in media.mainstreamNewUID:
         if i["author_id"].find(l) != -1:
             tmp5 += 1
-feature3 = tmp - tmp2 + tmp3 + tmp4 + tmp5
+feature3 = tmp - tmp2 + tmp3 + tmp4 + tmp5 - tmp6
 print("Feature 3:", feature3)
 
 # Feature 4 -- Semantics
@@ -401,7 +458,7 @@ fakeWords = ['請轉發', '請分享', '請告訴', '請注意', '請告知', '�
              '把愛傳出去', '馬上發出去', '馬上發給', '已經上新聞', '相互轉發', 
              '功德無量', '分享出去', '廣發分享', '緊急通知', '千萬不要', '千萬別', 
              '緊急擴散', '重要訊息', '重要信息', '快轉發', '快分享', '快告訴',
-             '快告知', '快傳給', '快轉告']
+             '快告知', '快傳給', '快轉告', '擴散出去', '動動手指']
 
 fakeWordsCount = [0] * len(fakeWords)
 
@@ -411,6 +468,70 @@ for i in data:
             fakeWordsCount[fakeWords.index(j)] += 1
 feature4 = sum(fakeWordsCount)
 print("Feature 4:", feature4)
+
+# Feature 5 -- First comment time - first share time
+countShare = []
+countComment = []
+commentShareTime = []
+data = sorted(data, key=lambda k: k['time'])
+for i in data:
+    if i["type"] == "article":
+        countShare.append(i["time"])
+    elif i["type"] == "comment":
+        countComment.append(i["time"])
+if countShare != [] and countComment != []:
+    feature5 = int(countComment[0])-int(countShare[0])
+    commentShareTime.append(datetime.fromtimestamp(int(countShare[0])).strftime('%Y-%m-%d %H:%M:%S'))
+    commentShareTime.append(datetime.fromtimestamp(int(countComment[0])).strftime('%Y-%m-%d %H:%M:%S'))
+    seconds = int(countComment[0])-int(countShare[0])
+    # Convert seconds to days, hours, and minutes 
+    seconds_in_day = 60 * 60 * 24
+    seconds_in_hour = 60 * 60
+    seconds_in_minute = 60
+    days = seconds // seconds_in_day
+    hours = (seconds - (days * seconds_in_day)) // seconds_in_hour
+    minutes = (seconds - (days * seconds_in_day) - (hours * seconds_in_hour)) // seconds_in_minute
+    seconds = seconds - (days * seconds_in_day) - (hours * seconds_in_hour) - (minutes * seconds_in_minute)
+    commentShareTime.append(str(days) + " days " + str(hours) + " hours " + str(minutes) + " minutes " + str(seconds) + " seconds")
+    print("Feature 5:", feature5)
+elif countShare == []:
+    feature5 = 99999
+    print("Feature 5:", feature5)
+    commentShareTime.append('No share')
+    commentShareTime.append(datetime.fromtimestamp(int(countComment[0])).strftime('%Y-%m-%d %H:%M:%S'))
+    commentShareTime.append('-')
+elif countComment == []:
+    feature5 = 99999
+    print("Feature 5:", feature5)
+    commentShareTime.append(datetime.fromtimestamp(int(countShare[0])).strftime('%Y-%m-%d %H:%M:%S'))
+    commentShareTime.append('No comment')
+    commentShareTime.append('-')
+    
+# Feature 6 -- Post and post time gap average
+timeList, postTime, timeListGap, timeListGap2 = [], [], [], []
+seconds_in_day = 60 * 60 * 24
+seconds_in_hour = 60 * 60
+seconds_in_minute = 60
+data = sorted(data, key=lambda k: k['time'])
+for i in data:
+    timeList.append(int(i["time"]))
+for i in range(1, len(timeList)):
+    gap = int(timeList[i]) - int(timeList[i-1])
+    timeListGap2.append(gap)
+    days = gap // seconds_in_day
+    hours = (gap - (days * seconds_in_day)) // seconds_in_hour
+    minutes = (gap - (days * seconds_in_day) - (hours * seconds_in_hour)) // seconds_in_minute
+    gap = gap - (days * seconds_in_day) - (hours * seconds_in_hour) - (minutes * seconds_in_minute)
+    timeListGap.append(str(days) + " days " + str(hours) + " hours " + str(minutes) + " minutes " + str(gap) + " seconds")
+for i in range(0, len(timeList)-1):
+    postTime.append(datetime.fromtimestamp(int(timeList[i])).strftime('%Y-%m-%d %H:%M:%S') + " ~ " + datetime.fromtimestamp(int(timeList[i+1])).strftime('%Y-%m-%d %H:%M:%S'))
+average = sum(timeListGap2) // len(timeListGap2)
+days = average // seconds_in_day
+hours = (average - (days * seconds_in_day)) // seconds_in_hour
+minutes = (average - (days * seconds_in_day) - (hours * seconds_in_hour)) // seconds_in_minute
+average = average - (days * seconds_in_day) - (hours * seconds_in_hour) - (minutes * seconds_in_minute)
+average = str(days) + " days " + str(hours) + " hours " + str(minutes) + " minutes " + str(gap) + " seconds"
+
 
 # Real vs. Fake
 score = 0
@@ -434,5 +555,11 @@ elif feature4 >= 3 and feature4 < 10:
     score += 0.5
 elif feature4 >= 0 and feature4 < 3:
     score += 1
+if feature5 <= 900:
+    score += 1
+elif feature5 > 900 and feature5 <= 1800:
+    score += 0.5
+elif feature5 > 1800:
+    score += 0
 
 print(score)

@@ -23,7 +23,7 @@
 
 ---
 
-## 特徵 2 -- 時間
+## 特徵 2 -- 時間跨度
 ### 風險值定義
 ### 傳播圖
 <div class="embed-responsive embed-responsive-16by9">
@@ -57,3 +57,26 @@
 {feature4}
 
 ### 結論
+
+---
+
+## 特徵 5 -- 第一則留言與第一則分享時間差
+### 風險值定義
+
+### 時間差
+{feature5}
+
+### 結論
+
+---
+
+## 特徵 6 -- 貼文與貼文時間差
+### 風險值定義
+
+### 時間差
+{feature6}
+
+### 結論
+
+---
+<div style="color: #ABABAB; text-align: center; margin-bottom: 40px">Copyright © 2020 財團法人資訊工業策進會 版權所有</div>
