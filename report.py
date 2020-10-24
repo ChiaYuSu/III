@@ -23,13 +23,18 @@ quantity1 = quantity1.append(f1_2, ignore_index=True).set_index("Month")
 quantity1 = quantity1.to_markdown()
 
 feature2 = plot.case + "\\feature2.html"
+f2_2= {"Original date": plot.parentTime2, "Later date": plot.articleTime2, "Time gap": plot.timeGap2}
+feature2_2 = pd.DataFrame(f2_2)
+feature2_2 = feature2_2.set_index("Original date")
+feature2_2 = feature2_2.to_markdown()
 
 f3 = {'Match URL (Google search crawler)': plot.tmp, 'Match `related_link` (JSON)': plot.tmp3,
       'Match `author_id` (JSON)': plot.tmp4+plot.tmp5}
 quantity3 = pd.Series(f3)
 quantity3 = quantity3.rename("Quantity")
 feature3 = quantity3.to_markdown()
-f3_2 = {'Exclude fake, rumor and other related words (Google search crawler)': plot.tmp2, 'Match URL (Google search crawler)': plot.tmp6}
+f3_2 = {'Exclude fake, rumor and other related words (Google search crawler)': plot.tmp2,
+        'Match URL (Google search crawler)': plot.tmp6}
 quantity3_2 = pd.Series(f3_2)
 quantity3_2 = quantity3_2.rename("Quantity")
 feature3_2 = quantity3_2.to_markdown()
@@ -42,7 +47,8 @@ f4_2 = {'Content': 'Total', 'Quantity': sum(plot.fakeWordsCount)}
 feature4 = feature4.append(f4_2, ignore_index=True).set_index("Content")
 feature4 = feature4.to_markdown()
 
-f5 = {'Type': ['First share time', 'First comment time', 'Time gap'], 'Time': plot.commentShareTime}
+f5 = {'Type': ['First share time', 'First comment time',
+               'Time gap'], 'Time': plot.commentShareTime}
 feature5 = pd.DataFrame(f5).set_index("Type")
 feature5 = feature5.to_markdown()
 
@@ -56,7 +62,7 @@ feature6 = feature6.to_markdown()
 
 md_template = open(r'markdown_template.md', encoding='utf8').read()
 md = md_template.format(case=case, caseName=caseName, feature1=feature1, quantity1=quantity1,
-                        feature2=feature2, feature3=feature3, feature3_2=feature3_2, feature4=feature4, feature5=feature5, feature6 = feature6)
+                        feature2=feature2, feature2_2=feature2_2, feature3=feature3, feature3_2=feature3_2, feature4=feature4, feature5=feature5, feature6=feature6)
 html_template = open(r'html_template.html', encoding='utf8').read()
 extensions = ['extra', 'smarty']
 html = markdown.markdown(md, extensions=extensions, output_format='html5')
