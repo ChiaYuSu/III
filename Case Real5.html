@@ -8354,7 +8354,7 @@
 </thead>
 <tbody>
 <tr>
-<td align="left">2020-05-26</td>
+<td align="left">2020-05-27</td>
 <td align="right">17</td>
 </tr>
 <tr>
@@ -8376,6 +8376,23 @@
   ></iframe>
 </div>
 
+<h3>時間跨度大</h3>
+<table class="table table-bordered table-striped">
+<thead>
+<tr>
+<th>Original date</th>
+<th>Later date</th>
+<th>Time gap</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
 <h3>結論</h3>
 <hr>
 <h2>特徵 3 &ndash; 主流媒體</h2>
@@ -8390,15 +8407,15 @@
 </thead>
 <tbody>
 <tr>
-<td align="left">Google Search</td>
+<td align="left">Match URL (Google search crawler)</td>
 <td align="right">0</td>
 </tr>
 <tr>
-<td align="left"><code>related_link</code></td>
+<td align="left">Match <code>related_link</code> (JSON)</td>
 <td align="right">0</td>
 </tr>
 <tr>
-<td align="left"><code>author_id</code></td>
+<td align="left">Match <code>author_id</code> (JSON)</td>
 <td align="right">1</td>
 </tr>
 </tbody>
@@ -8413,7 +8430,11 @@
 </thead>
 <tbody>
 <tr>
-<td align="left">Exclude fake, rumor and other related words</td>
+<td align="left">Exclude fake, rumor and other related words (Google search crawler)</td>
+<td align="right">0</td>
+</tr>
+<tr>
+<td align="left">Match URL (Google search crawler)</td>
 <td align="right">0</td>
 </tr>
 </tbody>
@@ -8438,6 +8459,7 @@
 </tbody>
 </table>
 <h3>結論</h3>
+<hr>
 <h2>特徵 5 &ndash; 第一則留言與第一則分享時間差</h2>
 <h3>風險值定義</h3>
 <h3>時間差</h3>
@@ -8451,18 +8473,132 @@
 <tbody>
 <tr>
 <td align="left">First share time</td>
-<td align="left">2020-05-26 21:18:49</td>
+<td align="left">2020-05-27 01:11:27</td>
 </tr>
 <tr>
 <td align="left">First comment time</td>
-<td align="left">2020-05-26 17:11:27</td>
+<td align="left">2020-05-27 05:18:49</td>
 </tr>
 <tr>
-<td align="left">Time difference</td>
-<td align="left">14842 second</td>
+<td align="left">Time gap</td>
+<td align="left">0 days 4 hours 7 minutes 22 seconds</td>
 </tr>
 </tbody>
 </table>
+<h3>結論</h3>
+<hr>
+<h2>特徵 6 &ndash; 貼文與貼文時間差</h2>
+<h3>風險值定義</h3>
+<h3>時間差</h3>
+<table class="table table-bordered table-striped">
+<thead>
+<tr>
+<th align="left">Date</th>
+<th align="left">Time Gap</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">2020-05-27 01:11:27 ~ 2020-05-27 01:33:27</td>
+<td align="left">0 days 0 hours 22 minutes 0 seconds</td>
+</tr>
+<tr>
+<td align="left">2020-05-27 01:33:27 ~ 2020-05-27 05:08:32</td>
+<td align="left">0 days 3 hours 35 minutes 5 seconds</td>
+</tr>
+<tr>
+<td align="left">2020-05-27 05:08:32 ~ 2020-05-27 05:10:36</td>
+<td align="left">0 days 0 hours 2 minutes 4 seconds</td>
+</tr>
+<tr>
+<td align="left">2020-05-27 05:10:36 ~ 2020-05-27 05:11:13</td>
+<td align="left">0 days 0 hours 0 minutes 37 seconds</td>
+</tr>
+<tr>
+<td align="left">2020-05-27 05:11:13 ~ 2020-05-27 05:18:49</td>
+<td align="left">0 days 0 hours 7 minutes 36 seconds</td>
+</tr>
+<tr>
+<td align="left">2020-05-27 05:18:49 ~ 2020-05-27 05:21:30</td>
+<td align="left">0 days 0 hours 2 minutes 41 seconds</td>
+</tr>
+<tr>
+<td align="left">2020-05-27 05:21:30 ~ 2020-05-27 06:58:36</td>
+<td align="left">0 days 1 hours 37 minutes 6 seconds</td>
+</tr>
+<tr>
+<td align="left">2020-05-27 06:58:36 ~ 2020-05-27 07:01:34</td>
+<td align="left">0 days 0 hours 2 minutes 58 seconds</td>
+</tr>
+<tr>
+<td align="left">2020-05-27 07:01:34 ~ 2020-05-27 07:15:20</td>
+<td align="left">0 days 0 hours 13 minutes 46 seconds</td>
+</tr>
+<tr>
+<td align="left">2020-05-27 07:15:20 ~ 2020-05-27 07:15:38</td>
+<td align="left">0 days 0 hours 0 minutes 18 seconds</td>
+</tr>
+<tr>
+<td align="left">2020-05-27 07:15:38 ~ 2020-05-27 07:15:38</td>
+<td align="left">0 days 0 hours 0 minutes 0 seconds</td>
+</tr>
+<tr>
+<td align="left">2020-05-27 07:15:38 ~ 2020-05-27 07:31:27</td>
+<td align="left">0 days 0 hours 15 minutes 49 seconds</td>
+</tr>
+<tr>
+<td align="left">2020-05-27 07:31:27 ~ 2020-05-27 07:34:19</td>
+<td align="left">0 days 0 hours 2 minutes 52 seconds</td>
+</tr>
+<tr>
+<td align="left">2020-05-27 07:34:19 ~ 2020-05-27 07:35:17</td>
+<td align="left">0 days 0 hours 0 minutes 58 seconds</td>
+</tr>
+<tr>
+<td align="left">2020-05-27 07:35:17 ~ 2020-05-27 07:42:04</td>
+<td align="left">0 days 0 hours 6 minutes 47 seconds</td>
+</tr>
+<tr>
+<td align="left">2020-05-27 07:42:04 ~ 2020-05-27 08:13:54</td>
+<td align="left">0 days 0 hours 31 minutes 50 seconds</td>
+</tr>
+<tr>
+<td align="left">2020-05-27 08:13:54 ~ 2020-05-27 09:14:20</td>
+<td align="left">0 days 1 hours 0 minutes 26 seconds</td>
+</tr>
+<tr>
+<td align="left">2020-05-27 09:14:20 ~ 2020-05-27 09:14:22</td>
+<td align="left">0 days 0 hours 0 minutes 2 seconds</td>
+</tr>
+<tr>
+<td align="left">2020-05-27 09:14:22 ~ 2020-05-27 09:41:52</td>
+<td align="left">0 days 0 hours 27 minutes 30 seconds</td>
+</tr>
+<tr>
+<td align="left">2020-05-27 09:41:52 ~ 2020-05-27 10:54:59</td>
+<td align="left">0 days 1 hours 13 minutes 7 seconds</td>
+</tr>
+<tr>
+<td align="left">2020-05-27 10:54:59 ~ 2020-05-27 13:09:17</td>
+<td align="left">0 days 2 hours 14 minutes 18 seconds</td>
+</tr>
+<tr>
+<td align="left">2020-05-27 13:09:17 ~ 2020-05-27 14:05:45</td>
+<td align="left">0 days 0 hours 56 minutes 28 seconds</td>
+</tr>
+<tr>
+<td align="left">2020-05-27 14:05:45 ~ 2020-06-14 18:39:06</td>
+<td align="left">18 days 4 hours 33 minutes 21 seconds</td>
+</tr>
+<tr>
+<td align="left">Average</td>
+<td align="left">0 days 19 hours 32 minutes 21 seconds</td>
+</tr>
+</tbody>
+</table>
+<h3>結論</h3>
+<hr>
+<div style="color: #ABABAB; text-align: center; margin-bottom: 40px">Copyright © 2020 財團法人資訊工業策進會 版權所有</div>
   </div>
 </body>
 

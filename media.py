@@ -22,4 +22,5 @@ mainstreamNewUID = ['Reuters', 'cnanewstaiwan', 'myudn', 'edn168', 'news.ebc',
                     'voagd', 'radiotaiwan', 'ctee.fans', 'now.comNews', 'ABCNews',
                     'bwnet.fans', 'nownews']
 
-fake = ['tfc-taiwan.org.tw', 'www.mygopen.com', 'fact-checker.line.me', 'www.rumtoast.com', 'cofacts.g0v.tw']
+fake = ['tfc-taiwan.org.tw', 'www.mygopen.com', 'fact-checker.line.me', 'www.rumtoast.com', 'cofacts.g0v.tw',
+        'www.facebook.com/taiwantfc', 'www.facebook.com/mygopen', 'www.facebook.com/rumtoast', 'www.facebook.com/cofacts.tw']
