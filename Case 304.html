@@ -8329,10 +8329,22 @@
   <div class="container">
     <hr>
 <h1>Case 304</h1>
-<p>查詢案例：溫馨提醒[爱心]家裡有孩子的注意了:現在是柿子上市的季節，雖然很好吃，但是千萬不要和優酪乳，海鮮，酒一起吃！ 今天剛剛發生一件真事:一個小女孩吃完柿子又喝的優酪乳，結果不到半個小時就中毒死了！ 如果她的家長有一點常識，小女孩的生命也不會結束！ 請大家轉告給更多人知道，以免悲劇再次發生 。</p>
+<ul>
+<li>查詢案例：溫馨提醒[爱心]家裡有孩子的注意了:現在是柿子上市的季節，雖然很好吃，但是千萬不要和優酪乳，海鮮，酒一起吃！ 今天剛剛發生一件真事:一個小女孩吃完柿子又喝的優酪乳，結果不到半個小時就中毒死了！ 如果她的家長有一點常識，小女孩的生命也不會結束！ 請大家轉告給更多人知道，以免悲劇再次發生 。</li>
+</ul>
 <hr>
 <h2>特徵 1 &ndash; 熱度</h2>
+<h3>圖形定義</h3>
+<ul>
+<li>X 軸：案例傳播期間且以一個月作為間隔</li>
+<li>Y 軸：節點數量</li>
+<li>規則：將有最多節點的月份設為基準月，基準月的節點數量乘上 25% 作為臨界線（紅線），當單月節點數量（基準月除外）的數值超過臨界線，列為高風險。若無任何單月節點數量（基準月除外）超過臨界線，則列為低風險</li>
+</ul>
 <h3>風險值定義</h3>
+<ul>
+<li>高風險：任一節點高於紅線（基準月除外）</li>
+<li>低風險：所有節點皆低於紅線（基準月除外）</li>
+</ul>
 <h3>熱度圖</h3>
 <div class="embed-responsive embed-responsive-16by9">
   <iframe
@@ -8454,16 +8466,26 @@
 </tbody>
 </table>
 <h3>結論</h3>
-<div class="alert alert-danger" role="alert">
-  <h4 class="alert-heading" style="font-weight: 700">High risk!</h4>
+<div class="alert" role="alert" style="background-color: #F8D7DA; color: #721C24">
+  <h4 class="alert-heading" style="font-size: 18pt; font-weight: bold">High risk!</h4>
   <p>Case 304 在 2019-10-15、2019-08-16 及 2018-07-22 皆高於 25% line，所以針對此輸出結果，將特徵 1 判斷為高風險。</p>
-  <hr>
+  <hr style="border-color: #F1B0B7">
   <p class="mb-0">特徵 1 -- 高風險</p>
 </div>
 
 <hr>
 <h2>特徵 2 &ndash; 時間跨度</h2>
+<h3>圖形定義</h3>
+<ul>
+<li>X 軸：案例傳播期間</li>
+<li>Y 軸：層數</li>
+<li>規則：單一節點於 3 天之內未有任何上層連接節點，而 3 天之後卻出現上層連接節點。當案例中有一節點出現上述情形，則判斷為高風險</li>
+</ul>
 <h3>風險值定義</h3>
+<ul>
+<li>高風險：圖表中出現任一紅線與紅點</li>
+<li>低風險：圖表中皆為藍線及藍點</li>
+</ul>
 <h3>傳播圖</h3>
 <div class="embed-responsive embed-responsive-16by9">
   <iframe
@@ -8586,13 +8608,6 @@
 </tbody>
 </table>
 <h3>結論</h3>
-<div class="alert alert-danger" role="alert">
-  <h4 class="alert-heading" style="font-weight: 700">High risk!</h4>
-  <p>根據上表所知 Case 304 有多次出現時間跨度大的現象，所以針對此輸出結果，將特徵 2 判斷為高風險。</p>
-  <hr>
-  <p class="mb-0">特徵 2 -- 高風險</p>
-</div>
-
 <hr>
 <h2>特徵 3 &ndash; 主流媒體</h2>
 <h3>風險值定義</h3>
@@ -8643,13 +8658,6 @@
 </tbody>
 </table>
 <h3>結論</h3>
-<div class="alert alert-danger" role="alert">
-  <h4 class="alert-heading" style="font-weight: 700">High risk!</h4>
-  <p>由於高風險因素大於低風險因素，所以針對此輸出結果，將特徵 3 判斷為高風險。</p>
-  <hr>
-  <p class="mb-0">特徵 3 -- 高風險</p>
-</div>
-
 <hr>
 <h2>特徵 4 &ndash; 語意</h2>
 <h3>風險值定義</h3>
@@ -8705,13 +8713,6 @@
 </tbody>
 </table>
 <h3>結論</h3>
-<div class="alert alert-danger" role="alert">
-  <h4 class="alert-heading" style="font-weight: 700">High risk!</h4>
-  <p>根據上表所知 Case 304 分享內容包含許多高風險字詞，所以針對此輸出結果，將特徵 4 判斷為高風險。</p>
-  <hr>
-  <p class="mb-0">特徵 4 -- 高風險</p>
-</div>
-
 <hr>
 <h2>特徵 5 &ndash; 第一則留言與第一則分享時間差</h2>
 <h3>風險值定義</h3>
@@ -8739,13 +8740,6 @@
 </tbody>
 </table>
 <h3>結論</h3>
-<div class="alert alert-danger" role="alert">
-  <h4 class="alert-heading" style="font-weight: 700">High risk!</h4>
-  <p>根據上表所知 Case 304 第一則留言與第一則分享時間大於 30 分鐘，所以針對此輸出結果，將特徵 5 判斷為高風險。</p>
-  <hr>
-  <p class="mb-0">特徵 5 -- 高風險</p>
-</div>
-
 <hr>
 <h2>特徵 6 &ndash; 貼文與貼文時間差</h2>
 <h3>風險值定義</h3>
@@ -14025,13 +14019,6 @@
 </tbody>
 </table>
 <h3>結論</h3>
-<div class="alert alert-danger" role="alert">
-  <h4 class="alert-heading" style="font-weight: 700">High risk!</h4>
-  <p>根據上表所知 Case 304 貼文與貼文之間的平均時間差大於 6 小時，所以針對此輸出結果，將特徵 6 判斷為高風險。</p>
-  <hr>
-  <p class="mb-0">特徵 6 -- 高風險</p>
-</div>
-
 <hr>
 <h2>結果</h2>
 <p>所以根據以上特徵分析結果，Case 304 為高風險。</p>

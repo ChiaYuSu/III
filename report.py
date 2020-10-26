@@ -22,6 +22,21 @@ f1_2 = {'Month': 'Total', 'Quantity': sum(plot.amount)}
 quantity1 = quantity1.append(f1_2, ignore_index=True).set_index('Month')
 quantity1 = quantity1.to_markdown()
 
+if plot.quarterLine > 0:
+    cfbg1 = "F8D7DA"
+    cfft1 = "721C24"
+    cfhr1 = "F1B0B7"
+    rf1 = "High"
+    rf2 = "高"
+    cf1 = plot.case + " 在 2019-10-15、2019-08-16 及 2018-07-22 皆高於 25% line，所以針對此輸出結果，將特徵 1 判斷為高風險。"
+elif plot.quarterLine == 0:
+    cfbg1 = "D4EDDA"
+    cfft1 = "155724"
+    cfhr1 = "B1DFBB"
+    rf1 = "Low"
+    rf2 = "低"
+    cf1 = plot.case + " 皆沒有任何一點高於 25% line，所以針對此輸出結果，將特徵 1 判斷為低風險。"
+
 feature2 = plot.case + "\\feature2.html"
 f2_2= {"Original date": plot.parentTime2, 'Later date': plot.articleTime2, 'Time gap': plot.timeGap2}
 feature2_2 = pd.DataFrame(f2_2)
@@ -63,6 +78,7 @@ feature6 = feature6.to_markdown()
 
 md_template = open(r'markdown_template.md', encoding='utf8').read()
 md = md_template.format(case=case, caseName=caseName, feature1=feature1, quantity1=quantity1,
+                        cfbg1=cfbg1, cfft1=cfft1, rf1=rf1, cf1=cf1, cfhr1=cfhr1, rf2=rf2,
                         feature2=feature2, feature2_2=feature2_2, feature3=feature3, feature3_2=feature3_2, 
                         feature4=feature4, feature5=feature5, feature6=feature6)
 html_template = open(r'html_template.html', encoding='utf8').read()
