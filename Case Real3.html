@@ -8334,7 +8334,17 @@
 </ul>
 <hr>
 <h2>特徵 1 &ndash; 熱度</h2>
+<h3>圖形定義</h3>
+<ul>
+<li>X 軸：案例傳播期間且以一個月作為間隔</li>
+<li>Y 軸：節點數量</li>
+<li>規則：將有最多節點的月份設為基準月，基準月的節點數量乘上 25% 作為臨界線（紅線），當單月節點數量（基準月除外）的數值超過臨界線，列為高風險。若無任何單月節點數量（基準月除外）超過臨界線，則列為低風險</li>
+</ul>
 <h3>風險值定義</h3>
+<ul>
+<li>高風險：任一節點高於紅線（基準月除外）</li>
+<li>低風險：所有節點皆低於紅線（基準月除外）</li>
+</ul>
 <h3>熱度圖</h3>
 <div class="embed-responsive embed-responsive-16by9">
   <iframe
@@ -8364,9 +8374,26 @@
 </tbody>
 </table>
 <h3>結論</h3>
+<div class="alert" role="alert" style="background-color: #D4EDDA; color: #155724">
+  <h4 class="alert-heading" style="font-size: 18pt; font-weight: bold">Low risk!</h4>
+  <p>Case Real3 皆沒有任何一點高於 25% line，所以針對此輸出結果，將特徵 1 判斷為低風險。</p>
+  <hr style="border-color: #B1DFBB">
+  <p class="mb-0">特徵 1 -- 低風險</p>
+</div>
+
 <hr>
 <h2>特徵 2 &ndash; 時間跨度</h2>
+<h3>圖形定義</h3>
+<ul>
+<li>X 軸：案例傳播期間</li>
+<li>Y 軸：層數</li>
+<li>規則：單一節點於 3 天之內未有任何上層連接節點，而 3 天之後卻出現上層連接節點。當案例中有一節點出現上述情形，則判斷為高風險</li>
+</ul>
 <h3>風險值定義</h3>
+<ul>
+<li>高風險：圖表中出現任一紅線與紅點</li>
+<li>低風險：圖表中皆為藍線及藍點</li>
+</ul>
 <h3>傳播圖</h3>
 <div class="embed-responsive embed-responsive-16by9">
   <iframe
@@ -8394,10 +8421,44 @@
 </tbody>
 </table>
 <h3>結論</h3>
+<div class="alert" role="alert" style="background-color: #D4EDDA; color: #155724">
+  <h4 class="alert-heading" style="font-size: 18pt; font-weight: bold">Low risk!</h4>
+  <p>Case Real3 在上述列表中未曾出現過時間跨度大的現象，所以針對此輸出結果，將特徵 2 判斷為低風險。</p>
+  <hr style="border-color: #B1DFBB">
+  <p class="mb-0">特徵 2 -- 低風險</p>
+</div>
+
 <hr>
-<h2>特徵 3 &ndash; 主流媒體</h2>
+<h2>特徵 3 &ndash; 白名單與查核驗證</h2>
+<h3>規則定義</h3>
+<h4>安全因素</h4>
+<ul>
+<li>將各大主流媒體的 Facebook URL 及網頁 URL 紀錄於白名單中，若爬蟲的原始資料出現白名單的資訊，會依照出現的類型列進「安全因素」當中並計次數，以下為「安全因素」的三種類型：<ul>
+<li>Match URL</li>
+<li>Match <code>related_link</code></li>
+<li>Match <code>author_id</code></li>
+</ul>
+</li>
+</ul>
+<h4>風險因素</h4>
+<ul>
+<li>以台灣事實查核中心（TFC）與 MyGoPen 兩大查核網站為識別依據，若單篇案例的爬蟲原始資料出現事實查核機構的資訊，或是出現多數民眾認為消息不實所發表的評論，則該案例有風險是虛假消息。依照出現的類型列進「風險因素」當中並計次數，以下為「風險因素」的三種類型：<ul>
+<li>Match URL</li>
+<li>Match <code>body</code> of the article</li>
+<li>Match <code>body</code> of the comment</li>
+</ul>
+</li>
+</ul>
 <h3>風險值定義</h3>
-<h3>低風險</h3>
+<ul>
+<li>「安全因素」與「風險因素」所得之分數進行相抵，可分為三種風險評測結果：<ul>
+<li>高風險：安全因素 - 風險因素 &lt; 0</li>
+<li>中風險：0 ≤ 安全因素 - 風險因素 &lt; 4</li>
+<li>低風險：安全因素 - 風險因素 ≥ 4</li>
+</ul>
+</li>
+</ul>
+<h3>安全因素</h3>
 <table class="table table-bordered table-striped">
 <thead>
 <tr>
@@ -8407,20 +8468,20 @@
 </thead>
 <tbody>
 <tr>
-<td align="left">Match URL (Google search crawler)</td>
-<td align="right">2</td>
+<td align="left">Match URL</td>
+<td align="right">3</td>
 </tr>
 <tr>
-<td align="left">Match <code>related_link</code> (JSON)</td>
-<td align="right">1</td>
+<td align="left">Match <code>related_link</code></td>
+<td align="right">0</td>
 </tr>
 <tr>
-<td align="left">Match <code>author_id</code> (JSON)</td>
+<td align="left">Match <code>author_id</code></td>
 <td align="right">1</td>
 </tr>
 </tbody>
 </table>
-<h3>高風險</h3>
+<h3>風險因素</h3>
 <table class="table table-bordered table-striped">
 <thead>
 <tr>
@@ -8430,20 +8491,31 @@
 </thead>
 <tbody>
 <tr>
-<td align="left">Exclude fake, rumor and other related words (Google search crawler)</td>
+<td align="left">Match URL</td>
 <td align="right">0</td>
 </tr>
 <tr>
-<td align="left">Match URL (Google search crawler)</td>
+<td align="left">Match <code>body</code> of the article</td>
+<td align="right">0</td>
+</tr>
+<tr>
+<td align="left">Match <code>body</code> of the comment</td>
 <td align="right">0</td>
 </tr>
 </tbody>
 </table>
 <h3>結論</h3>
+<div class="alert" role="alert" style="background-color: #D4EDDA; color: #155724">
+  <h4 class="alert-heading" style="font-size: 18pt; font-weight: bold">Low risk!</h4>
+  <p>Case Real3 由於安全因素 (4) - 風險因素 (0) ≥ 4，所以針對此輸出結果，將特徵 3 判斷為低風險。</p>
+  <hr style="border-color: #B1DFBB">
+  <p class="mb-0">特徵 3 -- 低風險</p>
+</div>
+
 <hr>
 <h2>特徵 4 &ndash; 語意</h2>
 <h3>風險值定義</h3>
-<h3>分享文章包含高風險字詞</h3>
+<h3>分享內容包含高風險字詞</h3>
 <table class="table table-bordered table-striped">
 <thead>
 <tr>
@@ -8459,6 +8531,13 @@
 </tbody>
 </table>
 <h3>結論</h3>
+<div class="alert" role="alert" style="background-color: #D4EDDA; color: #155724">
+  <h4 class="alert-heading" style="font-size: 18pt; font-weight: bold">Low risk!</h4>
+  <p>Case Real3 在分享內文中出現過介於 0 到 3 次的高風險字詞，所以針對此輸出結果，將特徵 4 判斷為低風險。</p>
+  <hr style="border-color: #B1DFBB">
+  <p class="mb-0">特徵 4 -- 低風險</p>
+</div>
+
 <hr>
 <h2>特徵 5 &ndash; 第一則留言與第一則分享時間差</h2>
 <h3>風險值定義</h3>
@@ -8486,6 +8565,13 @@
 </tbody>
 </table>
 <h3>結論</h3>
+<div class="alert" role="alert" style="background-color: #D4EDDA; color: #155724">
+  <h4 class="alert-heading" style="font-size: 18pt; font-weight: bold">Low risk!</h4>
+  <p>Case Real3 第一則留言與第一則分享時間差 ≤ 30 分鐘，所以針對此輸出結果，將特徵 5 判斷為低風險。</p>
+  <hr style="border-color: #B1DFBB">
+  <p class="mb-0">特徵 5 -- 低風險</p>
+</div>
+
 <hr>
 <h2>特徵 6 &ndash; 貼文與貼文時間差</h2>
 <h3>風險值定義</h3>
@@ -10037,6 +10123,16 @@
 </tbody>
 </table>
 <h3>結論</h3>
+<div class="alert" role="alert" style="background-color: #D4EDDA; color: #155724">
+  <h4 class="alert-heading" style="font-size: 18pt; font-weight: bold">Low risk!</h4>
+  <p>Case Real3 兩貼文之間時間差 < 2 小時，所以針對此輸出結果，將特徵 6 判斷為低風險。</p>
+  <hr style="border-color: #B1DFBB">
+  <p class="mb-0">特徵 6 -- 低風險</p>
+</div>
+
+<hr>
+<h2>結果</h2>
+<p>所以根據以上特徵分析結果，Case Real3 為{低/中/高}風險。</p>
 <hr>
 <div style="color: #ABABAB; text-align: center; margin-bottom: 40px">Copyright © 2020 財團法人資訊工業策進會 版權所有</div>
   </div>

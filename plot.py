@@ -21,7 +21,7 @@ seconds_in_hour = 60 * 60
 seconds_in_minute = 60
 
 # Input case
-num = "304"
+num = "Real39"
 case = "Case " + num
 
 # For SSL certificate
@@ -78,14 +78,29 @@ for i in unixTimestampXaxis:
 
 # Calculate the number of nodes for each approximation
 amount = []
+timeCount = []
 count = 0
 for i in range(stampCount - 1):
     for j in data:
         if j["type"] == "article" and int(j["time"]) >= unixTimestampPlot[i] and int(j["time"]) <= unixTimestampPlot[i+1]:
             count += 1
+            timeCount.append(datetime.fromtimestamp(int(j["time"])).strftime('%Y-%m-%d'))
     amount.append(count)
     count = 0
 amount.append(0)
+
+# Amount bigger than 25% line
+amount25 = []
+index25 = []
+timeCount25 = []
+for i in amount:
+    if i > max(amount) * 0.25 and len(dateTimeMonth) > 1:
+        amount25.append(i)
+        index25.append(amount.index(i))
+for i in index25:
+    timeCount25.append(dateTimeMonth[i][0:10])
+del timeCount25[0]
+
 
 # Average number of nodes per month
 amountAvg = sum(amount) / len(unixTimestampPlot)
@@ -521,6 +536,7 @@ for i in range(0, len(timeList)-1):
     postTime.append(datetime.fromtimestamp(int(timeList[i])).strftime(
         '%Y-%m-%d %H:%M:%S') + " ~ " + datetime.fromtimestamp(int(timeList[i+1])).strftime('%Y-%m-%d %H:%M:%S'))
 average = sum(timeListGap2) // len(timeListGap2)
+feature6 = average
 days = average // seconds_in_day
 hours = (average - (days * seconds_in_day)) // seconds_in_hour
 minutes = (average - (days * seconds_in_day) -
@@ -529,6 +545,7 @@ average = average - (days * seconds_in_day) - \
     (hours * seconds_in_hour) - (minutes * seconds_in_minute)
 average = str(days) + " days " + str(hours) + " hours " + \
     str(minutes) + " minutes " + str(gap) + " seconds"
+print("Feature 6:" ,feature6)
 
 
 # Real vs. Fake
@@ -553,12 +570,18 @@ elif feature4 >= 3 and feature4 < 10:
     score += 0.5
 elif feature4 >= 0 and feature4 < 3:
     score += 1
-if feature5 <= 900:
+if feature5 <= 1800:
     score += 1
-elif feature5 > 900 and feature5 <= 1800:
+elif feature5 > 1800 and feature5 <= 3600:
     score += 0.5
-elif feature5 > 1800:
+elif feature5 > 3600:
     score += 0
+if feature6 > 18000:
+    score += 0
+elif feature6 >= 7200 and feature6 <= 18000:
+    score += 0.5
+elif feature6 < 7200:
+    score += 1
 
 print(score)
 

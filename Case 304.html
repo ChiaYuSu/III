@@ -8468,7 +8468,7 @@
 <h3>結論</h3>
 <div class="alert" role="alert" style="background-color: #F8D7DA; color: #721C24">
   <h4 class="alert-heading" style="font-size: 18pt; font-weight: bold">High risk!</h4>
-  <p>Case 304 在 2019-10-15、2019-08-16 及 2018-07-22 皆高於 25% line，所以針對此輸出結果，將特徵 1 判斷為高風險。</p>
+  <p>Case 304 在 2018-07-22、2019-08-16 與 2019-10-15 皆高於 25% line，所以針對此輸出結果，將特徵 1 判斷為高風險。</p>
   <hr style="border-color: #F1B0B7">
   <p class="mb-0">特徵 1 -- 高風險</p>
 </div>
@@ -8608,10 +8608,44 @@
 </tbody>
 </table>
 <h3>結論</h3>
+<div class="alert" role="alert" style="background-color: #F8D7DA; color: #721C24">
+  <h4 class="alert-heading" style="font-size: 18pt; font-weight: bold">High risk!</h4>
+  <p>Case 304 在上述列表中曾出現過時間跨度大的現象，所以針對此輸出結果，將特徵 2 判斷為高風險。</p>
+  <hr style="border-color: #F1B0B7">
+  <p class="mb-0">特徵 2 -- 高風險</p>
+</div>
+
 <hr>
-<h2>特徵 3 &ndash; 主流媒體</h2>
+<h2>特徵 3 &ndash; 白名單與查核驗證</h2>
+<h3>規則定義</h3>
+<h4>安全因素</h4>
+<ul>
+<li>將各大主流媒體的 Facebook URL 及網頁 URL 紀錄於白名單中，若爬蟲的原始資料出現白名單的資訊，會依照出現的類型列進「安全因素」當中並計次數，以下為「安全因素」的三種類型：<ul>
+<li>Match URL</li>
+<li>Match <code>related_link</code></li>
+<li>Match <code>author_id</code></li>
+</ul>
+</li>
+</ul>
+<h4>風險因素</h4>
+<ul>
+<li>以台灣事實查核中心（TFC）與 MyGoPen 兩大查核網站為識別依據，若單篇案例的爬蟲原始資料出現事實查核機構的資訊，或是出現多數民眾認為消息不實所發表的評論，則該案例有風險是虛假消息。依照出現的類型列進「風險因素」當中並計次數，以下為「風險因素」的三種類型：<ul>
+<li>Match URL</li>
+<li>Match <code>body</code> of the article</li>
+<li>Match <code>body</code> of the comment</li>
+</ul>
+</li>
+</ul>
 <h3>風險值定義</h3>
-<h3>低風險因素</h3>
+<ul>
+<li>「安全因素」與「風險因素」所得之分數進行相抵，可分為三種風險評測結果：<ul>
+<li>高風險：安全因素 - 風險因素 &lt; 0</li>
+<li>中風險：0 ≤ 安全因素 - 風險因素 &lt; 4</li>
+<li>低風險：安全因素 - 風險因素 ≥ 4</li>
+</ul>
+</li>
+</ul>
+<h3>安全因素</h3>
 <table class="table table-bordered table-striped">
 <thead>
 <tr>
@@ -8621,20 +8655,20 @@
 </thead>
 <tbody>
 <tr>
-<td align="left">Match URL (Google search crawler)</td>
+<td align="left">Match URL</td>
 <td align="right">1</td>
 </tr>
 <tr>
-<td align="left">Match <code>related_link</code> (JSON)</td>
+<td align="left">Match <code>related_link</code></td>
 <td align="right">1</td>
 </tr>
 <tr>
-<td align="left">Match <code>author_id</code> (JSON)</td>
+<td align="left">Match <code>author_id</code></td>
 <td align="right">0</td>
 </tr>
 </tbody>
 </table>
-<h3>高風險因素</h3>
+<h3>風險因素</h3>
 <table class="table table-bordered table-striped">
 <thead>
 <tr>
@@ -8644,20 +8678,27 @@
 </thead>
 <tbody>
 <tr>
-<td align="left">Exclude fake, rumor and other related words (Google search crawler)</td>
+<td align="left">Match URL</td>
 <td align="right">3</td>
 </tr>
 <tr>
-<td align="left">Match URL (Google search crawler)</td>
+<td align="left">Match <code>body</code> of the article</td>
 <td align="right">3</td>
 </tr>
 <tr>
-<td align="left">Comment with fake, rumor and other related words (JSON)</td>
+<td align="left">Match <code>body</code> of the comment</td>
 <td align="right">52</td>
 </tr>
 </tbody>
 </table>
 <h3>結論</h3>
+<div class="alert" role="alert" style="background-color: #F8D7DA; color: #721C24">
+  <h4 class="alert-heading" style="font-size: 18pt; font-weight: bold">High risk!</h4>
+  <p>Case 304 由於安全因素 (2) - 風險因素 (58) < 0，所以針對此輸出結果，將特徵 3 判斷為高風險。</p>
+  <hr style="border-color: #F1B0B7">
+  <p class="mb-0">特徵 3 -- 高風險</p>
+</div>
+
 <hr>
 <h2>特徵 4 &ndash; 語意</h2>
 <h3>風險值定義</h3>
@@ -8713,6 +8754,13 @@
 </tbody>
 </table>
 <h3>結論</h3>
+<div class="alert" role="alert" style="background-color: #F8D7DA; color: #721C24">
+  <h4 class="alert-heading" style="font-size: 18pt; font-weight: bold">High risk!</h4>
+  <p>Case 304 在分享內文中出現過 ≥ 10 次的高風險字詞，所以針對此輸出結果，將特徵 4 判斷為高風險。</p>
+  <hr style="border-color: #F1B0B7">
+  <p class="mb-0">特徵 4 -- 高風險</p>
+</div>
+
 <hr>
 <h2>特徵 5 &ndash; 第一則留言與第一則分享時間差</h2>
 <h3>風險值定義</h3>
@@ -8740,6 +8788,13 @@
 </tbody>
 </table>
 <h3>結論</h3>
+<div class="alert" role="alert" style="background-color: #F8D7DA; color: #721C24">
+  <h4 class="alert-heading" style="font-size: 18pt; font-weight: bold">High risk!</h4>
+  <p>Case 304 第一則留言與第一則分享時間差 > 60 分鐘，所以針對此輸出結果，將特徵 5 判斷為高風險。</p>
+  <hr style="border-color: #F1B0B7">
+  <p class="mb-0">特徵 5 -- 高風險</p>
+</div>
+
 <hr>
 <h2>特徵 6 &ndash; 貼文與貼文時間差</h2>
 <h3>風險值定義</h3>
@@ -14019,9 +14074,16 @@
 </tbody>
 </table>
 <h3>結論</h3>
+<div class="alert" role="alert" style="background-color: #F8D7DA; color: #721C24">
+  <h4 class="alert-heading" style="font-size: 18pt; font-weight: bold">High risk!</h4>
+  <p>Case 304 兩貼文之間時間差 > 5 小時，所以針對此輸出結果，將特徵 6 判斷為高風險。</p>
+  <hr style="border-color: #F1B0B7">
+  <p class="mb-0">特徵 6 -- 高風險</p>
+</div>
+
 <hr>
 <h2>結果</h2>
-<p>所以根據以上特徵分析結果，Case 304 為高風險。</p>
+<p>所以根據以上特徵分析結果，Case 304 為{低/中/高}風險。</p>
 <hr>
 <div style="color: #ABABAB; text-align: center; margin-bottom: 40px">Copyright © 2020 財團法人資訊工業策進會 版權所有</div>
   </div>

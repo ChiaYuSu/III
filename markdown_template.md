@@ -29,10 +29,10 @@
 
 ### 結論
 <div class="alert" role="alert" style="background-color: #{cfbg1}; color: #{cfft1}">
-  <h4 class="alert-heading" style="font-size: 18pt; font-weight: bold">{rf1} risk!</h4>
+  <h4 class="alert-heading" style="font-size: 18pt; font-weight: bold">{rf1_1} risk!</h4>
   <p>{cf1}</p>
   <hr style="border-color: #{cfhr1}">
-  <p class="mb-0">特徵 1 -- {rf2}風險</p>
+  <p class="mb-0">特徵 1 -- {rf1_2}風險</p>
 </div>
 
 ---
@@ -60,18 +60,48 @@
 {feature2_2}
 
 ### 結論
+<div class="alert" role="alert" style="background-color: #{cfbg2}; color: #{cfft2}">
+  <h4 class="alert-heading" style="font-size: 18pt; font-weight: bold">{rf2_1} risk!</h4>
+  <p>{cf2}</p>
+  <hr style="border-color: #{cfhr2}">
+  <p class="mb-0">特徵 2 -- {rf2_2}風險</p>
+</div>
 
 ---
 
-## 特徵 3 -- 主流媒體
+## 特徵 3 -- 白名單與查核驗證
+### 規則定義
+#### 安全因素
+- 將各大主流媒體的 Facebook URL 及網頁 URL 紀錄於白名單中，若爬蟲的原始資料出現白名單的資訊，會依照出現的類型列進「安全因素」當中並計次數，以下為「安全因素」的三種類型：
+    - Match URL
+    - Match `related_link`
+    - Match `author_id`
+
+#### 風險因素
+- 以台灣事實查核中心（TFC）與 MyGoPen 兩大查核網站為識別依據，若單篇案例的爬蟲原始資料出現事實查核機構的資訊，或是出現多數民眾認為消息不實所發表的評論，則該案例有風險是虛假消息。依照出現的類型列進「風險因素」當中並計次數，以下為「風險因素」的三種類型：
+    - Match URL
+    - Match `body` of the article
+    - Match `body` of the comment
+
 ### 風險值定義
-### 低風險因素
+- 「安全因素」與「風險因素」所得之分數進行相抵，可分為三種風險評測結果：
+    - 高風險：安全因素 - 風險因素 < 0
+    - 中風險：0 ≤ 安全因素 - 風險因素 < 4
+    - 低風險：安全因素 - 風險因素 ≥ 4
+
+### 安全因素
 {feature3}
 
-### 高風險因素
+### 風險因素
 {feature3_2}
 
 ### 結論
+<div class="alert" role="alert" style="background-color: #{cfbg3}; color: #{cfft3}">
+  <h4 class="alert-heading" style="font-size: 18pt; font-weight: bold">{rf3_1} risk!</h4>
+  <p>{cf3}</p>
+  <hr style="border-color: #{cfhr3}">
+  <p class="mb-0">特徵 3 -- {rf3_2}風險</p>
+</div>
 
 ---
 
@@ -82,6 +112,12 @@
 {feature4}
 
 ### 結論
+<div class="alert" role="alert" style="background-color: #{cfbg4}; color: #{cfft4}">
+  <h4 class="alert-heading" style="font-size: 18pt; font-weight: bold">{rf4_1} risk!</h4>
+  <p>{cf4}</p>
+  <hr style="border-color: #{cfhr4}">
+  <p class="mb-0">特徵 4 -- {rf4_2}風險</p>
+</div>
 
 ---
 
@@ -92,6 +128,12 @@
 {feature5}
 
 ### 結論
+<div class="alert" role="alert" style="background-color: #{cfbg5}; color: #{cfft5}">
+  <h4 class="alert-heading" style="font-size: 18pt; font-weight: bold">{rf5_1} risk!</h4>
+  <p>{cf5}</p>
+  <hr style="border-color: #{cfhr5}">
+  <p class="mb-0">特徵 5 -- {rf5_2}風險</p>
+</div>
 
 ---
 
@@ -102,11 +144,17 @@
 {feature6}
 
 ### 結論
+<div class="alert" role="alert" style="background-color: #{cfbg6}; color: #{cfft6}">
+  <h4 class="alert-heading" style="font-size: 18pt; font-weight: bold">{rf6_1} risk!</h4>
+  <p>{cf6}</p>
+  <hr style="border-color: #{cfhr6}">
+  <p class="mb-0">特徵 6 -- {rf6_2}風險</p>
+</div>
 
 ---
 
 ## 結果
-所以根據以上特徵分析結果，Case 304 為高風險。
+所以根據以上特徵分析結果，{case2} 為{risk}風險。
 
 ---
 <div style="color: #ABABAB; text-align: center; margin-bottom: 40px">Copyright © 2020 財團法人資訊工業策進會 版權所有</div>
