@@ -8312,6 +8312,29 @@
     }
 
     /*# sourceMappingURL=bootstrap.css.map */
+    nav[data-toggle='toc'] {
+      margin-top: 30px;
+    }
+
+    /* small screens */
+    @media (max-width: 768px) {
+
+      /* override the Affix plugin so that the navigation isn't sticky */
+      nav.affix[data-toggle='toc'] {
+        position: static;
+      }
+
+      /* PICK ONE */
+      /* don't expand nested items, which pushes down the rest of the page when navigating */
+      nav[data-toggle='toc'] .nav .active .nav {
+        display: none;
+      }
+
+      /* alternatively, if you *do* want the second-level navigation to be shown (as seen on this page on mobile), use this */
+      nav[data-toggle='toc'] .nav .nav {
+        display: block;
+      }
+    }
   </style>
   <style>
     body {
@@ -8326,6 +8349,7 @@
 </head>
 
 <body>
+  
   <div class="container">
     <hr>
 <h1>Case Real39</h1>
@@ -8546,8 +8570,16 @@
 </div>
 
 <hr>
-<h2>特徵 4 &ndash; 語意</h2>
+<h2>特徵 4 &ndash; 意圖語意判別</h2>
 <h3>風險值定義</h3>
+<ul>
+<li>在網路中的錯誤訊息除了標題會使用較聳動的字詞，還可能在文章一開始或結尾加上要求轉發及分享等語句。利用案例的爬蟲原始資料將內容出現類似要求轉發、轉傳或分享等意圖的語句加以計數，作為權衡可能為錯誤訊息的風險依據之一，以下為風險評估標準：<ul>
+<li>高風險：意圖語句總數 ≥ 10</li>
+<li>中風險：3 ≤ 意圖語句總數 &lt; 10</li>
+<li>低風險：意圖語句總數 &lt; 3</li>
+</ul>
+</li>
+</ul>
 <h3>分享內容包含高風險字詞</h3>
 <table class="table table-bordered table-striped">
 <thead>
@@ -8572,8 +8604,16 @@
 </div>
 
 <hr>
-<h2>特徵 5 &ndash; 第一則留言與第一則分享時間差</h2>
+<h2>特徵 5 &ndash; 首次分享與留言的時間差</h2>
 <h3>風險值定義</h3>
+<ul>
+<li>正常情況下的新聞會由主流媒體所發佈，傳播的初期就會有最大的聲量，進而可觀察到社群平台上發佈留言與分享的時間會較於集中。因此推論當案例為錯誤訊息時，首次留言與首次分享的時隔會較長，以下為此特徵之風險評估標準：<ul>
+<li>高風險：時間差 &gt; 60 分鐘</li>
+<li>中風險：30 分鐘 ≤ 時間差 ≤ 60 分鐘</li>
+<li>低風險：時間差 &lt; 30 分鐘</li>
+</ul>
+</li>
+</ul>
 <h3>時間差</h3>
 <table class="table table-bordered table-striped">
 <thead>
@@ -8606,8 +8646,20 @@
 </div>
 
 <hr>
-<h2>特徵 6 &ndash; 貼文與貼文時間差</h2>
+<h2>特徵 6 &ndash; 貼文平均傳播時間</h2>
 <h3>風險值定義</h3>
+<ul>
+<li>正常情況下的新聞由主流媒體所發佈，可發現討論度大多集中於傳播初期，貼文之間的時間間隔短且密集，因此推論錯誤訊息的貼文之間的時間間隔可能拉得較長且分散，以下為此特徵之風險評估標準：<ul>
+<li>高風險：平均傳播時間 &gt; 5 小時</li>
+<li>中風險：2 小時 ≤ 平均傳播時間 ≤ 5 小時</li>
+<li>低風險：平均傳播時間 &lt; 2 小時 </li>
+</ul>
+</li>
+<li>公式定義：<ul>
+<li>貼文平均傳播時間 = Σ 兩個貼文之間的時間差 ÷ 時間差個數</li>
+</ul>
+</li>
+</ul>
 <h3>時間差</h3>
 <table class="table table-bordered table-striped">
 <thead>
@@ -10037,6 +10089,7 @@
 <hr>
 <div style="color: #ABABAB; text-align: center; margin-bottom: 40px">Copyright © 2020 財團法人資訊工業策進會 版權所有</div>
   </div>
+
 </body>
 
 <body>

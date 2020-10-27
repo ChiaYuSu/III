@@ -130,13 +130,23 @@ if len(dateTimeMonth) > 1:
         x=dateTimeMonth,
         y=[max(amount)*0.25]*len(dateTimeMonth),
         mode='lines',
-        name="25% line"
+        name="25% line",
+        marker=dict(color='rgba(255, 0, 0, 1)'),
     ))
     fig.add_trace(go.Scatter(
         x=dateTimeMonth,
         y=[amountAvg]*len(dateTimeMonth),
         mode='lines',
         name="Average line"
+    ))
+    star = amount.index(max(amount))
+    starTime = dateTimeMonth[star]
+    fig.add_trace(go.Scatter(
+        x=[starTime],
+        y=[max(amount)],
+        mode='markers',
+        marker=dict(color='rgba(255, 127, 80, 1)', symbol='star', size=11),
+        name="Base month"
     ))
     fig.update_layout(
         xaxis_title="Time",
@@ -370,7 +380,14 @@ fig.update_layout(
         r=0,  # right margin
         b=0,  # bottom margin
         t=0  # top margin
-    )
+    ),
+    legend=dict(
+            orientation="h",
+            yanchor="bottom",
+            y=1.02,
+            xanchor="right",
+            x=1
+        )
 )
 
 # Write to HTML
