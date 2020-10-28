@@ -72,7 +72,7 @@ elif plot.feature2 == 0:
     cf2 = plot.case + " 在上述列表中未曾出現過時間跨度大的現象，所以針對此輸出結果，將特徵 2 判斷為低風險。"
 
 f3 = {'Match URL': plot.tmp, 'Match `related_link`': plot.tmp3,
-      'Match `author_id`': plot.tmp4+plot.tmp5}
+    'Match `author_id`': plot.tmp4+plot.tmp5}
 quantity3 = pd.Series(f3)
 quantity3 = quantity3.rename('Quantity')
 feature3 = quantity3.to_markdown()
@@ -138,7 +138,7 @@ elif plot.feature4 >= 0 and plot.feature4 < 3:
     cf4 = plot.case + " 在分享內文中出現過介於 0 到 3 次的高風險字詞，所以針對此輸出結果，將特徵 4 判斷為低風險。"
 
 f5 = {'Type': ['First share time', 'First comment time',
-               'Time gap'], 'Time': plot.commentShareTime}
+            'Time gap'], 'Time': plot.commentShareTime}
 feature5 = pd.DataFrame(f5).set_index('Type')
 feature5 = feature5.to_markdown()
 

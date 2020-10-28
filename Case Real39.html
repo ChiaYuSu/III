@@ -7,6 +7,10 @@
   <meta name="referrer" content="origin" />
   <meta name="referrer" content="no-referrer-when-downgrade" />
   <meta name="referrer" content="origin-when-cross-origin" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"
+    integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.rawgit.com/afeld/bootstrap-toc/v1.0.1/dist/bootstrap-toc.min.css" />
   <title>Page Title</title>
   <style>
     /*!
@@ -2016,19 +2020,19 @@
 
     @media (min-width: 768px) {
       .container {
-        width: 750px;
+        width: 720px;
       }
     }
 
     @media (min-width: 992px) {
       .container {
-        width: 970px;
+        width: 960px;
       }
     }
 
     @media (min-width: 1200px) {
       .container {
-        width: 1170px;
+        width: 1140px;
       }
     }
 
@@ -8312,59 +8316,83 @@
     }
 
     /*# sourceMappingURL=bootstrap.css.map */
-    nav[data-toggle='toc'] {
-      margin-top: 30px;
-    }
-
-    /* small screens */
-    @media (max-width: 768px) {
-
-      /* override the Affix plugin so that the navigation isn't sticky */
-      nav.affix[data-toggle='toc'] {
-        position: static;
-      }
-
-      /* PICK ONE */
-      /* don't expand nested items, which pushes down the rest of the page when navigating */
-      nav[data-toggle='toc'] .nav .active .nav {
-        display: none;
-      }
-
-      /* alternatively, if you *do* want the second-level navigation to be shown (as seen on this page on mobile), use this */
-      nav[data-toggle='toc'] .nav .nav {
-        display: block;
-      }
-    }
   </style>
   <style>
     body {
-      font-family: Helvetica, Arial, sans-serif;
+      font-family: 'Noto Sans CJK TC', Helvetica, Arial, sans-serif;
     }
 
     code,
     pre {
       font-family: monospace;
     }
+
+    /* toc sidebar ------------------------------------------------------------------------------ */
+    nav[data-toggle="toc"] {
+      top: 42px;
+    }
+
+    nav[data-toggle=toc] .nav>li>a {
+      width: 180px;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
+
+    /* small screens */
+    @media (max-width: 768px) {
+
+      /* override stickyness so that the navigation does not follow scrolling */
+      nav[data-toggle="toc"] {
+        /* margin-bottom: 42px;
+        position: static; */
+        display: none;
+      }
+
+      /* PICK ONE */
+      /* don't expand nested items, which pushes down the rest of the page when navigating */
+      /* nav[data-toggle="toc"] .nav .active .nav {
+        display: none;
+      } */
+
+      /* alternatively, if you *do* want the second-level navigation to be shown (as seen on this page on mobile), use this */
+
+      /* nav[data-toggle='toc'] .nav .nav {
+        display: block;
+      } */
+
+    }
+
+    #report {
+      margin-top: 22px;
+    }
   </style>
 </head>
 
-<body>
-  
-  <div class="container">
-    <hr>
-<h1>Case Real39</h1>
+<body data-spy="scroll" data-target="#toc">
+  <div class="container-xl">
+    <div class="row">
+
+      <div class="col-sm-0 col-md-3">
+        <nav id="toc" class="sticky-top"></nav>
+      </div>
+
+      <div id="report" class="col-sm-12 col-md-9">
+        <h1>Case Real39</h1>
 <ul>
 <li>查詢案例：幾乎沒有業者願意將生鮮蔬果捐給食物銀行&hellip;#食藥署 #主婦聯盟環境保護基金會 #浪費食物 #剩食</li>
 </ul>
 <hr>
-<h2>特徵 1 &ndash; 熱度</h2>
+<h2>特徵 1 – 熱度</h2>
 <h3>圖形定義</h3>
+
 <ul>
 <li>X 軸：案例傳播期間且以一個月作為間隔</li>
 <li>Y 軸：節點數量</li>
 <li>規則：將有最多節點的月份設為基準月，基準月的節點數量乘上 25% 作為臨界線（紅線），當單月節點數量（基準月除外）的數值超過臨界線，列為高風險。若無任何單月節點數量（基準月除外）超過臨界線，則列為低風險</li>
 </ul>
 <h3>風險值定義</h3>
+
 <ul>
 <li>高風險：任一節點高於紅線（基準月除外）</li>
 <li>低風險：所有節點皆低於紅線（基準月除外）</li>
@@ -8425,23 +8453,25 @@
 </tr>
 </tbody>
 </table>
-<h3>結論</h3>
+<h3>特徵風險值</h3>
 <div class="alert" role="alert" style="background-color: #D4EDDA; color: #155724">
   <h4 class="alert-heading" style="font-size: 18pt; font-weight: bold">Low risk!</h4>
   <p>Case Real39 皆沒有任何一點高於 25% line，所以針對此輸出結果，將特徵 1 判斷為低風險。</p>
   <hr style="border-color: #B1DFBB">
-  <p class="mb-0">特徵 1 -- 低風險</p>
+  <p class="mb-0">特徵 1 – 低風險</p>
 </div>
 
 <hr>
-<h2>特徵 2 &ndash; 時間跨度</h2>
+<h2>特徵 2 – 時間跨度</h2>
 <h3>圖形定義</h3>
+
 <ul>
 <li>X 軸：案例傳播期間</li>
 <li>Y 軸：層數</li>
 <li>規則：單一節點於 3 天之內未有任何上層連接節點，而 3 天之後卻出現上層連接節點。當案例中有一節點出現上述情形，則判斷為高風險</li>
 </ul>
 <h3>風險值定義</h3>
+
 <ul>
 <li>高風險：圖表中出現任一紅線與紅點</li>
 <li>低風險：圖表中皆為藍線及藍點</li>
@@ -8477,18 +8507,19 @@
 </tr>
 </tbody>
 </table>
-<h3>結論</h3>
+<h3>特徵風險值</h3>
 <div class="alert" role="alert" style="background-color: #F8D7DA; color: #721C24">
   <h4 class="alert-heading" style="font-size: 18pt; font-weight: bold">High risk!</h4>
   <p>Case Real39 在上述列表中曾出現過時間跨度大的現象，所以針對此輸出結果，將特徵 2 判斷為高風險。</p>
   <hr style="border-color: #F1B0B7">
-  <p class="mb-0">特徵 2 -- 高風險</p>
+  <p class="mb-0">特徵 2 – 高風險</p>
 </div>
 
 <hr>
-<h2>特徵 3 &ndash; 白名單與查核驗證</h2>
+<h2>特徵 3 – 白名單與查核驗證</h2>
 <h3>規則定義</h3>
 <h4>安全因素</h4>
+
 <ul>
 <li>將各大主流媒體的 Facebook URL 及網頁 URL 紀錄於白名單中，若爬蟲的原始資料出現白名單的資訊，會依照出現的類型列進「安全因素」當中並計次數，以下為「安全因素」的三種類型：<ul>
 <li>Match URL</li>
@@ -8498,6 +8529,7 @@
 </li>
 </ul>
 <h4>風險因素</h4>
+
 <ul>
 <li>以台灣事實查核中心（TFC）與 MyGoPen 兩大查核網站為識別依據，若單篇案例的爬蟲原始資料出現事實查核機構的資訊，或是出現多數民眾認為消息不實所發表的評論，則該案例有風險是虛假消息。依照出現的類型列進「風險因素」當中並計次數，以下為「風險因素」的三種類型：<ul>
 <li>Match URL</li>
@@ -8507,6 +8539,7 @@
 </li>
 </ul>
 <h3>風險值定義</h3>
+
 <ul>
 <li>「安全因素」與「風險因素」所得之分數進行相抵，可分為三種風險評測結果：<ul>
 <li>高風險：安全因素 - 風險因素 &lt; 0</li>
@@ -8561,17 +8594,18 @@
 </tr>
 </tbody>
 </table>
-<h3>結論</h3>
+<h3>特徵風險值</h3>
 <div class="alert" role="alert" style="background-color: #D4EDDA; color: #155724">
   <h4 class="alert-heading" style="font-size: 18pt; font-weight: bold">Low risk!</h4>
   <p>Case Real39 由於安全因素 (10) - 風險因素 (0) ≥ 4，所以針對此輸出結果，將特徵 3 判斷為低風險。</p>
   <hr style="border-color: #B1DFBB">
-  <p class="mb-0">特徵 3 -- 低風險</p>
+  <p class="mb-0">特徵 3 – 低風險</p>
 </div>
 
 <hr>
-<h2>特徵 4 &ndash; 意圖語意判別</h2>
+<h2>特徵 4 – 意圖語意判別</h2>
 <h3>風險值定義</h3>
+
 <ul>
 <li>在網路中的錯誤訊息除了標題會使用較聳動的字詞，還可能在文章一開始或結尾加上要求轉發及分享等語句。利用案例的爬蟲原始資料將內容出現類似要求轉發、轉傳或分享等意圖的語句加以計數，作為權衡可能為錯誤訊息的風險依據之一，以下為風險評估標準：<ul>
 <li>高風險：意圖語句總數 ≥ 10</li>
@@ -8595,17 +8629,18 @@
 </tr>
 </tbody>
 </table>
-<h3>結論</h3>
+<h3>特徵風險值</h3>
 <div class="alert" role="alert" style="background-color: #D4EDDA; color: #155724">
   <h4 class="alert-heading" style="font-size: 18pt; font-weight: bold">Low risk!</h4>
   <p>Case Real39 在分享內文中出現過介於 0 到 3 次的高風險字詞，所以針對此輸出結果，將特徵 4 判斷為低風險。</p>
   <hr style="border-color: #B1DFBB">
-  <p class="mb-0">特徵 4 -- 低風險</p>
+  <p class="mb-0">特徵 4 – 低風險</p>
 </div>
 
 <hr>
-<h2>特徵 5 &ndash; 首次分享與留言的時間差</h2>
+<h2>特徵 5 – 首次分享與留言的時間差</h2>
 <h3>風險值定義</h3>
+
 <ul>
 <li>正常情況下的新聞會由主流媒體所發佈，傳播的初期就會有最大的聲量，進而可觀察到社群平台上發佈留言與分享的時間會較於集中。因此推論當案例為錯誤訊息時，首次留言與首次分享的時隔會較長，以下為此特徵之風險評估標準：<ul>
 <li>高風險：時間差 &gt; 60 分鐘</li>
@@ -8637,17 +8672,18 @@
 </tr>
 </tbody>
 </table>
-<h3>結論</h3>
+<h3>特徵風險值</h3>
 <div class="alert" role="alert" style="background-color: #D4EDDA; color: #155724">
   <h4 class="alert-heading" style="font-size: 18pt; font-weight: bold">Low risk!</h4>
   <p>Case Real39 第一則留言與第一則分享時間差 ≤ 30 分鐘，所以針對此輸出結果，將特徵 5 判斷為低風險。</p>
   <hr style="border-color: #B1DFBB">
-  <p class="mb-0">特徵 5 -- 低風險</p>
+  <p class="mb-0">特徵 5 – 低風險</p>
 </div>
 
 <hr>
-<h2>特徵 6 &ndash; 貼文平均傳播時間</h2>
+<h2>特徵 6 – 貼文平均傳播時間</h2>
 <h3>風險值定義</h3>
+
 <ul>
 <li>正常情況下的新聞由主流媒體所發佈，可發現討論度大多集中於傳播初期，貼文之間的時間間隔短且密集，因此推論錯誤訊息的貼文之間的時間間隔可能拉得較長且分散，以下為此特徵之風險評估標準：<ul>
 <li>高風險：平均傳播時間 &gt; 5 小時</li>
@@ -10075,23 +10111,55 @@
 </tr>
 </tbody>
 </table>
-<h3>結論</h3>
+<h3>特徵風險值</h3>
 <div class="alert" role="alert" style="background-color: #F8D7DA; color: #721C24">
   <h4 class="alert-heading" style="font-size: 18pt; font-weight: bold">High risk!</h4>
   <p>Case Real39 兩貼文之間時間差 > 5 小時，所以針對此輸出結果，將特徵 6 判斷為高風險。</p>
   <hr style="border-color: #F1B0B7">
-  <p class="mb-0">特徵 6 -- 高風險</p>
+  <p class="mb-0">特徵 6 – 高風險</p>
 </div>
 
 <hr>
-<h2>結果</h2>
+<h2>結論</h2>
 <p>所以根據以上特徵分析結果，Case Real39 為{低/中/高}風險。</p>
 <hr>
 <div style="color: #ABABAB; text-align: center; margin-bottom: 40px">Copyright © 2020 財團法人資訊工業策進會 版權所有</div>
+      </div>
+    </div>
   </div>
 
-</body>
+  <!-- Optional JavaScript; choose one of the two! -->
 
-<body>
+  <!-- Option 1: jQuery and Bootstrap Bundle (includes Popper) -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+    integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx"
+    crossorigin="anonymous"></script>
+
+  <!-- Option 2: jQuery, Popper.js, and Bootstrap JS -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+    integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
+    integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js"
+    integrity="sha384-w1Q4orYjBQndcko6MimVbzY0tgp4pWB4lZ7lr30WKz0vr/aWKhXdBNmNb5D92v7s"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.rawgit.com/afeld/bootstrap-toc/v1.0.1/dist/bootstrap-toc.min.js"></script>
+  <script>
+    $(function () {
+      var navSelector = "#toc";
+      var $myNav = $(navSelector);
+      Toc.init($myNav);
+      $("body").scrollspy({
+        target: navSelector
+      });
+
+    });
+  </script>
+</body>
 
 </html>
