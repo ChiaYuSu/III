@@ -21,13 +21,13 @@ seconds_in_hour = 60 * 60
 seconds_in_minute = 60
 
 # Input case
-num = "324"
+num = "4171"
 case = "Case " + num
 
 # For SSL certificate
 ssl._create_default_https_context = ssl._create_unverified_context
-src = "https://raw.githubusercontent.com/ChiaYuSu/III/master/20200702/" + \
-    num + "/case.json"
+src = "https://raw.githubusercontent.com/ChiaYuSu/III/master/20200928/" + \
+    num + "/output.json"
 
 request = req.Request(src, headers={
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.75 Safari/537.36"
@@ -564,6 +564,36 @@ average = str(days) + " days " + str(hours) + " hours " + \
     str(minutes) + " minutes " + str(gap) + " seconds"
 print("Feature 6:" ,feature6)
 
+# Feature 7 -- First node and the most popular node time gap
+f7tmp = 0
+f7parentID = []
+f7parentTime = []
+f7count = []
+for i in pairs:
+    if i[3] not in f7parentID:
+        f7parentID.append(i[3])
+        f7parentTime.append(i[4])
+        
+for i in f7parentID:
+    for j in pairs:
+        if i == j[3]:
+            f7tmp += 1
+    f7count.append(f7tmp)
+    f7tmp = 0
+maxOutdegree = f7count.index(max(f7count))
+f7gap = int(f7parentTime[maxOutdegree]) - int(countShare[0])
+print(f7gap)
+days = f7gap // seconds_in_day
+hours = (f7gap - (days * seconds_in_day)) // seconds_in_hour
+minutes = (f7gap - (days * seconds_in_day) -
+           (hours * seconds_in_hour)) // seconds_in_minute
+f7gap = f7gap - (days * seconds_in_day) - \
+    (hours * seconds_in_hour) - (minutes * seconds_in_minute)
+f7gap = str(days) + " days " + str(hours) + " hours " + \
+        str(minutes) + " minutes " + str(f7gap) + " seconds"
+f7parentTime[maxOutdegree] = datetime.fromtimestamp(int(f7parentTime[maxOutdegree])).strftime('%Y-%m-%d %H:%M:%S')
+countShare[0] = datetime.fromtimestamp(int(countShare[0])).strftime('%Y-%m-%d %H:%M:%S')
+f7time = [countShare[0], f7parentTime[maxOutdegree], f7gap]
 
 # Real vs. Fake
 score = 0

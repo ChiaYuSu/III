@@ -193,6 +193,11 @@ elif plot.feature6 < 7200:
     rf6_2 = "低"
     cf6 = plot.case + " 兩貼文之間時間差 < 2 小時，所以針對此輸出結果，將特徵 6 判斷為低風險。"
     
+f7 = {'Type': ['First share time', 'The most popular node time',
+            'Time gap'], 'Time': plot.f7time}
+feature7 = pd.DataFrame(f7).set_index('Type')
+feature7 = feature7.to_markdown()
+    
 case2 = plot.case
 risk = "{低/中/高}"
 
@@ -209,6 +214,7 @@ md = md_template.format(case=case, caseName=caseName, feature1=feature1, quantit
                         cfbg5=cfbg5, cfft5=cfft5, rf5_1=rf5_1, cf5=cf5, cfhr5=cfhr5, rf5_2=rf5_2,
                         feature6=feature6,
                         cfbg6=cfbg6, cfft6=cfft6, rf6_1=rf6_1, cf6=cf6, cfhr6=cfhr6, rf6_2=rf6_2,
+                        feature7=feature7,
                         case2=case2, risk=risk)
 html_template = open(r'html_template.html', encoding='utf8').read()
 extensions = ['extra', 'smarty']
