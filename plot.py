@@ -21,13 +21,13 @@ seconds_in_hour = 60 * 60
 seconds_in_minute = 60
 
 # Input case
-num = "4171"
+num = "324"
 case = "Case " + num
 
 # For SSL certificate
 ssl._create_default_https_context = ssl._create_unverified_context
-src = "https://raw.githubusercontent.com/ChiaYuSu/III/master/20200928/" + \
-    num + "/output.json"
+src = "https://raw.githubusercontent.com/ChiaYuSu/III/master/20200702/" + \
+    num + "/case.json"
 
 request = req.Request(src, headers={
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.75 Safari/537.36"
@@ -124,13 +124,13 @@ if len(dateTimeMonth) > 1:
         x=dateTimeMonth,
         y=amount,
         mode='lines+markers',
-        name="Volume of line graph"
+        name="Volume line"
     ))
     fig.add_trace(go.Scatter(
         x=dateTimeMonth,
         y=[max(amount)*0.25]*len(dateTimeMonth),
         mode='lines',
-        name="25% line",
+        name="Critical line",
         marker=dict(color='rgba(255, 0, 0, 1)'),
     ))
     fig.add_trace(go.Scatter(
@@ -582,7 +582,7 @@ for i in f7parentID:
     f7tmp = 0
 maxOutdegree = f7count.index(max(f7count))
 f7gap = int(f7parentTime[maxOutdegree]) - int(countShare[0])
-print(f7gap)
+feature7 = f7gap
 days = f7gap // seconds_in_day
 hours = (f7gap - (days * seconds_in_day)) // seconds_in_hour
 minutes = (f7gap - (days * seconds_in_day) -
@@ -594,6 +594,7 @@ f7gap = str(days) + " days " + str(hours) + " hours " + \
 f7parentTime[maxOutdegree] = datetime.fromtimestamp(int(f7parentTime[maxOutdegree])).strftime('%Y-%m-%d %H:%M:%S')
 countShare[0] = datetime.fromtimestamp(int(countShare[0])).strftime('%Y-%m-%d %H:%M:%S')
 f7time = [countShare[0], f7parentTime[maxOutdegree], f7gap]
+print("Feature 7:", feature7)
 
 # Real vs. Fake
 score = 0
@@ -628,6 +629,12 @@ if feature6 > 18000:
 elif feature6 >= 7200 and feature6 <= 18000:
     score += 0.5
 elif feature6 < 7200:
+    score += 1
+if feature7 >= 108000:
+    score += 0
+elif feature7 == 0:
+    score += 0.5
+elif feature7 < 108000:
     score += 1
 
 print(score)

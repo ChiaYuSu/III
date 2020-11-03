@@ -7,6 +7,12 @@
   <meta name="referrer" content="origin" />
   <meta name="referrer" content="no-referrer-when-downgrade" />
   <meta name="referrer" content="origin-when-cross-origin" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"
+    integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.rawgit.com/afeld/bootstrap-toc/v1.0.1/dist/bootstrap-toc.min.css" />
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css"
+    integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
   <title>Page Title</title>
   <style>
     /*!
@@ -2016,19 +2022,19 @@
 
     @media (min-width: 768px) {
       .container {
-        width: 750px;
+        width: 720px;
       }
     }
 
     @media (min-width: 992px) {
       .container {
-        width: 970px;
+        width: 960px;
       }
     }
 
     @media (min-width: 1200px) {
       .container {
-        width: 1170px;
+        width: 1140px;
       }
     }
 
@@ -8322,19 +8328,93 @@
     pre {
       font-family: monospace;
     }
+
+    /* toc sidebar ------------------------------------------------------------------------------ */
+    nav[data-toggle="toc"] {
+      top: 30px
+    }
+
+    nav[data-toggle=toc] .nav>li>a {
+      width: 180px;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
+
+    /* small screens */
+    @media (max-width: 768px) {
+
+      /* override stickyness so that the navigation does not follow scrolling */
+      nav[data-toggle="toc"] {
+        /* margin-bottom: 42px;
+        position: static; */
+        display: none;
+      }
+
+      /* PICK ONE */
+      /* don't expand nested items, which pushes down the rest of the page when navigating */
+      /* nav[data-toggle="toc"] .nav .active .nav {
+        display: none;
+      } */
+
+      /* alternatively, if you *do* want the second-level navigation to be shown (as seen on this page on mobile), use this */
+
+      /* nav[data-toggle='toc'] .nav .nav {
+        display: block;
+      } */
+
+    }
+
+    #report {
+      top: 30px;
+    }
+
+    #report>h1 {
+      margin-top: 0px;
+    }
+
+    #navicon {
+      margin-right: 5px;
+    }
   </style>
 </head>
 
-<body>
-  <div class="container">
-    <hr>
-<h1>Case Real24</h1>
+<body data-spy="scroll" data-target="#toc">
+  <!-- <nav class="navbar navbar-default navbar-fixed-top unselectable hidden-print">
+    <div class="navbar-collapse collapse">
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <span class="navbar-brand">
+            <i id="navicon" class="fas fa-search"></i>Quick Screening Report of Fake Information</span>
+        </li>
+      </ul>
+    </div>
+  </nav> -->
+  <div class="container-lg">
+    <div class="row">
+      <div class="col-sm-0 col-md-3">
+        <nav id="toc" data-toggle="toc" class="sticky-top"></nav>
+      </div>
+      <div id="report" class="col-sm-12 col-md-9">
+        <h1>Case Real24</h1>
 <ul>
 <li>查詢案例：Are you ready ?Coronavirus crisis may get worse, worse and worse, WHO warnsWHO Director General Tedros Adhanom Ghebreyesus said that of 230,000 new cases on Sunday, 80% were from 10 nations, and 50% from just two countries.The new coronavirus pandemic raging around the globe will worsen if countries fail to adhere to strict healthcare precautions, the World Health Organization (WHO) warned on Monday.“Let me be blunt, too many countries are headed in the wrong direction, the virus remains public enemy number one,” WHO Director-General Tedros Adhanom Ghebreyesus told a virtual briefing from the UN agency’s headquarters in Geneva.“If basics are not followed, the only way this pandemic is going to go - it is going to get worse and worse and worse.”Global infections stand at 13 million, according to a Reuters tally, with more than half a million deaths.Tedros, whose leadership has been criticised by US President Donald Trump, said that of 230,000 new cases on Sunday, 80% were from 10 nations, and 50% from just two countries.The United States and Brazil have been worst hit.WHO emergencies head Mike Ryan said some places in the Americas may need “limited or geographically focused lockdowns that suppress transmission in specific areas where transmission is frankly out of control”.He urged countries not to make schools into a political football, saying schools could safely reopen once the virus had been suppressed.Tedros said the WHO had still not received formal notification of the U.S. pullout announced by Trump. The US president says the WHO pandered to China, where the COVID-19 disease was first detected, at the start of the crisis.Trump, who at the weekend wore a protective face mask in public for the first time, has himself been accused by political opponents of not taking the coronavirus seriously enough, something he denies.A two-member WHO advance team in China to investigate the origins of the coronavirus, first discovered in the city of Wuhan, is in quarantine, as per standard procedure, before beginning work with Chinese scientists, Ryan said.করোনাভাইরাস সংকট আরও খারাপ, আরও খারাপ এবং আরও খারাপ হতে পারে, ডাব্লুএইচও সতর্ক করেছেডাব্লুএইচওর মহাপরিচালক টেড্রোস অ্যাধনম ঘেব্রেয়িসাস বলেছিলেন যে রবিবার ২৩০,০০০ নতুন মামলার মধ্যে ৮০% হ&rsquo;ল ১০ টি জাতির এবং ৫০% মাত্র দুটি দেশ থেকে।বিশ্ব স্বাস্থ্য সংস্থা (ডব্লুএইচও) সোমবার হুঁশিয়ারি উচ্চারণ করে বলেছে যে দেশগুলি স্বাস্থ্যসেবা কঠোরতার সাথে সাবধানতা অবলম্বন করতে ব্যর্থ হলে বিশ্বজুড়ে নতুন করোন ভাইরাস মহামারীটি আরও খারাপ হবে।জেনেভায় জাতিসংঘের সংস্থার সদর দফতরের ভার্চুয়াল ব্রিফিংয়ে ডাব্লুএইচও-এর মহাপরিচালক টেড্রোস অ্যাধনম ঘেরবাইয়াসস বলেছেন, “আমাকে ভোঁতা হতে দাও, অনেক দেশই ভুল পথে এগিয়ে চলেছে, ভাইরাস সর্বসাধারণের প্রথম শত্রু।&rdquo;যদি মৌলিক বিষয়গুলি অনুসরণ না করা হয় তবে এই মহামারীটিই কেবলই চলেছে - এটি আরও খারাপ এবং আরও খারাপ হতে চলেছে।&rdquo;রয়টার্সের এক সমীক্ষায় দেখা গেছে, বিশ্বব্যাপী সংক্রমণের পরিমাণ ১৩ মিলিয়নের মতো, অর্ধ মিলিয়নেরও বেশি লোক মারা গেছে।টেড্রস, যার নেতৃত্বে মার্কিন প্রেসিডেন্ট ডোনাল্ড ট্রাম্প সমালোচনা করেছেন, বলেছেন যে রবিবার ২৩০,০০০ নতুন মামলার মধ্যে ৮০% হ&rsquo;ল ১০ টি জাতির এবং ৫০% মাত্র দুটি দেশ থেকে।সবচেয়ে বেশি ক্ষতিগ্রস্থ হয়েছে মার্কিন যুক্তরাষ্ট্র ও ব্রাজিল।ডাব্লুএইচওর জরুরি অবস্থার প্রধান মাইক রায়ান বলেছিলেন যে আমেরিকার কিছু জায়গায় &ldquo;সীমিত বা ভৌগলিকভাবে দৃষ্টি নিবদ্ধ থাকা লকডাউনগুলির প্রয়োজন হতে পারে যা নির্দিষ্ট অঞ্চলে সংক্রমণকে দমন করে যেখানে ট্রান্সমিশনটি নিয়ন্ত্রণের বাইরে চলে যায়&rdquo;।তিনি দেশগুলিকে স্কুলগুলিকে একটি রাজনৈতিক ফুটবলে পরিণত না করার আহ্বান জানিয়ে বলেন, ভাইরাসটি দমন করার পরে স্কুলগুলি নিরাপদে পুনরায় খোলা যেতে পারে।টেড্রোস বলেছিলেন যে ডব্লুএইচও এখনও ট্রাম্পের ঘোষিত আমেরিকা যুক্তরাষ্ট্রের পুলআউট সম্পর্কে আনুষ্ঠানিক বিজ্ঞপ্তি পায়নি। মার্কিন রাষ্ট্রপতি বলেছেন, ডব্লুএইচও চীনকে প্যান্ডারেড করেছে, যেখানে সঙ্কট শুরুর সময় কোওআইডি -১১ রোগটি প্রথম সনাক্ত করা হয়েছিল।ট্রাম্প, যিনি উইকএন্ডে প্রথমবারের মতো প্রকাশ্যে একটি প্রতিরক্ষামূলক মুখোশ পরেছিলেন, তিনি নিজেই রাজনৈতিক বিরোধীদের দ্বারা করোনভাইরাসকে গুরুত্বের সাথে না নেওয়ার অভিযোগ করেছেন, যা তিনি অস্বীকার করেছেন।রায়ান বলেন, চিনে বিজ্ঞানীদের সাথে কাজ শুরু করার আগে স্ট্যান্ডার্ড পদ্ধতি অনুসারে প্রথমে উহান শহরে আবিষ্কৃত করোনারভাইরাসটির উদ্ভবের তদন্তের জন্য চীনে দুই সদস্যের একটি সংস্থা অ্যাডভান্সড টিম, পৃথক অবস্থায় রয়েছে।</li>
 </ul>
 <hr>
-<h2>特徵 1 &ndash; 熱度</h2>
+<h2>特徵 1 – 熱度</h2>
+<h3>圖形定義</h3>
+
+<ul>
+<li>X 軸：案例傳播期間且以一個月作為間隔</li>
+<li>Y 軸：節點數量</li>
+<li>規則：將有最多節點的月份設為基準月，基準月的節點數量乘上 25% 作為臨界線（紅線），當單月節點數量（基準月除外）的數值超過臨界線，列為高風險。若無任何單月節點數量（基準月除外）超過臨界線，則列為低風險</li>
+</ul>
 <h3>風險值定義</h3>
+
+<ul>
+<li>高風險：任一節點高於紅線（基準月除外）</li>
+<li>低風險：所有節點皆低於紅線（基準月除外）</li>
+</ul>
 <h3>熱度圖</h3>
 <div class="embed-responsive embed-responsive-16by9">
   <iframe
@@ -8363,10 +8443,29 @@
 </tr>
 </tbody>
 </table>
-<h3>結論</h3>
+<h3>特徵風險值</h3>
+<div class="alert" role="alert" style="background-color: #D4EDDA; color: #155724">
+  <h4 class="alert-heading" style="font-size: 18pt; font-weight: bold">Low risk!</h4>
+  <p>Case Real24 皆沒有任何一點高於 25% line，所以針對此輸出結果，將特徵 1 判斷為低風險。</p>
+  <hr style="border-color: #B1DFBB">
+  <p class="mb-0">特徵 1 – 低風險</p>
+</div>
+
 <hr>
-<h2>特徵 2 &ndash; 時間跨度</h2>
+<h2>特徵 2 – 時間跨度</h2>
+<h3>圖形定義</h3>
+
+<ul>
+<li>X 軸：案例傳播期間</li>
+<li>Y 軸：層數</li>
+<li>規則：單一節點於 3 天之內未有任何上層連接節點，而 3 天之後卻出現上層連接節點。當案例中有一節點出現上述情形，則判斷為高風險</li>
+</ul>
 <h3>風險值定義</h3>
+
+<ul>
+<li>高風險：圖表中出現任一紅線與紅點</li>
+<li>低風險：圖表中皆為藍線及藍點</li>
+</ul>
 <h3>傳播圖</h3>
 <div class="embed-responsive embed-responsive-16by9">
   <iframe
@@ -8393,11 +8492,48 @@
 </tr>
 </tbody>
 </table>
-<h3>結論</h3>
+<h3>特徵風險值</h3>
+<div class="alert" role="alert" style="background-color: #D4EDDA; color: #155724">
+  <h4 class="alert-heading" style="font-size: 18pt; font-weight: bold">Low risk!</h4>
+  <p>Case Real24 在上述列表中未曾出現過時間跨度大的現象，所以針對此輸出結果，將特徵 2 判斷為低風險。</p>
+  <hr style="border-color: #B1DFBB">
+  <p class="mb-0">特徵 2 – 低風險</p>
+</div>
+
 <hr>
-<h2>特徵 3 &ndash; 主流媒體</h2>
+<h2>特徵 3 – 白名單與查核驗證</h2>
+<h3>規則定義</h3>
+<h4>安全因素</h4>
+
+<ul>
+<li>將各大主流媒體的 Facebook URL 及網頁 URL 紀錄於白名單中，若爬蟲的原始資料出現白名單的資訊，會依照出現的類型列進「安全因素」當中並計次數，以下為「安全因素」的三種類型：<ul>
+<li>Match URL</li>
+<li>Match <code>related_link</code></li>
+<li>Match <code>author_id</code></li>
+</ul>
+</li>
+</ul>
+<h4>風險因素</h4>
+
+<ul>
+<li>以台灣事實查核中心（TFC）與 MyGoPen 兩大查核網站為識別依據，若單篇案例的爬蟲原始資料出現事實查核機構的資訊，或是出現多數民眾認為消息不實所發表的評論，則該案例有風險是虛假消息。依照出現的類型列進「風險因素」當中並計次數，以下為「風險因素」的三種類型：<ul>
+<li>Match URL</li>
+<li>Match <code>body</code> of the article</li>
+<li>Match <code>body</code> of the comment</li>
+</ul>
+</li>
+</ul>
 <h3>風險值定義</h3>
-<h3>低風險</h3>
+
+<ul>
+<li>「安全因素」與「風險因素」所得之分數進行相抵，可分為三種風險評測結果：<ul>
+<li>高風險：安全因素 - 風險因素 &lt; 0</li>
+<li>中風險：0 ≤ 安全因素 - 風險因素 &lt; 4</li>
+<li>低風險：安全因素 - 風險因素 ≥ 4</li>
+</ul>
+</li>
+</ul>
+<h3>安全因素</h3>
 <table class="table table-bordered table-striped">
 <thead>
 <tr>
@@ -8407,20 +8543,20 @@
 </thead>
 <tbody>
 <tr>
-<td align="left">Match URL (Google search crawler)</td>
+<td align="left">Match URL</td>
 <td align="right">0</td>
 </tr>
 <tr>
-<td align="left">Match <code>related_link</code> (JSON)</td>
-<td align="right">1</td>
+<td align="left">Match <code>related_link</code></td>
+<td align="right">0</td>
 </tr>
 <tr>
-<td align="left">Match <code>author_id</code> (JSON)</td>
+<td align="left">Match <code>author_id</code></td>
 <td align="right">1</td>
 </tr>
 </tbody>
 </table>
-<h3>高風險</h3>
+<h3>風險因素</h3>
 <table class="table table-bordered table-striped">
 <thead>
 <tr>
@@ -8430,20 +8566,40 @@
 </thead>
 <tbody>
 <tr>
-<td align="left">Exclude fake, rumor and other related words (Google search crawler)</td>
+<td align="left">Match URL</td>
 <td align="right">0</td>
 </tr>
 <tr>
-<td align="left">Match URL (Google search crawler)</td>
+<td align="left">Match <code>body</code> of the article</td>
 <td align="right">0</td>
+</tr>
+<tr>
+<td align="left">Match <code>body</code> of the comment</td>
+<td align="right">3</td>
 </tr>
 </tbody>
 </table>
-<h3>結論</h3>
+<h3>特徵風險值</h3>
+<div class="alert" role="alert" style="background-color: #F8D7DA; color: #721C24">
+  <h4 class="alert-heading" style="font-size: 18pt; font-weight: bold">High risk!</h4>
+  <p>Case Real24 由於安全因素 (1) - 風險因素 (3) < 0，所以針對此輸出結果，將特徵 3 判斷為高風險。</p>
+  <hr style="border-color: #F1B0B7">
+  <p class="mb-0">特徵 3 – 高風險</p>
+</div>
+
 <hr>
-<h2>特徵 4 &ndash; 語意</h2>
+<h2>特徵 4 – 意圖語意判別</h2>
 <h3>風險值定義</h3>
-<h3>分享文章包含高風險字詞</h3>
+
+<ul>
+<li>在網路中的錯誤訊息除了標題會使用較聳動的字詞，還可能在文章一開始或結尾加上要求轉發及分享等語句。利用案例的爬蟲原始資料將內容出現類似要求轉發、轉傳或分享等意圖的語句加以計數，作為權衡可能為錯誤訊息的風險依據之一，以下為風險評估標準：<ul>
+<li>高風險：意圖語句總數 ≥ 10</li>
+<li>中風險：3 ≤ 意圖語句總數 &lt; 10</li>
+<li>低風險：意圖語句總數 &lt; 3</li>
+</ul>
+</li>
+</ul>
+<h3>分享內容包含高風險字詞</h3>
 <table class="table table-bordered table-striped">
 <thead>
 <tr>
@@ -8458,10 +8614,26 @@
 </tr>
 </tbody>
 </table>
-<h3>結論</h3>
+<h3>特徵風險值</h3>
+<div class="alert" role="alert" style="background-color: #D4EDDA; color: #155724">
+  <h4 class="alert-heading" style="font-size: 18pt; font-weight: bold">Low risk!</h4>
+  <p>Case Real24 在分享內文中出現過介於 0 到 3 次的高風險字詞，所以針對此輸出結果，將特徵 4 判斷為低風險。</p>
+  <hr style="border-color: #B1DFBB">
+  <p class="mb-0">特徵 4 – 低風險</p>
+</div>
+
 <hr>
-<h2>特徵 5 &ndash; 第一則留言與第一則分享時間差</h2>
+<h2>特徵 5 – 首次分享與留言的時間差</h2>
 <h3>風險值定義</h3>
+
+<ul>
+<li>正常情況下的新聞會由主流媒體所發佈，傳播的初期就會有最大的聲量，進而可觀察到社群平台上發佈留言與分享的時間會較於集中。因此推論當案例為錯誤訊息時，首次留言與首次分享的時隔會較長，以下為此特徵之風險評估標準：<ul>
+<li>高風險：時間差 &gt; 60 分鐘</li>
+<li>中風險：30 分鐘 ≤ 時間差 ≤ 60 分鐘</li>
+<li>低風險：時間差 &lt; 30 分鐘</li>
+</ul>
+</li>
+</ul>
 <h3>時間差</h3>
 <table class="table table-bordered table-striped">
 <thead>
@@ -8485,10 +8657,30 @@
 </tr>
 </tbody>
 </table>
-<h3>結論</h3>
+<h3>特徵風險值</h3>
+<div class="alert" role="alert" style="background-color: #F8D7DA; color: #721C24">
+  <h4 class="alert-heading" style="font-size: 18pt; font-weight: bold">High risk!</h4>
+  <p>Case Real24 第一則留言與第一則分享時間差 > 60 分鐘，所以針對此輸出結果，將特徵 5 判斷為高風險。</p>
+  <hr style="border-color: #F1B0B7">
+  <p class="mb-0">特徵 5 – 高風險</p>
+</div>
+
 <hr>
-<h2>特徵 6 &ndash; 貼文與貼文時間差</h2>
+<h2>特徵 6 – 貼文平均傳播時間</h2>
 <h3>風險值定義</h3>
+
+<ul>
+<li>正常情況下的新聞由主流媒體所發佈，可發現討論度大多集中於傳播初期，貼文之間的時間間隔短且密集，因此推論錯誤訊息的貼文之間的時間間隔可能拉得較長且分散，以下為此特徵之風險評估標準：<ul>
+<li>高風險：平均傳播時間 &gt; 5 小時</li>
+<li>中風險：2 小時 ≤ 平均傳播時間 ≤ 5 小時</li>
+<li>低風險：平均傳播時間 &lt; 2 小時 </li>
+</ul>
+</li>
+<li>公式定義：<ul>
+<li>貼文平均傳播時間 = Σ 兩個貼文之間的時間差 ÷ 時間差個數</li>
+</ul>
+</li>
+</ul>
 <h3>時間差</h3>
 <table class="table table-bordered table-striped">
 <thead>
@@ -9252,12 +9444,85 @@
 </tr>
 </tbody>
 </table>
-<h3>結論</h3>
-<hr>
-<div style="color: #ABABAB; text-align: center; margin-bottom: 40px">Copyright © 2020 財團法人資訊工業策進會 版權所有</div>
-  </div>
-</body>
+<h3>特徵風險值</h3>
+<div class="alert" role="alert" style="background-color: #D4EDDA; color: #155724">
+  <h4 class="alert-heading" style="font-size: 18pt; font-weight: bold">Low risk!</h4>
+  <p>Case Real24 兩貼文之間時間差 < 2 小時，所以針對此輸出結果，將特徵 6 判斷為低風險。</p>
+  <hr style="border-color: #B1DFBB">
+  <p class="mb-0">特徵 6 – 低風險</p>
+</div>
 
-<body>
+<hr>
+<h2>特徵 7 – 首次分享與節點觸擊率最高的時間差</h2>
+<h3>風險值定義</h3>
+
+<h3>時間差</h3>
+<table class="table table-bordered table-striped">
+<thead>
+<tr>
+<th align="left">Type</th>
+<th align="left">Time</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">First share time</td>
+<td align="left">2020-07-14 03:55:43</td>
+</tr>
+<tr>
+<td align="left">The most popular node time</td>
+<td align="left">2020-07-14 17:32:49</td>
+</tr>
+<tr>
+<td align="left">Time gap</td>
+<td align="left">0 days 13 hours 37 minutes 6 seconds</td>
+</tr>
+</tbody>
+</table>
+<h3>特徵風險值</h3>
+
+<hr>
+<h2>結論</h2>
+<p>所以根據以上特徵分析結果，Case Real24 為{低/中/高}風險。</p>
+      </div>
+    </div>
+  </div>
+  <hr style="margin-top: 70px;">
+  <div style="color: #ABABAB; text-align: center; margin-bottom: 35px;">Copyright © 2020 財團法人資訊工業策進會 版權所有</div>
+
+
+  <!-- Optional JavaScript; choose one of the two! -->
+
+  <!-- Option 1: jQuery and Bootstrap Bundle (includes Popper) -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+    integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx"
+    crossorigin="anonymous"></script>
+
+  <!-- Option 2: jQuery, Popper.js, and Bootstrap JS -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+    integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
+    integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js"
+    integrity="sha384-w1Q4orYjBQndcko6MimVbzY0tgp4pWB4lZ7lr30WKz0vr/aWKhXdBNmNb5D92v7s"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.rawgit.com/afeld/bootstrap-toc/v1.0.1/dist/bootstrap-toc.min.js"></script>
+  <!-- <script>
+    $(function () {
+      var navSelector = "#toc";
+      var $myNav = $(navSelector);
+      Toc.init($myNav);
+      $("body").scrollspy({
+        target: navSelector
+      });
+
+    });
+  </script> -->
+</body>
 
 </html>

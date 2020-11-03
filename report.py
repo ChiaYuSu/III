@@ -41,14 +41,14 @@ if plot.quarterLine > 0:
             elif count != len(plot.timeCount25)-1:
                 time += i + "、"
                 count += 1
-    cf1 = plot.case + " 在 " + time + " 高於 25% line，所以針對此輸出結果，將特徵 1 判斷為高風險。"
+    cf1 = plot.case + " 在 " + time + " 高於 Critical line，所以針對此輸出結果，將特徵 1 判斷為高風險。"
 elif plot.quarterLine == 0:
     cfbg1 = "D4EDDA"
     cfft1 = "155724"
     cfhr1 = "B1DFBB"
     rf1_1 = "Low"
     rf1_2 = "低"
-    cf1 = plot.case + " 皆沒有任何一點高於 25% line，所以針對此輸出結果，將特徵 1 判斷為低風險。"
+    cf1 = plot.case + " 皆沒有任何一點高於 Critical line，所以針對此輸出結果，將特徵 1 判斷為低風險。"
 
 feature2 = plot.case + "\\feature2.html"
 f2_2= {"Original date": plot.parentTime2, 'Later date': plot.articleTime2, 'Time gap': plot.timeGap2}
@@ -197,6 +197,28 @@ f7 = {'Type': ['First share time', 'The most popular node time',
             'Time gap'], 'Time': plot.f7time}
 feature7 = pd.DataFrame(f7).set_index('Type')
 feature7 = feature7.to_markdown()
+
+if plot.feature7 >= 108000:
+    cfbg7 = "F8D7DA"
+    cfft7 = "721C24"
+    cfhr7 = "F1B0B7"
+    rf7_1 = "High"
+    rf7_2 = "高"
+    cf7 = plot.case + " 兩貼文之間時間差 > 30 小時，所以針對此輸出結果，將特徵 7 判斷為高風險。"
+elif plot.feature7 == 0:
+    cfbg7 = "FFF3CD"
+    cfft7 = "856404"
+    cfhr7 = "FFE8A1"
+    rf7_1 = "Median"
+    rf7_2 = "中"
+    cf7 = plot.case + " 兩貼文之間時間差為 0，所以針對此輸出結果，將特徵 7 判斷為中風險。"
+elif plot.feature7 < 108000:
+    cfbg7 = "D4EDDA"
+    cfft7 = "155724"
+    cfhr7 = "B1DFBB"
+    rf7_1 = "Low"
+    rf7_2 = "低"
+    cf7 = plot.case + " 兩貼文之間時間差 < 30 小時，所以針對此輸出結果，將特徵 7 判斷為低風險。"
     
 case2 = plot.case
 risk = "{低/中/高}"
@@ -215,6 +237,7 @@ md = md_template.format(case=case, caseName=caseName, feature1=feature1, quantit
                         feature6=feature6,
                         cfbg6=cfbg6, cfft6=cfft6, rf6_1=rf6_1, cf6=cf6, cfhr6=cfhr6, rf6_2=rf6_2,
                         feature7=feature7,
+                        cfbg7=cfbg7, cfft7=cfft7, rf7_1=rf7_1, cf7=cf7, cfhr7=cfhr7, rf7_2=rf7_2,
                         case2=case2, risk=risk)
 html_template = open(r'html_template.html', encoding='utf8').read()
 extensions = ['extra', 'smarty']
