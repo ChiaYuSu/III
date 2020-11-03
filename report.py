@@ -251,3 +251,4 @@ doc = doc.replace('<img', '<img class="thumbnail img-responsive"')
 report = plot.case + ".html"
 with open(report, 'w', encoding='utf-8') as f:
     f.write(doc)
+    
