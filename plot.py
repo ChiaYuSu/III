@@ -64,7 +64,7 @@ def timetransfer(x):
     minutes = (x - (days * seconds_in_day) - (hours * seconds_in_hour)) // seconds_in_minute
     x = x - (days * seconds_in_day) - (hours * seconds_in_hour) - (minutes * seconds_in_minute)
     
-    return seconds_in_day, seconds_in_hour, seconds_in_minute, x
+    return days, hours, minutes, x
 
 def timedata():
     # Find out the start and end time of the case
