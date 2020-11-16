@@ -62,7 +62,7 @@
 <div class="embed-responsive embed-responsive-16by9">
   <iframe
     class="embed-responsive-item"
-    src="{feature2}"
+    src="{feature2_1}"
     style="border: 0"
   ></iframe>
 </div>
@@ -102,7 +102,7 @@
 - 低風險：安全因素 - 風險因素 ≥ 4
 
 <h3>安全因素</h3>
-{feature3}
+{feature3_1}
 
 <h3>風險因素</h3>
 {feature3_2}
@@ -131,7 +131,7 @@
 - 低風險：意圖語句總數 < 3
 
 <h3>分享內容包含高風險字詞</h3>
-{feature4}
+{feature4_1}
 
 <h3>風險值評估</h3>
 <div class="alert" role="alert" style="background-color: #{cfbg4}; color: #{cfft4}">
@@ -157,7 +157,7 @@
 - 低風險：時間差 < 30 分鐘
 
 <h3>時間差</h3>
-{feature5}
+{feature5_1}
 
 <h3>風險值評估</h3>
 <div class="alert" role="alert" style="background-color: #{cfbg5}; color: #{cfft5}">
@@ -186,7 +186,7 @@
 
 
 <h3>時間差</h3>
-{feature6}
+{feature6_1}
 
 <h3>風險值評估</h3>
 <div class="alert" role="alert" style="background-color: #{cfbg6}; color: #{cfft6}">
@@ -212,7 +212,7 @@
 - 低風險：時間差 < 30 小時
 
 <h3>時間差</h3>
-{feature7}
+{feature7_1}
 
 <h3>風險值評估</h3>
 <div class="alert" role="alert" style="background-color: #{cfbg7}; color: #{cfft7}">
