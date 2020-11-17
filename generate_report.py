@@ -15,23 +15,23 @@ import media
 import os
 import codecs as co
 import markdown
-import plot
+import main
 from pathlib import Path
 from bs4 import BeautifulSoup
 from datetime import datetime
 
 # Case
 def report():
-    # import plot.py function
-    _, case = plot.inputcase()
-    _, _, datetime_month, amount, _, _, _, time_count_25 = plot.timedata()
-    f1, amount = plot.feature1()
-    f2, articleTime2, _, parentTime2, _, _, timeGap2 = plot.feature2()
-    f3, query, tmp, tmp2, tmp3, tmp4, tmp5, tmp6, tmp7 = plot.feature3()
-    f4, fakeWords2, fakeWordsCount2 = plot.feature4()
-    f5, _, _, share_comment_time = plot.feature5()
-    f6, _, postTime, timeListGap, _, average = plot.feature6()
-    f7, _, _, _, f7time = plot.feature7()
+    # import main.py function
+    _, case = main.inputcase()
+    _, _, datetime_month, amount, _, _, _, time_count_25 = main.timedata()
+    f1, amount = main.feature1()
+    f2, articleTime2, _, parentTime2, _, _, timeGap2 = main.feature2()
+    f3, query, tmp, tmp2, tmp3, tmp4, tmp5, tmp6, tmp7 = main.feature3()
+    f4, fakeWords2, fakeWordsCount2 = main.feature4()
+    f5, _, _, share_comment_time = main.feature5()
+    f6, _, postTime, timeListGap, _, average = main.feature6()
+    f7, _, _, _, f7time = main.feature7()
     
     case = case
     caseName = query
