@@ -14,13 +14,17 @@ import requests
 import media
 import os
 import main
+import configparser
 from bs4 import BeautifulSoup
 from datetime import datetime
 
 # Input case
 def inputcase():
-    num = main.num
-    case = main.case
+    config = configparser.ConfigParser()
+    config.sections()
+    config.read('conf.ini')
+    num = config['case']['num']
+    case = "Case " + num
     
     return num, case
 
@@ -481,13 +485,14 @@ def feature3():
 # Feature 4 -- Semantics
 def feature4():
     fakeWords2 = ['請轉發', '請分享', '請告訴', '請注意', '請告知', 
-                '請轉告', '請廣發', '請傳給', '請大家轉告', '請分發', 
-                '告訴別人', '告訴家人', '告訴朋友', '把愛傳出去', '馬上發出去', 
-                '馬上發給', '已經上新聞', '相互轉發', '功德無量', '分享出去', 
-                '廣發分享', '緊急通知', '千萬不要', '千萬別', '緊急擴散', 
-                '重要訊息', '重要信息', '快轉發', '快分享', '快告訴',
-                '快告知', '快傳給', '快轉告', '擴散出去', '動動手指', 
-                '超級爆料']
+                  '請轉告', '請廣發', '請傳給', '請大家轉告', '請分發', 
+                  '告訴別人', '告訴家人', '告訴朋友', '把愛傳出去', '馬上發出去', 
+                  '馬上發給', '已經上新聞', '相互轉發', '功德無量', '分享出去', 
+                  '廣發分享', '緊急通知', '千萬不要', '千萬別', '緊急擴散', 
+                  '重要訊息', '重要信息', '快轉發', '快分享', '快告訴',
+                  '快告知', '快傳給', '快轉告', '擴散出去', '動動手指', 
+                  '超級爆料', '請大家注意', '請大家轉發', '我的分享是真',
+                 ]
 
     fakeWordsCount2 = [0] * len(fakeWords2)
 
@@ -598,44 +603,47 @@ def final_score():
     f5, _, _, _ = feature5()
     f6, _, _, _, _, _ = feature6()
     f7, _, _, _, _ = feature7()
+    config = configparser.ConfigParser()
+    config.sections()
+    config.read('conf.ini')
     score = 0
-    if f1 > 0:
+    if f1 > config['feature 1']['high_risk']:
         score += 0
-    elif f1 <= 0:
+    elif f1 <= config['feature 1']['low_risk']:
         score += 1
-    if f2 > 0:
+    if f2 > config['feature 2']['high_risk']:
         score += 0
-    elif f2 <= 0:
+    elif f2 <= config['feature 2']['low_risk']:
         score += 1
-    if f3 >= 4:
+    if f3 >= config['feature 3']['low_risk']:
         score += 1
-    elif f3 >= 0 and f3 < 4:
+    elif f3 >= config['feature 3']['middle_risk_1'] and f3 < config['feature 3']['middle_risk_2']:
         score += 0.5
-    elif f3 < 0:
+    elif f3 < config['feature 3']['high_risk']:
         score += 0
-    if f4 >= 10:
+    if f4 >= config['feature 4']['high_risk']:
         score += 0
-    elif f4 >= 3 and f4 < 10:
+    elif f4 >= config['feature 4']['middle_risk_1'] and f4 < config['feature 4']['middle_risk_2']:
         score += 0.5
-    elif f4 >= 0 and f4 < 3:
+    elif f4 >= config['feature 4']['low_risk_1'] and f4 < config['feature 4']['low_risk_2']:
         score += 1
-    if f5 <= 1800:
+    if f5 <= config['feature 5']['low_risk']:
         score += 1
-    elif f5 > 1800 and f5 <= 3600:
+    elif f5 > config['feature 5']['middle_risk_1'] and f5 <= config['feature 5']['middle_risk_2']:
         score += 0.5
-    elif f5 > 3600:
+    elif f5 > config['feature 5']['high_risk']:
         score += 0
-    if f6 > 18000:
+    if f6 > config['feature 6']['high_risk']:
         score += 0
-    elif f6 >= 7200 and f6 <= 18000:
+    elif f6 >= config['feature 6']['middle_risk_1'] and f6 <= config['feature 6']['middle_risk_2']:
         score += 0.5
-    elif f6 < 7200:
+    elif f6 < config['feature 6']['low_risk']:
         score += 1
-    if f7 >= 108000:
+    if f7 >= config['feature 7']['high_risk']:
         score += 0
-    elif f7 == 0:
+    elif f7 == config['feature 7']['middle_risk']:
         score += 0.5
-    elif f7 < 108000:
+    elif f7 < config['feature 7']['low_risk']:
         score += 1
         
     print("Score:", score)
