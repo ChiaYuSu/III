@@ -32,6 +32,7 @@ def report():
     f5, _, _, share_comment_time = main.feature5()
     f6, _, postTime, timeListGap, _, average = main.feature6()
     f7, _, _, _, f7time = main.feature7()
+    score = main.final_score()
     
     case = case
     caseName = query
@@ -122,7 +123,7 @@ def report():
         cfbg3 = "FFF3CD"
         cfft3 = "856404"
         cfhr3 = "FFE8A1"
-        rf3_1 = "Median"
+        rf3_1 = "Medium"
         rf3_2 = "中"
         cf3 = case + " 由於安全因素 (" + str(white) + ") - 風險因素 (" + str(black) + ") 介於 0 到 4 之間，所以針對此輸出結果，將特徵 3 判斷為中風險。"
     elif f3 >= 4:
@@ -152,7 +153,7 @@ def report():
         cfbg4 = "FFF3CD"
         cfft4 = "856404"
         cfhr4 = "FFE8A1"
-        rf4_1 = "Median"
+        rf4_1 = "Medium"
         rf4_2 = "中"
         cf4 = case + " 在分享內文中出現過介於 3 到 10 次的高風險字詞，所以針對此輸出結果，將特徵 4 判斷為中風險。"
     elif f4 >= 0 and f4 < 3:
@@ -178,7 +179,7 @@ def report():
         cfbg5 = "FFF3CD"
         cfft5 = "856404"
         cfhr5 = "FFE8A1"
-        rf5_1 = "Median"
+        rf5_1 = "Medium"
         rf5_2 = "中"
         cf5 = case + " 第一則留言與第一則分享時間差介於 30 分鐘至 60 分鐘，所以針對此輸出結果，將特徵 5 判斷為中風險。"
     elif f5 <= 1800:
@@ -207,7 +208,7 @@ def report():
         cfbg6 = "FFF3CD"
         cfft6 = "856404"
         cfhr6 = "FFE8A1"
-        rf6_1 = "Median"
+        rf6_1 = "Medium"
         rf6_2 = "中"
         cf6 = case + " 兩貼文之間時間差介於 2 小時到 5 小時之間，所以針對此輸出結果，將特徵 6 判斷為中風險。"
     elif f6 < 7200:
@@ -234,7 +235,7 @@ def report():
         cfbg7 = "FFF3CD"
         cfft7 = "856404"
         cfhr7 = "FFE8A1"
-        rf7_1 = "Median"
+        rf7_1 = "Medium"
         rf7_2 = "中"
         cf7 = case + " 兩貼文之間時間差為 0，所以針對此輸出結果，將特徵 7 判斷為中風險。"
     elif f7 < 108000:
@@ -245,8 +246,31 @@ def report():
         rf7_2 = "低"
         cf7 = case + " 兩貼文之間時間差 < 30 小時，所以針對此輸出結果，將特徵 7 判斷為低風險。"
         
-    case2 = case
-    risk = "{低/中/高}"
+
+    if score <= 0.33:
+        cfbg8 = "F8D7DA"
+        cfft8 = "721C24"
+        cfhr8 = "F1B0B7"
+        rf8_1 = "High"
+        case2 = case
+        risk = "高"
+        value = score
+    elif score > 0.33 and score < 0.66:
+        cfbg8 = "FFF3CD"
+        cfft8 = "856404"
+        cfhr8 = "FFE8A1"
+        rf8_1 = "Medium"
+        case2 = case
+        risk = "中"
+        value = score
+    elif score >= 0.66:
+        cfbg8 = "D4EDDA"
+        cfft8 = "155724"
+        cfhr8 = "B1DFBB"
+        rf8_1 = "Low"
+        case2 = case
+        risk = "低"
+        value = score
 
     md_template = open(r'markdown_template.md', encoding='utf8').read()
     md = md_template.format(case=case, caseName=caseName, feature1=feature1, quantity1=quantity1,
@@ -263,7 +287,8 @@ def report():
                             cfbg6=cfbg6, cfft6=cfft6, rf6_1=rf6_1, cf6=cf6, cfhr6=cfhr6, rf6_2=rf6_2,
                             feature7_1=feature7_1,
                             cfbg7=cfbg7, cfft7=cfft7, rf7_1=rf7_1, cf7=cf7, cfhr7=cfhr7, rf7_2=rf7_2,
-                            case2=case2, risk=risk)
+                            cfbg8=cfbg8, cfft8=cfft8, rf8_1=rf8_1, case2=case2, risk=risk, 
+                            cfhr8=cfhr8, value=value)
     html_template = open(r'html_template.html', encoding='utf8').read()
     extensions = ['extra', 'smarty']
     html = markdown.markdown(md, extensions=extensions, output_format='html5')

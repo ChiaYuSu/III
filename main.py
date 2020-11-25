@@ -237,7 +237,6 @@ def feature1():
         if i > max(amount) * 0.25 and len(datetime_month) > 1:
             quarter_line += 1
     quarter_line -= 1
-    print("Feature 1:", quarter_line)
 
     # Plotly -- Volume line graph
     if len(datetime_month) > 1:
@@ -339,8 +338,6 @@ def feature2():
                     int(i[4])).strftime('%Y-%m-%d %H:%M:%S'))
                 parentLayer2.append(int(i[5]))
                 timeGap.append(int(i[1])-int(i[4]))
-
-    print("Feature 2:", f2)
 
     for i in timeGap:
         seconds_in_day, seconds_in_hour, seconds_in_minute, x = timetransfer(i)
@@ -478,7 +475,6 @@ def feature3():
                 if m in i["body"]:
                     tmp7 += 1
     f3 = tmp - tmp2 + tmp3 + tmp4 + tmp5 - tmp6 - tmp7
-    print("Feature 3:", f3)
     
     return f3, query, tmp, tmp2, tmp3, tmp4, tmp5, tmp6, tmp7
 
@@ -501,7 +497,6 @@ def feature4():
             if i["type"] == "article" and j in i["body"]:
                 fakeWordsCount2[fakeWords2.index(j)] += 1
     f4 = sum(fakeWordsCount2)
-    print("Feature 4:", f4)
     
     return f4, fakeWords2, fakeWordsCount2
 
@@ -525,17 +520,14 @@ def feature5():
         # Convert seconds to days, hours, and minutes
         seconds_in_day, seconds_in_hour, seconds_in_minute, x = timetransfer(seconds)
         share_comment_time.append(str(seconds_in_day) + " days " + str(seconds_in_hour) + " hours " + str(seconds_in_minute) + " minutes " + str(x) + " seconds")
-        print("Feature 5:", f5)
     elif count_share == []:
         f5 = 99999
-        print("Feature 5:", f5)
         share_comment_time.append('No share')
         share_comment_time.append(datetime.fromtimestamp(
             int(count_comment[0])).strftime('%Y-%m-%d %H:%M:%S'))
         share_comment_time.append('-')
     elif count_comment == []:
         f5 = 99999
-        print("Feature 5:", f5)
         share_comment_time.append(datetime.fromtimestamp(
             int(count_share[0])).strftime('%Y-%m-%d %H:%M:%S'))
         share_comment_time.append('No comment')
@@ -561,7 +553,6 @@ def feature6():
     seconds_in_day, seconds_in_hour, seconds_in_minute, x = timetransfer(average)
     
     average = str(seconds_in_day) + " days " + str(seconds_in_hour) + " hours " + str(seconds_in_minute) + " minutes " + str(x) + " seconds"
-    print("Feature 6:" ,f6)
     
     return f6, timeList, postTime, timeListGap, timeListGap2, average
 
@@ -590,7 +581,6 @@ def feature7():
     f7parentTime[maxOutdegree] = datetime.fromtimestamp(int(f7parentTime[maxOutdegree])).strftime('%Y-%m-%d %H:%M:%S')
     count_share[0] = datetime.fromtimestamp(int(count_share[0])).strftime('%Y-%m-%d %H:%M:%S')
     f7time = [count_share[0], f7parentTime[maxOutdegree], f7gap]
-    print("Feature 7:", f7)
     
     return f7, f7parentID, f7parentTime, f7count, f7time
 
@@ -606,44 +596,49 @@ def final_score():
     config = configparser.ConfigParser()
     config.sections()
     config.read('conf.ini')
+    f1_score, f2_score, f3_score, f4_score, f5_score, f6_score, f7_score = 0, 0, 0, 0, 0, 0, 0
     score = 0
-    if f1 > config['feature 1']['high_risk']:
-        score += 0
-    elif f1 <= config['feature 1']['low_risk']:
-        score += 1
-    if f2 > config['feature 2']['high_risk']:
-        score += 0
-    elif f2 <= config['feature 2']['low_risk']:
-        score += 1
-    if f3 >= config['feature 3']['low_risk']:
-        score += 1
-    elif f3 >= config['feature 3']['middle_risk_1'] and f3 < config['feature 3']['middle_risk_2']:
-        score += 0.5
-    elif f3 < config['feature 3']['high_risk']:
-        score += 0
-    if f4 >= config['feature 4']['high_risk']:
-        score += 0
-    elif f4 >= config['feature 4']['middle_risk_1'] and f4 < config['feature 4']['middle_risk_2']:
-        score += 0.5
-    elif f4 >= config['feature 4']['low_risk_1'] and f4 < config['feature 4']['low_risk_2']:
-        score += 1
-    if f5 <= config['feature 5']['low_risk']:
-        score += 1
-    elif f5 > config['feature 5']['middle_risk_1'] and f5 <= config['feature 5']['middle_risk_2']:
-        score += 0.5
-    elif f5 > config['feature 5']['high_risk']:
-        score += 0
-    if f6 > config['feature 6']['high_risk']:
-        score += 0
-    elif f6 >= config['feature 6']['middle_risk_1'] and f6 <= config['feature 6']['middle_risk_2']:
-        score += 0.5
-    elif f6 < config['feature 6']['low_risk']:
-        score += 1
-    if f7 >= config['feature 7']['high_risk']:
-        score += 0
-    elif f7 == config['feature 7']['middle_risk']:
-        score += 0.5
-    elif f7 < config['feature 7']['low_risk']:
-        score += 1
+    if f1 > int(config['feature 1']['high_risk']):
+        f1_score += 0
+    elif f1 <= int(config['feature 1']['low_risk']):
+        f1_score += 1
+    if f2 > int(config['feature 2']['high_risk']):
+        f2_score += 0
+    elif f2 <= int(config['feature 2']['low_risk']):
+        f2_score += 1
+    if f3 >= int(config['feature 3']['low_risk']):
+        f3_score += 1
+    elif f3 >= int(config['feature 3']['middle_risk_1']) and f3 < int(config['feature 3']['middle_risk_2']):
+        f3_score += 0.5
+    elif f3 < int(config['feature 3']['high_risk']):
+        f3_score += 0
+    if f4 >= int(config['feature 4']['high_risk']):
+        f4_score += 0
+    elif f4 >= int(config['feature 4']['middle_risk_1']) and f4 < int(config['feature 4']['middle_risk_2']):
+        f4_score += 0.5
+    elif f4 >= int(config['feature 4']['low_risk_1']) and f4 < int(config['feature 4']['low_risk_2']):
+        f4_score += 1
+    if f5 <= int(config['feature 5']['low_risk']):
+        f5_score += 1
+    elif f5 > int(config['feature 5']['middle_risk_1']) and f5 <= int(config['feature 5']['middle_risk_2']):
+        f5_score += 0.5
+    elif f5 > int(config['feature 5']['high_risk']):
+        f5_score += 0
+    if f6 > int(config['feature 6']['high_risk']):
+        f6_score += 0
+    elif f6 >= int(config['feature 6']['middle_risk_1']) and f6 <= int(config['feature 6']['middle_risk_2']):
+        f6_score += 0.5
+    elif f6 < int(config['feature 6']['low_risk']):
+        f6_score += 1
+    if f7 >= int(config['feature 7']['high_risk']):
+        f7_score += 0
+    elif f7 == int(config['feature 7']['middle_risk']):
+        f7_score += 0.5
+    elif f7 < int(config['feature 7']['low_risk']):
+        f7_score += 1
         
-    print("Score:", score)
+    score = f1_score * float(config['weight']['1']) + f2_score * float(config['weight']['2']) + f3_score * float(config['weight']['3']) + f4_score * float(config['weight']['4']) + f5_score * float(config['weight']['5']) + f6_score * float(config['weight']['6']) + f7_score * float(config['weight']['7'])
+
+    score = round(score, 3)
+    
+    return score

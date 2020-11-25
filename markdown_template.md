@@ -1,4 +1,3 @@
-
 <h1>{case}</h1>
 - 查詢案例：{caseName}
 
@@ -223,4 +222,9 @@
 ---
 
 <h2>結論</h2>
-所以根據以上特徵分析結果，{case2} 為{risk}風險。
+<div class="alert" role="alert" style="background-color: #{cfbg8}; color: #{cfft8}">
+  <h4 class="alert-heading" style="font-size: 18pt; font-weight: bold">{rf8_1} risk!</h4>
+  <p>所以綜上特徵分析結果，{case2} 為{risk}風險。</p>
+  <hr style="height:1px; border:none; border-top: 1px solid #{cfhr8}">
+  <p>最終分數 - {value}</p>
+</div>
