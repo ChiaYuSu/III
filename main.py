@@ -52,7 +52,7 @@ def inputcase():
 # Read json
 def data():
     num, _ = inputcase()
-    with open('20200928\\' + num + '\\output.json', 'r', encoding = "utf-8") as json_file:
+    with open('20200702\\' + num + '\\case.json', 'r', encoding = "utf-8") as json_file:
         data = json.load(json_file)
     data = sorted(data, key=lambda k: k['time'])  # Json sorted by time
     
